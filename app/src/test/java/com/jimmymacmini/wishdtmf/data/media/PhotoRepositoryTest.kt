@@ -18,6 +18,7 @@ class PhotoRepositoryTest {
                     imageRow(id = 4L, isTrashed = true),
                     imageRow(id = 5L, relativePath = "Pictures/.hidden/"),
                     imageRow(id = 6L, displayName = ".secret.jpg"),
+                    imageRow(id = 7L, sizeBytes = 0L),
                 )
             },
         )
