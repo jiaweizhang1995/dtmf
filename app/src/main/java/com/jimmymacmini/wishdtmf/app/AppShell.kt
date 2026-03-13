@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.jimmymacmini.wishdtmf.app.navigation.AppNavGraph
-import com.jimmymacmini.wishdtmf.data.media.LocalPhoto
 import com.jimmymacmini.wishdtmf.data.media.PhotoRepository
 import com.jimmymacmini.wishdtmf.feature.entry.LaunchUiState
 import com.jimmymacmini.wishdtmf.feature.entry.LaunchViewModel
@@ -24,7 +23,7 @@ import com.jimmymacmini.wishdtmf.feature.entry.rememberPermissionRequestControll
 
 @Composable
 fun WishDtmfApp(
-    photoRepository: PhotoRepository = PreviewPhotoRepository(),
+    photoRepository: PhotoRepository = (LocalContext.current.applicationContext as App).photoRepository,
 ) {
     val launchViewModel: LaunchViewModel = viewModel(
         factory = LaunchViewModel.factory(photoRepository = photoRepository),
@@ -61,8 +60,4 @@ fun WishDtmfApp(
             }
         }
     }
-}
-
-private class PreviewPhotoRepository : PhotoRepository {
-    override suspend fun loadEligiblePhotos(limitHint: Int?): List<LocalPhoto> = emptyList()
 }
