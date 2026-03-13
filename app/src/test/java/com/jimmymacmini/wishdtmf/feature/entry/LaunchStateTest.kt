@@ -3,6 +3,9 @@ package com.jimmymacmini.wishdtmf.feature.entry
 import androidx.lifecycle.SavedStateHandle
 import com.jimmymacmini.wishdtmf.data.media.LocalPhoto
 import com.jimmymacmini.wishdtmf.data.media.PhotoRepository
+import com.jimmymacmini.wishdtmf.domain.LaunchPhotoShuffler
+import com.jimmymacmini.wishdtmf.domain.LaunchSession
+import com.jimmymacmini.wishdtmf.domain.LaunchSessionBuilder
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.StandardTestDispatcher
@@ -33,18 +36,27 @@ class LaunchStateTest {
 
     @Test
     fun `permission grant loads a ready state with capped photo count`() = runTest(dispatcher) {
+        val photos = List(34) { index ->
+            LocalPhoto(id = index.toLong(), contentUri = "content://photo/$index")
+        }
         val viewModel = buildViewModel(
             photoRepository = FakePhotoRepository(
-                photos = List(34) { index ->
-                    LocalPhoto(id = index.toLong(), contentUri = "content://photo/$index")
-                },
+                photos = photos,
             ),
         )
 
         viewModel.onPermissionResult(granted = true)
         dispatcher.scheduler.advanceUntilIdle()
 
-        assertEquals(LaunchUiState.Ready(photoCount = 30), viewModel.uiState.value)
+        assertEquals(
+            LaunchUiState.Ready(
+                session = LaunchSession(
+                    photos = photos.take(30),
+                    currentIndex = 0,
+                ),
+            ),
+            viewModel.uiState.value,
+        )
     }
 
     @Test
@@ -87,16 +99,54 @@ class LaunchStateTest {
 
     @Test
     fun `saved state restores the previous ready session`() {
+        val restoredPhotos = listOf(
+            LocalPhoto(id = 4L, contentUri = "content://photo/4"),
+            LocalPhoto(id = 9L, contentUri = "content://photo/9"),
+            LocalPhoto(id = 12L, contentUri = "content://photo/12"),
+        )
         val savedState = SavedStateHandle(
             mapOf(
                 "launch_state_kind" to "Ready",
-                "launch_state_count" to 12,
+                "launch_state_photo_ids" to longArrayOf(4L, 9L, 12L),
+                "launch_state_photo_uris" to arrayListOf(
+                    "content://photo/4",
+                    "content://photo/9",
+                    "content://photo/12",
+                ),
+                "launch_state_current_index" to 1,
             ),
         )
 
         val viewModel = buildViewModel(savedStateHandle = savedState)
 
-        assertEquals(LaunchUiState.Ready(photoCount = 12), viewModel.uiState.value)
+        assertEquals(
+            LaunchUiState.Ready(
+                session = LaunchSession(
+                    photos = restoredPhotos,
+                    currentIndex = 1,
+                ),
+            ),
+            viewModel.uiState.value,
+        )
+    }
+
+    @Test
+    fun `advance to next photo preserves the active session and increments index`() = runTest(dispatcher) {
+        val viewModel = buildViewModel(
+            photoRepository = FakePhotoRepository(
+                photos = List(3) { index ->
+                    LocalPhoto(id = index.toLong(), contentUri = "content://photo/$index")
+                },
+            ),
+        )
+
+        viewModel.onPermissionResult(granted = true)
+        dispatcher.scheduler.advanceUntilIdle()
+        viewModel.advanceToNextPhoto()
+
+        val state = viewModel.uiState.value as LaunchUiState.Ready
+        assertEquals(1, state.session.currentIndex)
+        assertEquals(3, state.session.photoCount)
     }
 
     @Test
@@ -123,6 +173,9 @@ class LaunchStateTest {
         return LaunchViewModel(
             savedStateHandle = savedStateHandle,
             photoRepository = photoRepository,
+            launchSessionBuilder = LaunchSessionBuilder(
+                shuffler = LaunchPhotoShuffler { candidates -> candidates },
+            ),
             ioDispatcher = dispatcher,
         )
     }
