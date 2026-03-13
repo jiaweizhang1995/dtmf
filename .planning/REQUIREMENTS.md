@@ -8,7 +8,7 @@
 ### Media Access
 
 - [x] **MEDIA-01**: User can grant image-library access needed for the app to read local photos, and can retry if permission was denied
-- [ ] **MEDIA-02**: App can query local-device images and start a new launch session with 30 randomly selected photos
+- [x] **MEDIA-02**: App can query local-device images and start a new launch session with 30 randomly selected photos
 - [ ] **MEDIA-03**: User sees a clear empty or unavailable state when the device has no eligible photos or the app cannot build a valid session
 
 ### Swipe Flow
@@ -60,7 +60,7 @@
 | Requirement | Phase | Status |
 |-------------|-------|--------|
 | MEDIA-01 | Phase 1 | Complete |
-| MEDIA-02 | Phase 1 | Pending |
+| MEDIA-02 | Phase 1 | Complete |
 | MEDIA-03 | Phase 5 | Pending |
 | SWIPE-01 | Phase 2 | Pending |
 | SWIPE-02 | Phase 2 | Pending |
