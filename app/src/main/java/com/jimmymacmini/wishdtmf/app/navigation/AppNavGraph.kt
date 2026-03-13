@@ -14,8 +14,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.jimmymacmini.wishdtmf.app.EntryContent
 import com.jimmymacmini.wishdtmf.feature.entry.LaunchUiState
+import com.jimmymacmini.wishdtmf.feature.entry.EntryContent
 
 private const val ENTRY_ROUTE = "entry"
 private const val MAIN_ROUTE = "main"
