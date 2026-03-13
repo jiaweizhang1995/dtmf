@@ -108,10 +108,11 @@ private enum class LaunchStateKind {
 }
 
 private fun SavedStateHandle.restoreState(): LaunchUiState {
-    return when (get<String>(STATE_KIND_KEY)?.let(LaunchStateKind::valueOf)) {
+    return when (get<String>(STATE_KIND_KEY).toLaunchStateKind()) {
         LaunchStateKind.LoadingBatch -> LaunchUiState.LoadingBatch
         LaunchStateKind.Ready -> LaunchUiState.Ready(
-            photoCount = get<Int>(STATE_COUNT_KEY) ?: 0,
+            photoCount = (get<Int>(STATE_COUNT_KEY) ?: BATCH_SIZE)
+                .coerceIn(1, BATCH_SIZE),
         )
         LaunchStateKind.Empty -> LaunchUiState.Empty
         LaunchStateKind.Error -> LaunchUiState.Error(
@@ -161,4 +162,8 @@ private fun SavedStateHandle.persistState(state: LaunchUiState) {
             set<Int?>(STATE_COUNT_KEY, null)
         }
     }
+}
+
+private fun String?.toLaunchStateKind(): LaunchStateKind? {
+    return LaunchStateKind.entries.firstOrNull { it.name == this }
 }
