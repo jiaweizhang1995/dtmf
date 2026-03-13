@@ -6,7 +6,7 @@ This roadmap takes the project from Android/media foundations to a screenshot-fa
 
 ## Phases
 
-- [ ] **Phase 1: Foundation & Media Access** - Create the Android scaffold, lifecycle-safe state model, permissions flow, and random 30-photo launch session
+- [x] **Phase 1: Foundation & Media Access** - Create the Android scaffold, lifecycle-safe state model, permissions flow, and random 30-photo launch session (completed 2026-03-14)
 - [ ] **Phase 2: Main Swipe Experience** - Recreate the primary `main.jpg` screen with smooth photo viewing and left/right swipe behavior
 - [ ] **Phase 3: Session Controls & Navigation** - Add undo, proceed behavior, and the bridge from the swipe loop into review
 - [ ] **Phase 4: Review & Permanent Delete** - Build the `Delete-staging-area..jpg` flow and complete safe destructive deletion
@@ -26,8 +26,8 @@ This roadmap takes the project from Android/media foundations to a screenshot-fa
 
 Plans:
 - [x] 01-01: Scaffold the Android app, Compose shell, and lifecycle-safe state architecture
-- [ ] 01-02: Implement media permission handling and gallery querying through `MediaStore`
-- [ ] 01-03: Build random session generation and state restoration for the active batch
+- [x] 01-02: Implement media permission handling and gallery querying through `MediaStore`
+- [x] 01-03: Build random session generation and state restoration for the active batch
 
 ### Phase 2: Main Swipe Experience
 **Goal**: Recreate the core look and feel of `main.jpg` with a smooth swipe-first main screen.
@@ -95,7 +95,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation & Media Access | 1/3 | In Progress | - |
+| 1. Foundation & Media Access | 3/3 | Complete | 2026-03-14 |
 | 2. Main Swipe Experience | 0/3 | Not started | - |
 | 3. Session Controls & Navigation | 0/2 | Not started | - |
 | 4. Review & Permanent Delete | 0/3 | Not started | - |
