@@ -7,7 +7,7 @@
 
 ### Media Access
 
-- [ ] **MEDIA-01**: User can grant image-library access needed for the app to read local photos, and can retry if permission was denied
+- [x] **MEDIA-01**: User can grant image-library access needed for the app to read local photos, and can retry if permission was denied
 - [ ] **MEDIA-02**: App can query local-device images and start a new launch session with 30 randomly selected photos
 - [ ] **MEDIA-03**: User sees a clear empty or unavailable state when the device has no eligible photos or the app cannot build a valid session
 
@@ -30,7 +30,7 @@
 
 - [ ] **UX-01**: The main swipe screen closely matches the layout, hierarchy, and action placement shown in `main.jpg`
 - [ ] **UX-02**: The delete staging screen closely matches the layout, hierarchy, and action affordances shown in `Delete-staging-area..jpg`
-- [ ] **UX-03**: The current swipe/review session survives configuration changes during the active app session
+- [x] **UX-03**: The current swipe/review session survives configuration changes during the active app session
 
 ## v2 Requirements
 
@@ -59,7 +59,7 @@
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| MEDIA-01 | Phase 1 | Pending |
+| MEDIA-01 | Phase 1 | Complete |
 | MEDIA-02 | Phase 1 | Pending |
 | MEDIA-03 | Phase 5 | Pending |
 | SWIPE-01 | Phase 2 | Pending |
@@ -73,7 +73,7 @@
 | REVW-04 | Phase 5 | Pending |
 | UX-01 | Phase 2 | Pending |
 | UX-02 | Phase 4 | Pending |
-| UX-03 | Phase 1 | Pending |
+| UX-03 | Phase 1 | Complete |
 
 **Coverage:**
 - v1 requirements: 15 total
