@@ -99,6 +99,23 @@ class LaunchStateTest {
         assertEquals(LaunchUiState.Ready(photoCount = 12), viewModel.uiState.value)
     }
 
+    @Test
+    fun `saved state ignores unknown kinds and falls back to permission state`() {
+        val savedState = SavedStateHandle(
+            mapOf(
+                "launch_state_kind" to "UnexpectedState",
+                "launch_state_hint" to true,
+            ),
+        )
+
+        val viewModel = buildViewModel(savedStateHandle = savedState)
+
+        assertEquals(
+            LaunchUiState.NeedsPermission(showSettingsHint = true),
+            viewModel.uiState.value,
+        )
+    }
+
     private fun buildViewModel(
         savedStateHandle: SavedStateHandle = SavedStateHandle(),
         photoRepository: FakePhotoRepository = FakePhotoRepository(),
