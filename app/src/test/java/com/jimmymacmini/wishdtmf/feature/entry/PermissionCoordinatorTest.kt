@@ -2,6 +2,8 @@ package com.jimmymacmini.wishdtmf.feature.entry
 
 import android.Manifest
 import android.os.Build
+import com.jimmymacmini.wishdtmf.data.media.LocalPhoto
+import com.jimmymacmini.wishdtmf.domain.LaunchSession
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
@@ -47,6 +49,38 @@ class PermissionCoordinatorTest {
         assertEquals(
             PermissionEvent.Denied,
             coordinator.onPermissionResult(granted = false),
+        )
+    }
+
+    @Test
+    fun `granted permission result reports granted`() {
+        val coordinator = PermissionCoordinator()
+
+        assertEquals(
+            PermissionEvent.Granted,
+            coordinator.onPermissionResult(granted = true),
+        )
+    }
+
+    @Test
+    fun `entry state change does nothing once the launch flow is already past permission`() {
+        val coordinator = PermissionCoordinator()
+
+        assertEquals(
+            PermissionEvent.None,
+            coordinator.onEntryStateChanged(
+                hasPermission = true,
+                currentState = LaunchUiState.Ready(
+                    session = LaunchSession(
+                        photos = List(12) { index ->
+                            LocalPhoto(
+                                id = index.toLong(),
+                                contentUri = "content://photo/$index",
+                            )
+                        },
+                    ),
+                ),
+            ),
         )
     }
 }

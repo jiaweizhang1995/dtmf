@@ -15,7 +15,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.jimmymacmini.wishdtmf.app.navigation.AppNavGraph
 import com.jimmymacmini.wishdtmf.data.media.PhotoRepository
-import com.jimmymacmini.wishdtmf.feature.entry.LaunchUiState
 import com.jimmymacmini.wishdtmf.feature.entry.LaunchViewModel
 import com.jimmymacmini.wishdtmf.feature.entry.PermissionCoordinator
 import com.jimmymacmini.wishdtmf.feature.entry.PermissionEvent
@@ -56,6 +55,7 @@ fun WishDtmfApp(
                     uiState = uiState,
                     onGrantAccess = permissionController.requestPermission,
                     onRetry = launchViewModel::retry,
+                    onAdvanceSession = launchViewModel::advanceToNextPhoto,
                 )
             }
         }

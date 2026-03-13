@@ -1,5 +1,7 @@
 package com.jimmymacmini.wishdtmf.feature.entry
 
+import com.jimmymacmini.wishdtmf.domain.LaunchSession
+
 sealed interface LaunchUiState {
     data class NeedsPermission(
         val showSettingsHint: Boolean = false,
@@ -8,7 +10,7 @@ sealed interface LaunchUiState {
     data object LoadingBatch : LaunchUiState
 
     data class Ready(
-        val photoCount: Int,
+        val session: LaunchSession,
     ) : LaunchUiState
 
     data object Empty : LaunchUiState
