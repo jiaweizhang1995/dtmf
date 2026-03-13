@@ -25,7 +25,7 @@ This roadmap takes the project from Android/media foundations to a screenshot-fa
 **Plans**: 3 plans
 
 Plans:
-- [ ] 01-01: Scaffold the Android app, Compose shell, and lifecycle-safe state architecture
+- [x] 01-01: Scaffold the Android app, Compose shell, and lifecycle-safe state architecture
 - [ ] 01-02: Implement media permission handling and gallery querying through `MediaStore`
 - [ ] 01-03: Build random session generation and state restoration for the active batch
 
@@ -95,7 +95,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation & Media Access | 0/3 | Not started | - |
+| 1. Foundation & Media Access | 1/3 | In Progress | - |
 | 2. Main Swipe Experience | 0/3 | Not started | - |
 | 3. Session Controls & Navigation | 0/2 | Not started | - |
 | 4. Review & Permanent Delete | 0/3 | Not started | - |
