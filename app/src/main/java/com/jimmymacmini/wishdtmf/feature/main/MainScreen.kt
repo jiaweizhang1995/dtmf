@@ -22,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.text.font.FontWeight
@@ -55,7 +56,7 @@ fun MainScreen(
             .testTag(MainScreenTags.Root)
             .semantics {
                 stateDescription = buildString {
-                    append("current:${uiState.currentPhoto.id};")
+                    append("current:${uiState.activePhoto.id};")
                     append("staged:${uiState.stagedPhotoIds.sorted().joinToString(",")};")
                     append("complete:${uiState.isSessionComplete}")
                 }
@@ -75,7 +76,7 @@ fun MainScreen(
                 SessionCompleteCard(heroAspectRatio = heroAspectRatio)
             } else {
                 SwipePhotoCard(
-                    photo = uiState.currentPhoto,
+                    photo = uiState.activePhoto,
                     heroAspectRatio = heroAspectRatio,
                     onStagePhoto = onStageCurrentPhoto,
                     onSkipPhoto = onSkipCurrentPhoto,
@@ -254,18 +255,11 @@ private fun PremiumBannerRow() {
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
         )
-        Box(
-            modifier = Modifier
-                .clip(RoundedCornerShape(8.dp))
-                .background(MainScreenTokens.premiumAccent)
-                .padding(horizontal = 8.dp, vertical = 4.dp),
-        ) {
-            Text(
-                text = "PREMIUM",
-                color = MainScreenTokens.appBackground,
-                fontWeight = FontWeight.SemiBold,
-            )
-        }
+        Text(
+            text = "Albums",
+            color = MainScreenTokens.secondaryText,
+            fontWeight = FontWeight.Medium,
+        )
     }
 }
 
@@ -278,13 +272,21 @@ private fun ProceedAffordance() {
         modifier = Modifier
             .fillMaxWidth()
             .padding(top = MainScreenTokens.proceedTopPadding)
-            .testTag(MainScreenTags.ProceedAffordance),
+            .testTag(MainScreenTags.ProceedAffordance)
+            .semantics { contentDescription = "Proceed" },
         contentAlignment = Alignment.CenterEnd,
     ) {
-        Text(
-            text = "PROCEED  →",
-            color = MainScreenTokens.proceedText,
-            fontWeight = FontWeight.Medium,
-        )
+        Box(
+            modifier = Modifier
+                .clip(RoundedCornerShape(999.dp))
+                .background(MainScreenTokens.proceedSurface)
+                .padding(horizontal = 14.dp, vertical = 8.dp),
+        ) {
+            Text(
+                text = "Proceed",
+                color = MainScreenTokens.proceedText,
+                fontWeight = FontWeight.SemiBold,
+            )
+        }
     }
 }

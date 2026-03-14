@@ -30,13 +30,13 @@ object MainScreenTokens {
     val destructiveAction = Color(0xFFD96A5C)
     val confirmationAction = Color(0xFF7E9C7A)
     val neutralAction = Color(0xFF232323)
-    val proceedText = Color(0xFF3D8791)
-    val premiumAccent = Color(0xFFD1AE5E)
+    val proceedText = Color(0xFF8CCEFF)
+    val proceedSurface = Color(0xFF123B57)
     val heroGradient = Brush.verticalGradient(
         colors = listOf(
-            Color(0xFF5A4A35),
-            Color(0xFF352C22),
-            Color(0xFF181512),
+            Color(0x335A4A35),
+            Color(0x55352C22),
+            Color(0xAA181512),
         ),
     )
 }
