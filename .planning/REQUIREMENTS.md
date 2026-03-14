@@ -13,7 +13,7 @@
 
 ### Swipe Flow
 
-- [x] **SWIPE-01**: User can view one current photo at a time on the main screen with supporting thumbnails and primary action controls
+- [ ] **SWIPE-01**: User can view one current photo at a time on the main screen with supporting thumbnails and primary action controls
 - [x] **SWIPE-02**: User can swipe left on the current photo to add it to delete staging
 - [x] **SWIPE-03**: User can swipe right on the current photo to skip it without modifying the photo
 - [ ] **SWIPE-04**: User can undo the most recent swipe decision during the current session
@@ -28,7 +28,7 @@
 
 ### Experience & Fidelity
 
-- [x] **UX-01**: The main swipe screen closely matches the layout, hierarchy, and action placement shown in `main.jpg`
+- [ ] **UX-01**: The main swipe screen closely matches the layout, hierarchy, and action placement shown in `main.jpg`
 - [ ] **UX-02**: The delete staging screen closely matches the layout, hierarchy, and action affordances shown in `Delete-staging-area..jpg`
 - [x] **UX-03**: The current swipe/review session survives configuration changes during the active app session
 
@@ -62,7 +62,7 @@
 | MEDIA-01 | Phase 1 | Complete |
 | MEDIA-02 | Phase 1 | Complete |
 | MEDIA-03 | Phase 5 | Pending |
-| SWIPE-01 | Phase 2 | Complete |
+| SWIPE-01 | Phase 2 | Pending |
 | SWIPE-02 | Phase 2 | Complete |
 | SWIPE-03 | Phase 2 | Complete |
 | SWIPE-04 | Phase 3 | Pending |
@@ -71,7 +71,7 @@
 | REVW-02 | Phase 4 | Pending |
 | REVW-03 | Phase 4 | Pending |
 | REVW-04 | Phase 5 | Pending |
-| UX-01 | Phase 2 | Complete |
+| UX-01 | Phase 2 | Pending |
 | UX-02 | Phase 4 | Pending |
 | UX-03 | Phase 1 | Complete |
 

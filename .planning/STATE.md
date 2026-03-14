@@ -2,16 +2,16 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: completed
-stopped_at: Completed 02-03-PLAN.md
-last_updated: "2026-03-14T15:29:06.441Z"
-last_activity: 2026-03-14 — Completed Phase 2 Plan 03 swipe gesture loop and verification
+status: ready_for_gap_closure
+stopped_at: Planned gap closure 02-04 for reopened Phase 2 UAT issues
+last_updated: "2026-03-14T15:55:00.000Z"
+last_activity: 2026-03-14 — Reopened Phase 2 for hero-photo and proceed-treatment gap closure
 progress:
   total_phases: 5
-  completed_phases: 2
-  total_plans: 6
+  completed_phases: 1
+  total_plans: 15
   completed_plans: 6
-  percent: 43
+  percent: 40
 ---
 
 # Project State
@@ -21,16 +21,16 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-14)
 
 **Core value:** Make bulk photo cleanup fast and low-friction without losing the safety of a final review step before permanent deletion.
-**Current focus:** Phase 3: Session Controls & Navigation
+**Current focus:** Phase 2 gap closure: Main Swipe Experience
 
 ## Current Position
 
-Phase: 3 of 5 (Session Controls & Navigation)
-Plan: 0 of 2 in current phase
-Status: Phase 2 complete; ready to start Phase 3
-Last activity: 2026-03-14 — Completed Phase 2 Plan 03 swipe gesture loop and verification
+Phase: 2 of 5 (Main Swipe Experience)
+Plan: 3 of 4 complete in current phase
+Status: Phase 2 reopened for gap closure
+Last activity: 2026-03-14 — Planned 02-04 to fix hero-photo binding and bottom-right proceed treatment
 
-Progress: [████░░░░░░] 43%
+Progress: [████░░░░░░] 40%
 
 ## Performance Metrics
 
@@ -80,6 +80,7 @@ Recent decisions affecting current work:
 - [Phase 02-main-swipe-experience]: Committed swipe state now lives in a dedicated MainViewModel backed by SavedStateHandle, while drag offset and rotation stay composable-local.
 - [Phase 02-main-swipe-experience]: The reducer marks the terminal photo as complete without overflowing the session index so Phase 3 can own undo and proceed behavior cleanly.
 - [Phase 02-main-swipe-experience]: MainScreen exposes test-only state semantics instead of visible debug UI so gesture tests can assert staged IDs without changing screenshot fidelity.
+- [Phase 02-main-swipe-experience]: UAT reopened Phase 2 because the hero card is not showing the actual active image and the bottom-right affordance still needs the approved blue `Proceed` treatment.
 
 ### Pending Todos
 
@@ -88,10 +89,10 @@ None yet.
 ### Blockers/Concerns
 
 - Validate delete-flow behavior on at least one real Android device, not only emulator
-- Validate swipe feel on a real device with realistic local-photo sizes before Phase 5 sign-off
+- Execute gap plan 02-04 to restore correct hero-photo binding and bottom-right proceed styling before Phase 2 can close again
 
 ## Session Continuity
 
 Last session: 2026-03-14T06:59:31.536Z
-Stopped at: Completed 02-03-PLAN.md
+Stopped at: Planned gap closure 02-04 for reopened Phase 2 UAT issues
 Resume file: None
