@@ -51,6 +51,7 @@ fun ThumbnailStrip(
                     )
                     .semantics { contentDescription = photo.thumbnailContentDescription }
                     .alpha(if (photo.isCurrent) 1f else 0.7f)
+                    .testTag(thumbnailTag(photo.id))
             ) {
                 AsyncImage(
                     model = photo.contentUri,

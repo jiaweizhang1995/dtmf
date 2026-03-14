@@ -36,6 +36,8 @@ object MainScreenTags {
     const val ProceedAffordance = "main_proceed_affordance"
 }
 
+fun thumbnailTag(photoId: Long): String = "main_thumbnail_$photoId"
+
 @Composable
 fun MainScreen(
     uiState: MainUiState,

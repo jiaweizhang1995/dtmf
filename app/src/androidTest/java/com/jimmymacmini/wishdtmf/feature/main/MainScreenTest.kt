@@ -3,11 +3,14 @@ package com.jimmymacmini.wishdtmf.feature.main
 import androidx.activity.ComponentActivity
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.hasContentDescription
+import androidx.compose.ui.test.hasTestTag
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import com.jimmymacmini.wishdtmf.data.media.LocalPhoto
 import com.jimmymacmini.wishdtmf.domain.LaunchSession
+import org.junit.Assert.assertTrue
 import org.junit.Rule
 import org.junit.Test
 
@@ -39,6 +42,33 @@ class MainScreenTest {
         composeRule.onNodeWithText("PROCEED  →").assertIsDisplayed()
         composeRule.onNodeWithText("Photo 3").assertIsDisplayed()
         composeRule.onNodeWithText("Organise into albums").assertIsDisplayed()
+    }
+
+    @Test
+    fun readyStateUsesSessionBackedPhotoDescriptionsAndExpectedSectionOrder() {
+        composeRule.setContent {
+            MaterialTheme {
+                MainScreen(
+                    uiState = MainUiState.fromSession(sampleSession()),
+                    onAdvance = {},
+                )
+            }
+        }
+
+        composeRule.onNode(
+            hasTestTag(MainScreenTags.HeroPhoto) and hasContentDescription("Photo 3"),
+            useUnmergedTree = true,
+        ).assertIsDisplayed()
+        composeRule.onNodeWithTag(thumbnailTag(1)).assertIsDisplayed()
+        composeRule.onNodeWithTag(thumbnailTag(3)).assertIsDisplayed()
+        composeRule.onNodeWithTag(thumbnailTag(5)).assertIsDisplayed()
+
+        val thumbnailBounds = composeRule.onNodeWithTag(MainScreenTags.ThumbnailRail).fetchSemanticsNode().boundsInRoot
+        val metadataBounds = composeRule.onNodeWithTag(MainScreenTags.MetadataRow).fetchSemanticsNode().boundsInRoot
+        val heroBounds = composeRule.onNodeWithTag(MainScreenTags.HeroPhoto).fetchSemanticsNode().boundsInRoot
+
+        assertTrue(thumbnailBounds.top < metadataBounds.top)
+        assertTrue(metadataBounds.top < heroBounds.top)
     }
 
     private fun sampleSession(): LaunchSession = LaunchSession(
