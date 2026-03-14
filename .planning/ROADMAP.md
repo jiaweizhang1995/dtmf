@@ -56,7 +56,7 @@ Plans:
 **Plans**: 2 plans
 
 Plans:
-- [ ] 03-01: Add undo behavior and session-control logic to the main flow
+- [x] 03-01: Add undo behavior and session-control logic to the main flow
 - [ ] 03-02: Wire navigation and pass staged-review state from swipe to review
 
 ### Phase 4: Review & Permanent Delete
@@ -98,6 +98,6 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 |-------|----------------|--------|-----------|
 | 1. Foundation & Media Access | 3/3 | Complete | 2026-03-14 |
 | 2. Main Swipe Experience | 4/4 | Complete | 2026-03-14 |
-| 3. Session Controls & Navigation | 0/2 | Not started | - |
+| 3. Session Controls & Navigation | 1/2 | In Progress | - |
 | 4. Review & Permanent Delete | 0/3 | Not started | - |
 | 5. Hardening & Launch Validation | 0/3 | Not started | - |
