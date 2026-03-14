@@ -8,6 +8,7 @@ enum class SwipeDirection {
 data class SwipeDecision(
     val photoId: Long,
     val direction: SwipeDirection,
+    val previousIndex: Int,
 )
 
 data class SwipeSessionState(
@@ -28,6 +29,25 @@ object SwipeDecisionReducer {
         session: LaunchSession,
         state: SwipeSessionState,
     ): SwipeSessionState = commit(session, state, SwipeDirection.Right)
+
+    fun undoLastDecision(
+        session: LaunchSession,
+        state: SwipeSessionState,
+    ): SwipeSessionState {
+        val lastDecision = state.lastDecision ?: return state
+        val previousIndex = lastDecision.previousIndex.coerceIn(0, session.photos.lastIndex)
+
+        return SwipeSessionState(
+            currentIndex = previousIndex,
+            stagedPhotoIds = if (lastDecision.direction == SwipeDirection.Left) {
+                state.stagedPhotoIds - lastDecision.photoId
+            } else {
+                state.stagedPhotoIds
+            },
+            lastDecision = null,
+            isSessionComplete = false,
+        )
+    }
 
     private fun commit(
         session: LaunchSession,
@@ -52,6 +72,7 @@ object SwipeDecisionReducer {
             lastDecision = SwipeDecision(
                 photoId = photoId,
                 direction = direction,
+                previousIndex = boundedIndex,
             ),
             isSessionComplete = isTerminalPhoto,
         )
