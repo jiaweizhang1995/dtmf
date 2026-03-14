@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Completed 02-01-PLAN.md
-last_updated: "2026-03-14T06:37:30.118Z"
-last_activity: 2026-03-14 — Completed Phase 2 Plan 01 main-screen shell and UI verification
+stopped_at: Completed 02-02-PLAN.md
+last_updated: "2026-03-14T06:48:46.249Z"
+last_activity: 2026-03-14 — Completed Phase 2 Plan 02 real photo presentation and verification
 progress:
   total_phases: 5
   completed_phases: 1
   total_plans: 6
-  completed_plans: 4
-  percent: 67
+  completed_plans: 5
+  percent: 83
 ---
 
 # Project State
@@ -26,29 +26,30 @@ See: .planning/PROJECT.md (updated 2026-03-14)
 ## Current Position
 
 Phase: 2 of 5 (Main Swipe Experience)
-Plan: 1 of 3 in current phase
+Plan: 2 of 3 in current phase
 Status: Phase 2 in progress
-Last activity: 2026-03-14 — Completed Phase 2 Plan 01 main-screen shell and UI verification
+Last activity: 2026-03-14 — Completed Phase 2 Plan 02 real photo presentation and verification
 
-Progress: [███████░░░] 67%
+Progress: [████████░░] 83%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 4
-- Average duration: 31 min
-- Total execution time: 1h 57m
+- Total plans completed: 5
+- Average duration: 25 min
+- Total execution time: 2h 07m
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
 | 1 | 3 | 1h 51m | 37 min |
-| 2 | 1 | interrupted/resumed | interrupted/resumed |
+| 2 | 2 | interrupted/resumed + 10 min | interrupted/resumed |
 
 **Recent Trend:**
-- Last 5 plans: 01-01 (38 min), 01-02 (32 min), 01-03 (41 min), 02-01 (interrupted/resumed)
+- Last 5 plans: 01-01 (38 min), 01-02 (32 min), 01-03 (41 min), 02-01 (interrupted/resumed), 02-02 (10 min)
 - Trend: Stable
+| Phase 02-main-swipe-experience P02 | 10 min | 3 tasks | 8 files |
 
 ## Accumulated Context
 
@@ -74,6 +75,8 @@ Recent decisions affecting current work:
 - [Phase 02-main-swipe-experience]: Keep main-screen fidelity tuning in MainScreenTokens rather than scattering literals across composables.
 - [Phase 02-main-swipe-experience]: Keep the main-screen shell placeholder-only until real image rendering lands in 02-02.
 - [Phase 02-main-swipe-experience]: Keep the 02-01 main screen placeholder-only so image presentation and swipe mutation stay in later plans.
+- [Phase 02-main-swipe-experience]: Kept Phase 2 state derived from LaunchSession via a dedicated mapper instead of introducing a second session owner before swipe mutations land.
+- [Phase 02-main-swipe-experience]: Used Coil AsyncImage for hero and thumbnail rendering so image sizing stays constraint-aware instead of decoding original-size media.
 
 ### Pending Todos
 
@@ -82,10 +85,10 @@ None yet.
 ### Blockers/Concerns
 
 - Validate delete-flow behavior on at least one real Android device, not only emulator
-- Phase 2 still needs thumbnail/current-card polish and swipe gesture behavior from `main.jpg`
+- Phase 2 still needs swipe gesture behavior from `main.jpg`
 
 ## Session Continuity
 
-Last session: 2026-03-14T06:34:39.175Z
-Stopped at: Completed 02-01-PLAN.md
+Last session: 2026-03-14T06:48:46.247Z
+Stopped at: Completed 02-02-PLAN.md
 Resume file: None

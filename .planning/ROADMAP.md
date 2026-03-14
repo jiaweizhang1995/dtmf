@@ -41,7 +41,7 @@ Plans:
 
 Plans:
 - [x] 02-01: Implement screenshot-faithful main layout, theme, and shared UI components
-- [ ] 02-02: Add image rendering, thumbnail strip, and current-card presentation
+- [x] 02-02: Add image rendering, thumbnail strip, and current-card presentation
 - [ ] 02-03: Implement left/right swipe gestures and stage/skip state updates
 
 ### Phase 3: Session Controls & Navigation
@@ -96,7 +96,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Foundation & Media Access | 3/3 | Complete | 2026-03-14 |
-| 2. Main Swipe Experience | 1/3 | In Progress | - |
+| 2. Main Swipe Experience | 2/3 | In Progress | - |
 | 3. Session Controls & Navigation | 0/2 | Not started | - |
 | 4. Review & Permanent Delete | 0/3 | Not started | - |
 | 5. Hardening & Launch Validation | 0/3 | Not started | - |
