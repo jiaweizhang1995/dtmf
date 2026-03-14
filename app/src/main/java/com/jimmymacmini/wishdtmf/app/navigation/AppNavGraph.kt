@@ -20,7 +20,7 @@ fun AppNavGraph(
     uiState: LaunchUiState,
     onGrantAccess: () -> Unit,
     onRetry: () -> Unit,
-    onAdvanceSession: () -> Unit,
+    onProceedToReview: (Set<Long>) -> Unit,
     navController: NavHostController = rememberNavController(),
 ) {
     LaunchedEffect(uiState, navController) {
@@ -53,7 +53,7 @@ fun AppNavGraph(
             if (readyState != null) {
                 MainRoute(
                     session = readyState.session,
-                    onAdvance = onAdvanceSession,
+                    onProceed = onProceedToReview,
                 )
             }
         }

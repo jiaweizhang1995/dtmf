@@ -14,8 +14,13 @@ data class MainUiState(
     val activePhoto: MainPhotoUiModel,
     val visibleThumbnails: List<MainPhotoUiModel>,
     val stagedPhotoIds: Set<Long>,
+    val stagedPhotoCount: Int,
     val lastDecision: SwipeDecision?,
     val isSessionComplete: Boolean,
+    val canUndo: Boolean,
+    val canProceed: Boolean,
+    val proceedMessage: String,
+    val completedMessage: String?,
 ) {
     val currentPhoto: MainPhotoUiModel
         get() = activePhoto
@@ -48,8 +53,27 @@ data class MainUiState(
                     photos.first { it.id == visiblePhoto.id }
                 },
                 stagedPhotoIds = swipeState.stagedPhotoIds,
+                stagedPhotoCount = swipeState.stagedPhotoIds.size,
                 lastDecision = swipeState.lastDecision,
                 isSessionComplete = swipeState.isSessionComplete,
+                canUndo = swipeState.lastDecision != null,
+                canProceed = swipeState.stagedPhotoIds.isNotEmpty(),
+                proceedMessage = when {
+                    swipeState.stagedPhotoIds.isNotEmpty() -> {
+                        "Review ${swipeState.stagedPhotoIds.size} selected"
+                    }
+
+                    swipeState.isSessionComplete -> "No photos selected for review"
+                    else -> "Swipe left on a photo to enable review"
+                },
+                completedMessage = when {
+                    !swipeState.isSessionComplete -> null
+                    swipeState.stagedPhotoIds.isNotEmpty() -> {
+                        "All photos reviewed. Proceed to review ${swipeState.stagedPhotoIds.size} selected."
+                    }
+
+                    else -> "All photos reviewed. No photos selected for review."
+                },
             )
         }
     }

@@ -47,6 +47,10 @@ class MainViewModel(
         updateState(SwipeDecisionReducer.skipCurrentPhoto(session, swipeState.value))
     }
 
+    fun undoLastDecision() {
+        updateState(SwipeDecisionReducer.undoLastDecision(session, swipeState.value))
+    }
+
     private fun updateState(nextState: SwipeSessionState) {
         savedStateHandle.persistSwipeState(session, nextState)
         swipeState.value = nextState
@@ -74,6 +78,7 @@ private const val SWIPE_CURRENT_INDEX_KEY = "main_swipe_current_index"
 private const val SWIPE_STAGED_IDS_KEY = "main_swipe_staged_ids"
 private const val SWIPE_LAST_PHOTO_ID_KEY = "main_swipe_last_photo_id"
 private const val SWIPE_LAST_DIRECTION_KEY = "main_swipe_last_direction"
+private const val SWIPE_LAST_PREVIOUS_INDEX_KEY = "main_swipe_last_previous_index"
 private const val SWIPE_COMPLETE_KEY = "main_swipe_complete"
 
 private fun SavedStateHandle.restoreSwipeState(session: LaunchSession): SwipeSessionState {
@@ -90,15 +95,21 @@ private fun SavedStateHandle.restoreSwipeState(session: LaunchSession): SwipeSes
     val direction = get<String>(SWIPE_LAST_DIRECTION_KEY)
         ?.let(SwipeDirection::valueOf)
     val lastPhotoId = get<Long>(SWIPE_LAST_PHOTO_ID_KEY)
+    val previousIndex = get<Int>(SWIPE_LAST_PREVIOUS_INDEX_KEY)
 
     return SwipeSessionState(
         currentIndex = currentIndex,
         stagedPhotoIds = stagedPhotoIds,
-        lastDecision = if (direction != null && lastPhotoId != null && sessionIds.contains(lastPhotoId)) {
+        lastDecision = if (
+            direction != null &&
+            lastPhotoId != null &&
+            previousIndex != null &&
+            sessionIds.contains(lastPhotoId)
+        ) {
             SwipeDecision(
                 photoId = lastPhotoId,
                 direction = direction,
-                previousIndex = currentIndex,
+                previousIndex = previousIndex.coerceIn(0, session.photos.lastIndex),
             )
         } else {
             null
@@ -116,5 +127,6 @@ private fun SavedStateHandle.persistSwipeState(
     set(SWIPE_STAGED_IDS_KEY, state.stagedPhotoIds.toLongArray())
     set(SWIPE_LAST_PHOTO_ID_KEY, state.lastDecision?.photoId)
     set(SWIPE_LAST_DIRECTION_KEY, state.lastDecision?.direction?.name)
+    set(SWIPE_LAST_PREVIOUS_INDEX_KEY, state.lastDecision?.previousIndex)
     set(SWIPE_COMPLETE_KEY, state.isSessionComplete)
 }

@@ -9,7 +9,7 @@ import com.jimmymacmini.wishdtmf.domain.LaunchSession
 @Composable
 fun MainRoute(
     session: LaunchSession,
-    onAdvance: () -> Unit,
+    onProceed: (Set<Long>) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val sessionKey = session.photos.joinToString(separator = "-") { it.id.toString() }
@@ -23,7 +23,8 @@ fun MainRoute(
         uiState = uiState.value,
         onStageCurrentPhoto = viewModel::stageCurrentPhoto,
         onSkipCurrentPhoto = viewModel::skipCurrentPhoto,
-        onAdvance = onAdvance,
+        onUndoLastDecision = viewModel::undoLastDecision,
+        onProceed = { onProceed(uiState.value.stagedPhotoIds) },
         modifier = modifier,
     )
 }
