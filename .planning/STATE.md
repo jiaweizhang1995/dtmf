@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Completed 02-02-PLAN.md
-last_updated: "2026-03-14T06:48:46.249Z"
-last_activity: 2026-03-14 — Completed Phase 2 Plan 02 real photo presentation and verification
+stopped_at: Completed 02-03-PLAN.md
+last_updated: "2026-03-14T06:59:31.539Z"
+last_activity: 2026-03-14 — Completed Phase 2 Plan 03 swipe gesture loop and verification
 progress:
   total_phases: 5
-  completed_phases: 1
-  total_plans: 6
-  completed_plans: 5
-  percent: 83
+  completed_phases: 2
+  total_plans: 14
+  completed_plans: 6
+  percent: 43
 ---
 
 # Project State
@@ -21,35 +21,35 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-14)
 
 **Core value:** Make bulk photo cleanup fast and low-friction without losing the safety of a final review step before permanent deletion.
-**Current focus:** Phase 2: Main Swipe Experience
+**Current focus:** Phase 3: Session Controls & Navigation
 
 ## Current Position
 
-Phase: 2 of 5 (Main Swipe Experience)
-Plan: 2 of 3 in current phase
-Status: Phase 2 in progress
-Last activity: 2026-03-14 — Completed Phase 2 Plan 02 real photo presentation and verification
+Phase: 3 of 5 (Session Controls & Navigation)
+Plan: 0 of 2 in current phase
+Status: Phase 2 complete; ready to start Phase 3
+Last activity: 2026-03-14 — Completed Phase 2 Plan 03 swipe gesture loop and verification
 
-Progress: [████████░░] 83%
+Progress: [████░░░░░░] 43%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 5
-- Average duration: 25 min
-- Total execution time: 2h 07m
+- Total plans completed: 6
+- Average duration: 23 min
+- Total execution time: 2h 17m
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
 | 1 | 3 | 1h 51m | 37 min |
-| 2 | 2 | interrupted/resumed + 10 min | interrupted/resumed |
+| 2 | 3 | interrupted/resumed + 20 min | interrupted/resumed |
 
 **Recent Trend:**
-- Last 5 plans: 01-01 (38 min), 01-02 (32 min), 01-03 (41 min), 02-01 (interrupted/resumed), 02-02 (10 min)
+- Last 5 plans: 01-02 (32 min), 01-03 (41 min), 02-01 (interrupted/resumed), 02-02 (10 min), 02-03 (10 min)
 - Trend: Stable
-| Phase 02-main-swipe-experience P02 | 10 min | 3 tasks | 8 files |
+| Phase 02-main-swipe-experience P03 | 10 min | 3 tasks | 9 files |
 
 ## Accumulated Context
 
@@ -77,6 +77,9 @@ Recent decisions affecting current work:
 - [Phase 02-main-swipe-experience]: Keep the 02-01 main screen placeholder-only so image presentation and swipe mutation stay in later plans.
 - [Phase 02-main-swipe-experience]: Kept Phase 2 state derived from LaunchSession via a dedicated mapper instead of introducing a second session owner before swipe mutations land.
 - [Phase 02-main-swipe-experience]: Used Coil AsyncImage for hero and thumbnail rendering so image sizing stays constraint-aware instead of decoding original-size media.
+- [Phase 02-main-swipe-experience]: Committed swipe state now lives in a dedicated MainViewModel backed by SavedStateHandle, while drag offset and rotation stay composable-local.
+- [Phase 02-main-swipe-experience]: The reducer marks the terminal photo as complete without overflowing the session index so Phase 3 can own undo and proceed behavior cleanly.
+- [Phase 02-main-swipe-experience]: MainScreen exposes test-only state semantics instead of visible debug UI so gesture tests can assert staged IDs without changing screenshot fidelity.
 
 ### Pending Todos
 
@@ -85,10 +88,10 @@ None yet.
 ### Blockers/Concerns
 
 - Validate delete-flow behavior on at least one real Android device, not only emulator
-- Phase 2 still needs swipe gesture behavior from `main.jpg`
+- Validate swipe feel on a real device with realistic local-photo sizes before Phase 5 sign-off
 
 ## Session Continuity
 
-Last session: 2026-03-14T06:48:46.247Z
-Stopped at: Completed 02-02-PLAN.md
+Last session: 2026-03-14T06:59:31.536Z
+Stopped at: Completed 02-03-PLAN.md
 Resume file: None

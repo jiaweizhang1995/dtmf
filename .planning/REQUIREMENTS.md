@@ -14,8 +14,8 @@
 ### Swipe Flow
 
 - [x] **SWIPE-01**: User can view one current photo at a time on the main screen with supporting thumbnails and primary action controls
-- [ ] **SWIPE-02**: User can swipe left on the current photo to add it to delete staging
-- [ ] **SWIPE-03**: User can swipe right on the current photo to skip it without modifying the photo
+- [x] **SWIPE-02**: User can swipe left on the current photo to add it to delete staging
+- [x] **SWIPE-03**: User can swipe right on the current photo to skip it without modifying the photo
 - [ ] **SWIPE-04**: User can undo the most recent swipe decision during the current session
 - [ ] **SWIPE-05**: User can tap proceed from the main screen to enter the delete staging area
 
@@ -63,8 +63,8 @@
 | MEDIA-02 | Phase 1 | Complete |
 | MEDIA-03 | Phase 5 | Pending |
 | SWIPE-01 | Phase 2 | Complete |
-| SWIPE-02 | Phase 2 | Pending |
-| SWIPE-03 | Phase 2 | Pending |
+| SWIPE-02 | Phase 2 | Complete |
+| SWIPE-03 | Phase 2 | Complete |
 | SWIPE-04 | Phase 3 | Pending |
 | SWIPE-05 | Phase 3 | Pending |
 | REVW-01 | Phase 4 | Pending |
