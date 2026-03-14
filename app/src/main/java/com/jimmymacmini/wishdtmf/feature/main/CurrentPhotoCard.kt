@@ -16,12 +16,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
+import coil3.request.ImageRequest
 
 @Composable
 fun CurrentPhotoCard(
@@ -29,6 +31,8 @@ fun CurrentPhotoCard(
     heroAspectRatio: Float,
     modifier: Modifier = Modifier,
 ) {
+    val context = LocalContext.current
+
     Box(
         modifier = modifier
             .fillMaxWidth()
@@ -40,7 +44,10 @@ fun CurrentPhotoCard(
             .semantics { contentDescription = photo.heroContentDescription },
     ) {
         AsyncImage(
-            model = photo.contentUri,
+            model = ImageRequest.Builder(context)
+                .data(photo.contentUri)
+                .memoryCacheKey("hero-photo-${photo.id}")
+                .build(),
             contentDescription = photo.heroContentDescription,
             modifier = Modifier.fillMaxSize(),
             contentScale = ContentScale.Crop,
@@ -70,7 +77,7 @@ fun CurrentPhotoCard(
                 .align(Alignment.BottomStart)
                 .padding(16.dp),
             text = photo.heroContentDescription,
-            color = MainScreenTokens.secondaryText,
+            color = MainScreenTokens.primaryText,
         )
     }
 }
