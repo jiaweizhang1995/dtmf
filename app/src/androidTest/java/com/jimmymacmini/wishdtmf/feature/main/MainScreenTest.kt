@@ -2,9 +2,11 @@ package com.jimmymacmini.wishdtmf.feature.main
 
 import androidx.activity.ComponentActivity
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.ui.test.assertCountEquals
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.hasContentDescription
 import androidx.compose.ui.test.hasTestTag
+import androidx.compose.ui.test.onAllNodesWithText
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
@@ -41,9 +43,10 @@ class MainScreenTest {
         composeRule.onNodeWithTag(MainScreenTags.ProceedAffordance).assertIsDisplayed()
         composeRule.onNodeWithText("Undo").assertIsDisplayed()
         composeRule.onNodeWithText("Skip").assertIsDisplayed()
-        composeRule.onNodeWithText("PROCEED  →").assertIsDisplayed()
+        composeRule.onNodeWithText("Proceed").assertIsDisplayed()
         composeRule.onNodeWithText("Photo 3").assertIsDisplayed()
         composeRule.onNodeWithText("Organise into albums").assertIsDisplayed()
+        composeRule.onAllNodesWithText("PREMIUM").assertCountEquals(0)
     }
 
     @Test
@@ -73,6 +76,26 @@ class MainScreenTest {
 
         assertTrue(thumbnailBounds.top < metadataBounds.top)
         assertTrue(metadataBounds.top < heroBounds.top)
+    }
+
+    @Test
+    fun readyState_keepsHeroAndCurrentThumbnailAligned() {
+        composeRule.setContent {
+            MaterialTheme {
+                MainScreen(
+                    uiState = MainUiState.fromSession(sampleSession()),
+                    onStageCurrentPhoto = {},
+                    onSkipCurrentPhoto = {},
+                    onAdvance = {},
+                )
+            }
+        }
+
+        composeRule.onNode(
+            hasTestTag(MainScreenTags.HeroPhoto) and hasContentDescription("Photo 3"),
+            useUnmergedTree = true,
+        ).assertIsDisplayed()
+        composeRule.onNodeWithTag(thumbnailTag(3)).assertIsDisplayed()
     }
 
     private fun sampleSession(): LaunchSession = LaunchSession(

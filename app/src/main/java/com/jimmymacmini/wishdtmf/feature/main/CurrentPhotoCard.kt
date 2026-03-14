@@ -11,19 +11,18 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.key
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
-import coil3.request.ImageRequest
 
 @Composable
 fun CurrentPhotoCard(
@@ -31,8 +30,6 @@ fun CurrentPhotoCard(
     heroAspectRatio: Float,
     modifier: Modifier = Modifier,
 ) {
-    val context = LocalContext.current
-
     Box(
         modifier = modifier
             .fillMaxWidth()
@@ -43,15 +40,14 @@ fun CurrentPhotoCard(
             .testTag(MainScreenTags.HeroPhoto)
             .semantics { contentDescription = photo.heroContentDescription },
     ) {
-        AsyncImage(
-            model = ImageRequest.Builder(context)
-                .data(photo.contentUri)
-                .memoryCacheKey("hero-photo-${photo.id}")
-                .build(),
-            contentDescription = photo.heroContentDescription,
-            modifier = Modifier.fillMaxSize(),
-            contentScale = ContentScale.Crop,
-        )
+        key(photo.id) {
+            AsyncImage(
+                model = photo.contentUri,
+                contentDescription = photo.heroContentDescription,
+                modifier = Modifier.fillMaxSize(),
+                contentScale = ContentScale.Crop,
+            )
+        }
         Box(
             modifier = Modifier
                 .fillMaxSize()
