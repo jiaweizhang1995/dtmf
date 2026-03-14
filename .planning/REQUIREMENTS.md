@@ -17,7 +17,7 @@
 - [x] **SWIPE-02**: User can swipe left on the current photo to add it to delete staging
 - [x] **SWIPE-03**: User can swipe right on the current photo to skip it without modifying the photo
 - [x] **SWIPE-04**: User can undo the most recent swipe decision during the current session
-- [ ] **SWIPE-05**: User can tap proceed from the main screen to enter the delete staging area
+- [x] **SWIPE-05**: User can tap proceed from the main screen to enter the delete staging area
 
 ### Review & Delete
 
@@ -66,7 +66,7 @@
 | SWIPE-02 | Phase 2 | Complete |
 | SWIPE-03 | Phase 2 | Complete |
 | SWIPE-04 | Phase 3 | Complete |
-| SWIPE-05 | Phase 3 | Pending |
+| SWIPE-05 | Phase 3 | Complete |
 | REVW-01 | Phase 4 | Pending |
 | REVW-02 | Phase 4 | Pending |
 | REVW-03 | Phase 4 | Pending |
