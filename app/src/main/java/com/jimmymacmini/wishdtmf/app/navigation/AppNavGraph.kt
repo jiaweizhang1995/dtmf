@@ -10,9 +10,11 @@ import androidx.navigation.compose.rememberNavController
 import com.jimmymacmini.wishdtmf.feature.entry.EntryRoute
 import com.jimmymacmini.wishdtmf.feature.entry.LaunchUiState
 import com.jimmymacmini.wishdtmf.feature.main.MainRoute
+import com.jimmymacmini.wishdtmf.feature.review.ReviewRoute
 
-private const val ENTRY_ROUTE = "entry"
-private const val MAIN_ROUTE = "main"
+const val ENTRY_ROUTE = "entry"
+const val MAIN_ROUTE = "main"
+const val REVIEW_ROUTE = "review"
 
 @Composable
 fun AppNavGraph(
@@ -56,9 +58,21 @@ fun AppNavGraph(
                         navController.currentBackStackEntry
                             ?.savedStateHandle
                             ?.set(REVIEW_STAGED_PHOTO_IDS_KEY, stagedPhotoIds.toLongArray())
+                        navController.navigate(REVIEW_ROUTE)
                     },
                 )
             }
+        }
+        composable(REVIEW_ROUTE) {
+            val stagedPhotoIds = navController.previousBackStackEntry
+                ?.savedStateHandle
+                ?.get<LongArray>(REVIEW_STAGED_PHOTO_IDS_KEY)
+                ?.toList()
+                .orEmpty()
+            ReviewRoute(
+                stagedPhotoIds = stagedPhotoIds,
+                onBack = navController::popBackStack,
+            )
         }
     }
 }
