@@ -12,8 +12,11 @@ import com.jimmymacmini.wishdtmf.domain.SwipeDecisionReducer
 import com.jimmymacmini.wishdtmf.domain.SwipeDirection
 import com.jimmymacmini.wishdtmf.domain.SwipeSessionState
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 
@@ -23,6 +26,8 @@ class MainViewModel(
 ) : ViewModel() {
 
     private val swipeState = MutableStateFlow(savedStateHandle.restoreSwipeState(session))
+    private val _navigationEvents = MutableSharedFlow<MainNavigationEvent>(extraBufferCapacity = 1)
+    val navigationEvents: SharedFlow<MainNavigationEvent> = _navigationEvents.asSharedFlow()
     val uiState: StateFlow<MainUiState> = swipeState
         .map { swipeSessionState ->
             MainUiState.fromSession(
@@ -51,6 +56,13 @@ class MainViewModel(
         updateState(SwipeDecisionReducer.undoLastDecision(session, swipeState.value))
     }
 
+    fun onProceedToReview() {
+        val stagedPhotoIds = swipeState.value.stagedPhotoIds
+        if (stagedPhotoIds.isNotEmpty()) {
+            _navigationEvents.tryEmit(MainNavigationEvent.OpenReview(stagedPhotoIds))
+        }
+    }
+
     private fun updateState(nextState: SwipeSessionState) {
         savedStateHandle.persistSwipeState(session, nextState)
         swipeState.value = nextState
@@ -71,6 +83,10 @@ class MainViewModel(
             }
         }
     }
+}
+
+sealed interface MainNavigationEvent {
+    data class OpenReview(val stagedPhotoIds: Set<Long>) : MainNavigationEvent
 }
 
 private const val SWIPE_PHOTO_IDS_KEY = "main_swipe_photo_ids"

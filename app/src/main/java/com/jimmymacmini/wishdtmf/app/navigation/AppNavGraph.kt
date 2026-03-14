@@ -20,7 +20,6 @@ fun AppNavGraph(
     uiState: LaunchUiState,
     onGrantAccess: () -> Unit,
     onRetry: () -> Unit,
-    onProceedToReview: (Set<Long>) -> Unit,
     navController: NavHostController = rememberNavController(),
 ) {
     LaunchedEffect(uiState, navController) {
@@ -53,9 +52,15 @@ fun AppNavGraph(
             if (readyState != null) {
                 MainRoute(
                     session = readyState.session,
-                    onProceed = onProceedToReview,
+                    onOpenReview = { stagedPhotoIds ->
+                        navController.currentBackStackEntry
+                            ?.savedStateHandle
+                            ?.set(REVIEW_STAGED_PHOTO_IDS_KEY, stagedPhotoIds.toLongArray())
+                    },
                 )
             }
         }
     }
 }
+
+const val REVIEW_STAGED_PHOTO_IDS_KEY = "review_staged_photo_ids"

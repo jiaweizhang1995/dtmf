@@ -48,19 +48,6 @@ class LaunchViewModel(
         }
     }
 
-    fun advanceToNextPhoto() {
-        val currentState = _uiState.value as? LaunchUiState.Ready ?: return
-        val nextIndex = (currentState.session.currentIndex + 1)
-            .coerceAtMost(currentState.session.photoCount - 1)
-        if (nextIndex != currentState.session.currentIndex) {
-            updateState(
-                LaunchUiState.Ready(
-                    session = currentState.session.withCurrentIndex(nextIndex),
-                ),
-            )
-        }
-    }
-
     private fun loadBatch() {
         updateState(LaunchUiState.LoadingBatch)
         viewModelScope.launch {
