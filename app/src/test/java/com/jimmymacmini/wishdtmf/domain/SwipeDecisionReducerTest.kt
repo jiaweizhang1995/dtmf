@@ -43,6 +43,23 @@ class SwipeDecisionReducerTest {
         assertTrue(state.isSessionComplete)
     }
 
+    @Test
+    fun completedSession_ignoresAdditionalSwipeAttempts() {
+        val initial = SwipeSessionState(
+            currentIndex = 2,
+            stagedPhotoIds = setOf(3L),
+            lastDecision = SwipeDecision(photoId = 3L, direction = SwipeDirection.Left),
+            isSessionComplete = true,
+        )
+
+        val state = SwipeDecisionReducer.skipCurrentPhoto(
+            session = sampleSession(),
+            state = initial,
+        )
+
+        assertEquals(initial, state)
+    }
+
     private fun sampleSession(): LaunchSession = LaunchSession(
         photos = listOf(
             LocalPhoto(id = 1, contentUri = "content://test/1"),
