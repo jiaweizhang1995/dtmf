@@ -66,6 +66,7 @@ dependencies {
     implementation("androidx.navigation:navigation-compose:2.8.8")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.10.1")
     implementation("com.google.android.material:material:1.12.0")
+    implementation("io.coil-kt.coil3:coil-compose:3.0.4")
 
     implementation(composeBom)
     androidTestImplementation(composeBom)
