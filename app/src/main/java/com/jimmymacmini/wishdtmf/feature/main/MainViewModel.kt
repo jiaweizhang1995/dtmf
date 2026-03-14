@@ -95,7 +95,11 @@ private fun SavedStateHandle.restoreSwipeState(session: LaunchSession): SwipeSes
         currentIndex = currentIndex,
         stagedPhotoIds = stagedPhotoIds,
         lastDecision = if (direction != null && lastPhotoId != null && sessionIds.contains(lastPhotoId)) {
-            SwipeDecision(photoId = lastPhotoId, direction = direction)
+            SwipeDecision(
+                photoId = lastPhotoId,
+                direction = direction,
+                previousIndex = currentIndex,
+            )
         } else {
             null
         },

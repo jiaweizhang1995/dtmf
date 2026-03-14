@@ -15,6 +15,7 @@ class SwipeDecisionReducerTest {
         assertEquals(1, state.currentIndex)
         assertEquals(setOf(1L), state.stagedPhotoIds)
         assertEquals(SwipeDirection.Left, state.lastDecision?.direction)
+        assertEquals(0, state.lastDecision?.previousIndex)
         assertFalse(state.isSessionComplete)
     }
 
@@ -28,6 +29,7 @@ class SwipeDecisionReducerTest {
         assertEquals(1, state.currentIndex)
         assertEquals(setOf(9L), state.stagedPhotoIds)
         assertEquals(SwipeDirection.Right, state.lastDecision?.direction)
+        assertEquals(0, state.lastDecision?.previousIndex)
         assertFalse(state.isSessionComplete)
     }
 
@@ -40,6 +42,7 @@ class SwipeDecisionReducerTest {
 
         assertEquals(2, state.currentIndex)
         assertEquals(setOf(3L), state.stagedPhotoIds)
+        assertEquals(2, state.lastDecision?.previousIndex)
         assertTrue(state.isSessionComplete)
     }
 
@@ -48,11 +51,74 @@ class SwipeDecisionReducerTest {
         val initial = SwipeSessionState(
             currentIndex = 2,
             stagedPhotoIds = setOf(3L),
-            lastDecision = SwipeDecision(photoId = 3L, direction = SwipeDirection.Left),
+            lastDecision = SwipeDecision(photoId = 3L, direction = SwipeDirection.Left, previousIndex = 2),
             isSessionComplete = true,
         )
 
         val state = SwipeDecisionReducer.skipCurrentPhoto(
+            session = sampleSession(),
+            state = initial,
+        )
+
+        assertEquals(initial, state)
+    }
+
+    @Test
+    fun undoLastDecision_revertsLeftSwipeAndRemovesStagedPhoto() {
+        val committed = SwipeDecisionReducer.stageCurrentPhoto(sampleSession(), SwipeSessionState())
+
+        val state = SwipeDecisionReducer.undoLastDecision(
+            session = sampleSession(),
+            state = committed,
+        )
+
+        assertEquals(0, state.currentIndex)
+        assertTrue(state.stagedPhotoIds.isEmpty())
+        assertEquals(null, state.lastDecision)
+        assertFalse(state.isSessionComplete)
+    }
+
+    @Test
+    fun undoLastDecision_revertsRightSwipeWithoutChangingStagedSet() {
+        val committed = SwipeDecisionReducer.skipCurrentPhoto(
+            session = sampleSession(),
+            state = SwipeSessionState(stagedPhotoIds = setOf(9L)),
+        )
+
+        val state = SwipeDecisionReducer.undoLastDecision(
+            session = sampleSession(),
+            state = committed,
+        )
+
+        assertEquals(0, state.currentIndex)
+        assertEquals(setOf(9L), state.stagedPhotoIds)
+        assertEquals(null, state.lastDecision)
+        assertFalse(state.isSessionComplete)
+    }
+
+    @Test
+    fun undoLastDecision_revertsTerminalSwipeAndClearsCompletedState() {
+        val committed = SwipeDecisionReducer.stageCurrentPhoto(
+            session = sampleSession(),
+            state = SwipeSessionState(currentIndex = 2),
+        )
+
+        val state = SwipeDecisionReducer.undoLastDecision(
+            session = sampleSession(),
+            state = committed,
+        )
+
+        assertEquals(2, state.currentIndex)
+        assertTrue(state.stagedPhotoIds.isEmpty())
+        assertEquals(null, state.lastDecision)
+        assertFalse(state.isSessionComplete)
+    }
+
+    @Test
+    fun undoLastDecision_withoutHistory_isNoOp() {
+        val initial = SwipeSessionState(stagedPhotoIds = setOf(2L))
+
+        val state = SwipeDecisionReducer.undoLastDecision(
             session = sampleSession(),
             state = initial,
         )
