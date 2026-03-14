@@ -1,6 +1,8 @@
 package com.jimmymacmini.wishdtmf.feature.main
 
 import com.jimmymacmini.wishdtmf.domain.LaunchSession
+import com.jimmymacmini.wishdtmf.domain.SwipeDecision
+import com.jimmymacmini.wishdtmf.domain.SwipeSessionState
 
 data class MainUiState(
     val title: String,
@@ -10,13 +12,25 @@ data class MainUiState(
     val photos: List<MainPhotoUiModel>,
     val currentPhoto: MainPhotoUiModel,
     val visibleThumbnails: List<MainPhotoUiModel>,
+    val stagedPhotoIds: Set<Long>,
+    val lastDecision: SwipeDecision?,
+    val isSessionComplete: Boolean,
 ) {
     companion object {
-        fun fromSession(session: LaunchSession): MainUiState {
-            return fromPresentation(PhotoPresentationMapper.map(session))
+        fun fromSession(
+            session: LaunchSession,
+            swipeState: SwipeSessionState = SwipeSessionState(currentIndex = session.currentIndex),
+        ): MainUiState {
+            return fromPresentation(
+                presentation = PhotoPresentationMapper.map(session.withCurrentIndex(swipeState.currentIndex)),
+                swipeState = swipeState,
+            )
         }
 
-        fun fromPresentation(presentation: MainPresentationState): MainUiState {
+        fun fromPresentation(
+            presentation: MainPresentationState,
+            swipeState: SwipeSessionState = SwipeSessionState(),
+        ): MainUiState {
             return MainUiState(
                 title = presentation.title,
                 currentPositionLabel = presentation.currentPositionLabel,
@@ -25,6 +39,9 @@ data class MainUiState(
                 photos = presentation.photos.map { it.toUiModel() },
                 currentPhoto = presentation.currentPhoto.toUiModel(),
                 visibleThumbnails = presentation.visibleThumbnails.map { it.toUiModel() },
+                stagedPhotoIds = swipeState.stagedPhotoIds,
+                lastDecision = swipeState.lastDecision,
+                isSessionComplete = swipeState.isSessionComplete,
             )
         }
     }

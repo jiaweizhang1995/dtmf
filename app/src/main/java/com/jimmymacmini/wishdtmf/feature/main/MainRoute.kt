@@ -1,7 +1,8 @@
 package com.jimmymacmini.wishdtmf.feature.main
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.compose.ui.Modifier
 import com.jimmymacmini.wishdtmf.domain.LaunchSession
 
@@ -11,11 +12,14 @@ fun MainRoute(
     onAdvance: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val presentationState = remember(session) { PhotoPresentationMapper.map(session) }
-    val uiState = remember(presentationState) { MainUiState.fromPresentation(presentationState) }
+    val viewModel: MainViewModel = viewModel(
+        key = session.photos.joinToString(separator = "-") { it.id.toString() },
+        factory = MainViewModel.factory(session),
+    )
+    val uiState = viewModel.uiState.collectAsStateWithLifecycle()
 
     MainScreen(
-        uiState = uiState,
+        uiState = uiState.value,
         onAdvance = onAdvance,
         modifier = modifier,
     )
