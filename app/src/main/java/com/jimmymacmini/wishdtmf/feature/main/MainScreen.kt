@@ -61,9 +61,7 @@ fun MainScreen(
                 photo = uiState.currentPhoto,
                 heroAspectRatio = heroAspectRatio,
             )
-            BottomActionRow(
-                onAdvance = onAdvance,
-            )
+            BottomActionRow()
             PremiumBannerRow()
             ProceedAffordance()
         }
@@ -217,9 +215,7 @@ private fun HeroPhotoCard(
 }
 
 @Composable
-private fun BottomActionRow(
-    onAdvance: () -> Unit,
-) {
+private fun BottomActionRow() {
     Row(
         modifier = Modifier
             .fillMaxWidth()
