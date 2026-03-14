@@ -2,16 +2,16 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: ready_for_next_phase
-stopped_at: Completed phase 01-foundation-media-access
-last_updated: "2026-03-13T20:01:00.000Z"
-last_activity: 2026-03-14 — Completed Phase 1 foundation/media access execution and verified instrumentation on emulator
+status: ready_for_next_plan
+stopped_at: Completed 02-01-PLAN.md
+last_updated: "2026-03-14T06:34:39.177Z"
+last_activity: 2026-03-14 — Completed media access, launch-session flow, and entry UI verification for Phase 1
 progress:
   total_phases: 5
   completed_phases: 1
-  total_plans: 3
-  completed_plans: 3
-  percent: 100
+  total_plans: 6
+  completed_plans: 4
+  percent: 67
 ---
 
 # Project State
@@ -25,29 +25,31 @@ See: .planning/PROJECT.md (updated 2026-03-14)
 
 ## Current Position
 
-Phase: 1 of 5 (Foundation & Media Access)
-Plan: 3 of 3 in current phase
-Status: Phase 1 complete
-Last activity: 2026-03-14 — Completed media access, launch-session flow, and entry UI verification for Phase 1
+Phase: 2 of 5 (Main Swipe Experience)
+Plan: 1 of 3 in current phase
+Status: Phase 2 in progress
+Last activity: 2026-03-14 — Completed Phase 2 Plan 01 main-screen shell and UI verification
 
-Progress: [██████████] 100%
+Progress: [███████░░░] 67%
 
 ## Performance Metrics
 
 **Velocity:**
 - Total plans completed: 3
-- Average duration: 37 min
-- Total execution time: 1h 51m
+- Average duration: 29 min
+- Total execution time: 1h 57m
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
 | 1 | 3 | 1h 51m | 37 min |
+| 2 | 1 | 6 min | 6 min |
 
 **Recent Trend:**
-- Last 5 plans: 01-01 (38 min), 01-02 (32 min), 01-03 (41 min)
-- Trend: Stable
+- Last 5 plans: 01-01 (38 min), 01-02 (32 min), 01-03 (41 min), 02-01 (6 min)
+- Trend: Faster after foundation setup
+| Phase 02-main-swipe-experience P01 | 6 min | 3 tasks | 6 files |
 
 ## Accumulated Context
 
@@ -69,6 +71,9 @@ Recent decisions affecting current work:
 - Phase 1 Plan 02: Filter hidden, trashed, pending, and zero-byte rows before launch-session generation consumes local photos
 - Phase 1 Plan 03: Represent ready state as a LaunchSession so the active batch and current index survive configuration changes
 - Phase 1 Plan 03: Upgrade AndroidX test runner/JUnit/Espresso to current stable versions so Compose instrumentation works on API 36.1
+- [Phase 02-main-swipe-experience]: Adapt Phase 2 UI from LaunchSession instead of adding a separate ViewModel before swipe mutations.
+- [Phase 02-main-swipe-experience]: Keep main-screen fidelity tuning in MainScreenTokens rather than scattering literals across composables.
+- [Phase 02-main-swipe-experience]: Use Coil Compose for content-uri hero and thumbnail rendering on the Phase 2 main screen.
 
 ### Pending Todos
 
@@ -77,10 +82,10 @@ None yet.
 ### Blockers/Concerns
 
 - Validate delete-flow behavior on at least one real Android device, not only emulator
-- Phase 2 still needs the screenshot-faithful swipe surface and gesture behavior from `main.jpg`
+- Phase 2 still needs thumbnail/current-card polish and swipe gesture behavior from `main.jpg`
 
 ## Session Continuity
 
-Last session: 2026-03-13T20:01:00.000Z
-Stopped at: Completed phase 01-foundation-media-access
+Last session: 2026-03-14T06:34:39.175Z
+Stopped at: Completed 02-01-PLAN.md
 Resume file: None
