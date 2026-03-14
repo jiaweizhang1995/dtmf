@@ -2,16 +2,16 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: ready_for_phase_3_context
-stopped_at: Completed Phase 2 gap closure 02-04; Phase 3 context/planning is next
-last_updated: "2026-03-14T16:13:28.000Z"
-last_activity: 2026-03-14 — Completed 02-04 and reclosed Phase 2 after hero-photo/proceed gap fixes
+status: completed
+stopped_at: Completed 03-01-PLAN.md
+last_updated: "2026-03-14T16:55:35.014Z"
+last_activity: 2026-03-15 — Completed 03-01 undo/session-control behavior for the main swipe flow
 progress:
   total_phases: 5
   completed_phases: 2
   total_plans: 15
-  completed_plans: 7
-  percent: 47
+  completed_plans: 8
+  percent: 53
 ---
 
 # Project State
@@ -21,23 +21,23 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-14)
 
 **Core value:** Make bulk photo cleanup fast and low-friction without losing the safety of a final review step before permanent deletion.
-**Current focus:** Transition into Phase 3: Session Controls & Navigation
+**Current focus:** Continue Phase 3: Session Controls & Navigation with review-route handoff work
 
 ## Current Position
 
 Phase: 3 of 5 (Session Controls & Navigation)
-Plan: 0 of 2 complete in current phase
-Status: Phase 2 complete; Phase 3 awaiting context discussion
-Last activity: 2026-03-14 — Executed 02-04 to fix hero-photo binding and bottom-right proceed treatment
+Plan: 1 of 2 complete in current phase
+Status: Phase 3 in progress; 03-01 complete and 03-02 is next
+Last activity: 2026-03-15 — Executed 03-01 to add undo/session-control behavior and proceed state semantics
 
-Progress: [█████░░░░░] 47%
+Progress: [█████░░░░░] 53%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 7
-- Average duration: 24 min
-- Total execution time: 2h 50m
+- Total plans completed: 8
+- Average duration: 26 min
+- Total execution time: 3h 27m
 
 **By Phase:**
 
@@ -45,11 +45,13 @@ Progress: [█████░░░░░] 47%
 |-------|-------|-------|----------|
 | 1 | 3 | 1h 51m | 37 min |
 | 2 | 4 | interrupted/resumed + 53 min | interrupted/resumed |
+| 3 | 1 | 37 min | 37 min |
 
 **Recent Trend:**
-- Last 5 plans: 01-03 (41 min), 02-01 (interrupted/resumed), 02-02 (10 min), 02-03 (10 min), 02-04 (33 min)
+- Last 5 plans: 02-01 (interrupted/resumed), 02-02 (10 min), 02-03 (10 min), 02-04 (33 min), 03-01 (37 min)
 - Trend: Stable
 | Phase 02-main-swipe-experience P04 | 33 min | 3 tasks | 10 files |
+| Phase 03-session-controls-navigation P01 | 37 min | 3 tasks | 9 files |
 
 ## Accumulated Context
 
@@ -83,6 +85,9 @@ Recent decisions affecting current work:
 - [Phase 02-main-swipe-experience]: UAT reopened Phase 2 because the hero card is not showing the actual active image and the bottom-right affordance still needs the approved blue `Proceed` treatment.
 - [Phase 02-main-swipe-experience]: Rebuilt Phase 2 around one canonical active-photo projection so hero content, metadata, and thumbnail highlighting stay synchronized through swipe progression.
 - [Phase 02-main-swipe-experience]: Replaced the stale `PREMIUM` badge with a blue `Proceed` affordance while keeping proceed behavior presentational until Phase 3.
+- [Phase 03-session-controls-navigation]: Stored previousIndex in SwipeDecision so undo can restore the active card and clear terminal completion deterministically.
+- [Phase 03-session-controls-navigation]: Moved proceed eligibility and messaging into MainUiState so screen tests assert the Phase 3 contract without recomputing state in composables.
+- [Phase 03-session-controls-navigation]: Replaced the obsolete main-route advance callback with a proceed intent seam that later navigation work can consume directly.
 
 ### Pending Todos
 
@@ -91,10 +96,10 @@ None yet.
 ### Blockers/Concerns
 
 - Validate delete-flow behavior on at least one real Android device, not only emulator
-- Phase 3 still needs context capture before planning because no `03-CONTEXT.md` exists yet
+- Phase 3 navigation into review is still pending in `03-02`; current proceed behavior is stateful but intentionally non-navigating
 
 ## Session Continuity
 
-Last session: 2026-03-14T06:59:31.536Z
-Stopped at: Completed Phase 2 gap closure 02-04 and reclosed the phase
+Last session: 2026-03-14T16:55:34.996Z
+Stopped at: Completed 03-01-PLAN.md
 Resume file: None
