@@ -11,7 +11,8 @@ fun MainRoute(
     onAdvance: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val uiState = remember(session) { MainUiState.fromSession(session) }
+    val presentationState = remember(session) { PhotoPresentationMapper.map(session) }
+    val uiState = remember(presentationState) { MainUiState.fromPresentation(presentationState) }
 
     MainScreen(
         uiState = uiState,
