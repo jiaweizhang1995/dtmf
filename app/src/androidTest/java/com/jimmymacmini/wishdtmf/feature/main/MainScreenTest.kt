@@ -51,6 +51,7 @@ class MainScreenTest {
         composeRule.onNodeWithTag(MainScreenTags.ProceedAffordance).assertIsDisplayed()
         composeRule.onNodeWithTag(MainScreenTags.UndoAction).assertIsNotEnabled()
         composeRule.onNodeWithTag(MainScreenTags.ProceedAffordance).assertIsNotEnabled()
+        composeRule.onAllNodesWithText("Swipe left on a photo to enable review").assertCountEquals(1)
         composeRule.onNodeWithText("Undo").assertIsDisplayed()
         composeRule.onNodeWithText("Skip").assertIsDisplayed()
         composeRule.onNodeWithText("Proceed").assertIsDisplayed()
