@@ -1,6 +1,7 @@
 package com.jimmymacmini.wishdtmf.feature.main
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
@@ -19,6 +20,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
@@ -37,7 +39,10 @@ object MainScreenTags {
     const val HeroPhoto = "main_hero_photo"
     const val BottomActions = "main_bottom_actions"
     const val BannerRow = "main_banner_row"
+    const val UndoAction = "main_undo_action"
     const val ProceedAffordance = "main_proceed_affordance"
+    const val ProceedMessage = "main_proceed_message"
+    const val SessionCompleteMessage = "main_session_complete_message"
 }
 
 fun thumbnailTag(photoId: Long): String = "main_thumbnail_$photoId"
@@ -74,7 +79,10 @@ fun MainScreen(
             ThumbnailStrip(photos = uiState.visibleThumbnails)
             MainMetadataRow(uiState = uiState)
             if (uiState.isSessionComplete) {
-                SessionCompleteCard(heroAspectRatio = heroAspectRatio)
+                SessionCompleteCard(
+                    heroAspectRatio = heroAspectRatio,
+                    completedMessage = uiState.completedMessage,
+                )
             } else {
                 SwipePhotoCard(
                     photo = uiState.activePhoto,
@@ -83,15 +91,25 @@ fun MainScreen(
                     onSkipPhoto = onSkipCurrentPhoto,
                 )
             }
-            BottomActionRow()
+            BottomActionRow(
+                canUndo = uiState.canUndo,
+                onUndoLastDecision = onUndoLastDecision,
+            )
             PremiumBannerRow()
-            ProceedAffordance()
+            ProceedAffordance(
+                canProceed = uiState.canProceed,
+                proceedMessage = uiState.proceedMessage,
+                onProceed = onProceed,
+            )
         }
     }
 }
 
 @Composable
-private fun SessionCompleteCard(heroAspectRatio: Float) {
+private fun SessionCompleteCard(
+    heroAspectRatio: Float,
+    completedMessage: String?,
+) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -102,11 +120,23 @@ private fun SessionCompleteCard(heroAspectRatio: Float) {
             .testTag(MainScreenTags.HeroPhoto),
         contentAlignment = Alignment.Center,
     ) {
-        Text(
-            text = "All photos reviewed",
-            color = MainScreenTokens.primaryText,
-            fontWeight = FontWeight.SemiBold,
-        )
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+        ) {
+            Text(
+                text = "All photos reviewed",
+                color = MainScreenTokens.primaryText,
+                fontWeight = FontWeight.SemiBold,
+            )
+            completedMessage?.let { message ->
+                Text(
+                    text = message,
+                    modifier = Modifier.testTag(MainScreenTags.SessionCompleteMessage),
+                    color = MainScreenTokens.secondaryText,
+                )
+            }
+        }
     }
 }
 
@@ -171,7 +201,10 @@ private fun MetadataChip(label: String) {
 }
 
 @Composable
-private fun BottomActionRow() {
+private fun BottomActionRow(
+    canUndo: Boolean,
+    onUndoLastDecision: () -> Unit,
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -189,6 +222,9 @@ private fun BottomActionRow() {
             symbol = "↶",
             label = "Undo",
             background = MainScreenTokens.neutralAction,
+            onClick = onUndoLastDecision,
+            enabled = canUndo,
+            modifier = Modifier.testTag(MainScreenTags.UndoAction),
         )
         MainActionButton(
             symbol = "»",
@@ -208,6 +244,9 @@ private fun MainActionButton(
     symbol: String,
     label: String?,
     background: Color,
+    onClick: (() -> Unit)? = null,
+    enabled: Boolean = true,
+    modifier: Modifier = Modifier,
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -215,9 +254,21 @@ private fun MainActionButton(
     ) {
         Box(
             modifier = Modifier
+                .then(modifier)
                 .size(MainScreenTokens.actionButtonSize)
                 .clip(CircleShape)
-                .background(background),
+                .background(background)
+                .alpha(if (enabled) 1f else 0.45f)
+                .then(
+                    if (onClick != null) {
+                        Modifier.clickable(
+                            enabled = enabled,
+                            onClick = onClick,
+                        )
+                    } else {
+                        Modifier
+                    }
+                ),
             contentAlignment = Alignment.Center,
         ) {
             Text(
@@ -264,26 +315,31 @@ private fun PremiumBannerRow() {
     }
 }
 
-@Suppress("UNUSED_PARAMETER")
-private fun ignoreMainControlCallbacks(
-    onUndoLastDecision: () -> Unit,
-    onProceed: () -> Unit,
-) = Unit
-
 @Composable
-private fun ProceedAffordance() {
-    Box(
+private fun ProceedAffordance(
+    canProceed: Boolean,
+    proceedMessage: String,
+    onProceed: () -> Unit,
+) {
+    Column(
         modifier = Modifier
             .fillMaxWidth()
             .padding(top = MainScreenTokens.proceedTopPadding)
-            .testTag(MainScreenTags.ProceedAffordance)
             .semantics { contentDescription = "Proceed" },
-        contentAlignment = Alignment.CenterEnd,
+        horizontalAlignment = Alignment.End,
     ) {
         Box(
             modifier = Modifier
+                .testTag(MainScreenTags.ProceedAffordance)
                 .clip(RoundedCornerShape(999.dp))
-                .background(MainScreenTokens.proceedSurface)
+                .background(
+                    if (canProceed) MainScreenTokens.proceedSurface
+                    else MainScreenTokens.proceedSurface.copy(alpha = 0.55f),
+                )
+                .clickable(
+                    enabled = canProceed,
+                    onClick = onProceed,
+                )
                 .padding(horizontal = 14.dp, vertical = 8.dp),
         ) {
             Text(
@@ -292,5 +348,11 @@ private fun ProceedAffordance() {
                 fontWeight = FontWeight.SemiBold,
             )
         }
+        Spacer(modifier = Modifier.height(6.dp))
+        Text(
+            text = proceedMessage,
+            modifier = Modifier.testTag(MainScreenTags.ProceedMessage),
+            color = MainScreenTokens.secondaryText,
+        )
     }
 }

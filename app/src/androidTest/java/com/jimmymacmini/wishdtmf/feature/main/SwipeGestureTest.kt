@@ -10,12 +10,15 @@ import androidx.compose.ui.test.SemanticsMatcher
 import androidx.compose.ui.test.assert
 import androidx.compose.ui.test.assertCountEquals
 import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.assertIsEnabled
+import androidx.compose.ui.test.assertIsNotEnabled
 import androidx.compose.ui.test.hasContentDescription
 import androidx.compose.ui.test.hasTestTag
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onAllNodesWithText
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTouchInput
 import androidx.compose.ui.test.swipeLeft
 import androidx.compose.ui.test.swipeRight
@@ -23,6 +26,7 @@ import com.jimmymacmini.wishdtmf.data.media.LocalPhoto
 import com.jimmymacmini.wishdtmf.domain.LaunchSession
 import com.jimmymacmini.wishdtmf.domain.SwipeDecisionReducer
 import com.jimmymacmini.wishdtmf.domain.SwipeSessionState
+import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
 
@@ -45,7 +49,10 @@ class SwipeGestureTest {
                     onSkipCurrentPhoto = {
                         swipeState = SwipeDecisionReducer.skipCurrentPhoto(session, swipeState)
                     },
-                    onAdvance = {},
+                    onUndoLastDecision = {
+                        swipeState = SwipeDecisionReducer.undoLastDecision(session, swipeState)
+                    },
+                    onProceed = {},
                 )
             }
         }
@@ -60,6 +67,8 @@ class SwipeGestureTest {
             useUnmergedTree = true,
         ).assertIsDisplayed()
         composeRule.onNodeWithTag(thumbnailTag(20)).assertIsDisplayed()
+        composeRule.onNodeWithTag(MainScreenTags.UndoAction).assertIsEnabled()
+        composeRule.onNodeWithTag(MainScreenTags.ProceedAffordance).assertIsEnabled()
         composeRule.onNodeWithText("Proceed").assertIsDisplayed()
         composeRule.onAllNodesWithText("PREMIUM").assertCountEquals(0)
         composeRule.onNodeWithTag(MainScreenTags.Root)
@@ -80,7 +89,10 @@ class SwipeGestureTest {
                     onSkipCurrentPhoto = {
                         swipeState = SwipeDecisionReducer.skipCurrentPhoto(session, swipeState)
                     },
-                    onAdvance = {},
+                    onUndoLastDecision = {
+                        swipeState = SwipeDecisionReducer.undoLastDecision(session, swipeState)
+                    },
+                    onProceed = {},
                 )
             }
         }
@@ -100,6 +112,87 @@ class SwipeGestureTest {
         composeRule.onNodeWithTag(thumbnailTag(30)).assertIsDisplayed()
         composeRule.onNodeWithTag(MainScreenTags.Root)
             .assert(hasStateDescription("current:30;staged:10;complete:false"))
+    }
+
+    @Test
+    fun undoAction_restoresLatestSwipeIncludingCompletedSession() {
+        composeRule.setContent {
+            var swipeState by mutableStateOf(SwipeSessionState())
+            val session = sampleSession()
+            MaterialTheme {
+                MainScreen(
+                    uiState = MainUiState.fromSession(session, swipeState),
+                    onStageCurrentPhoto = {
+                        swipeState = SwipeDecisionReducer.stageCurrentPhoto(session, swipeState)
+                    },
+                    onSkipCurrentPhoto = {
+                        swipeState = SwipeDecisionReducer.skipCurrentPhoto(session, swipeState)
+                    },
+                    onUndoLastDecision = {
+                        swipeState = SwipeDecisionReducer.undoLastDecision(session, swipeState)
+                    },
+                    onProceed = {},
+                )
+            }
+        }
+
+        composeRule.onNodeWithTag(MainScreenTags.HeroPhoto).performTouchInput { swipeLeft() }
+        composeRule.waitForIdle()
+        composeRule.onNodeWithTag(MainScreenTags.HeroPhoto).performTouchInput { swipeRight() }
+        composeRule.waitForIdle()
+        composeRule.onNodeWithTag(MainScreenTags.HeroPhoto).performTouchInput { swipeLeft() }
+        composeRule.waitForIdle()
+
+        composeRule.onNodeWithTag(MainScreenTags.SessionCompleteMessage).assertIsDisplayed()
+        composeRule.onNodeWithTag(MainScreenTags.UndoAction).assertIsEnabled()
+
+        composeRule.onNodeWithTag(MainScreenTags.UndoAction).performClick()
+        composeRule.waitForIdle()
+
+        composeRule.onNode(
+            hasTestTag(MainScreenTags.HeroPhoto) and hasContentDescription("Photo 3"),
+            useUnmergedTree = true,
+        ).assertIsDisplayed()
+        composeRule.onNodeWithTag(thumbnailTag(30)).assertIsDisplayed()
+        composeRule.onNodeWithTag(MainScreenTags.Root)
+            .assert(hasStateDescription("current:30;staged:10;complete:false"))
+    }
+
+    @Test
+    fun proceedAction_firesOnlyWhenPhotosAreStaged() {
+        var proceedClicks = 0
+
+        composeRule.setContent {
+            var swipeState by mutableStateOf(SwipeSessionState())
+            val session = sampleSession()
+            MaterialTheme {
+                MainScreen(
+                    uiState = MainUiState.fromSession(session, swipeState),
+                    onStageCurrentPhoto = {
+                        swipeState = SwipeDecisionReducer.stageCurrentPhoto(session, swipeState)
+                    },
+                    onSkipCurrentPhoto = {
+                        swipeState = SwipeDecisionReducer.skipCurrentPhoto(session, swipeState)
+                    },
+                    onUndoLastDecision = {
+                        swipeState = SwipeDecisionReducer.undoLastDecision(session, swipeState)
+                    },
+                    onProceed = { proceedClicks += 1 },
+                )
+            }
+        }
+
+        composeRule.runOnIdle {
+            assertEquals(0, proceedClicks)
+        }
+        composeRule.onNodeWithTag(MainScreenTags.ProceedAffordance).assertIsNotEnabled()
+
+        composeRule.onNodeWithTag(MainScreenTags.HeroPhoto).performTouchInput { swipeLeft() }
+        composeRule.waitForIdle()
+        composeRule.onNodeWithTag(MainScreenTags.ProceedAffordance).performClick()
+        composeRule.runOnIdle {
+            assertEquals(1, proceedClicks)
+        }
     }
 
     private fun sampleSession(): LaunchSession = LaunchSession(
