@@ -41,6 +41,8 @@ fun thumbnailTag(photoId: Long): String = "main_thumbnail_$photoId"
 @Composable
 fun MainScreen(
     uiState: MainUiState,
+    onStageCurrentPhoto: () -> Unit,
+    onSkipCurrentPhoto: () -> Unit,
     onAdvance: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -58,14 +60,40 @@ fun MainScreen(
             MainTopBar(title = uiState.title)
             ThumbnailStrip(photos = uiState.visibleThumbnails)
             MainMetadataRow(uiState = uiState)
-            CurrentPhotoCard(
-                photo = uiState.currentPhoto,
-                heroAspectRatio = heroAspectRatio,
-            )
+            if (uiState.isSessionComplete) {
+                SessionCompleteCard(heroAspectRatio = heroAspectRatio)
+            } else {
+                SwipePhotoCard(
+                    photo = uiState.currentPhoto,
+                    heroAspectRatio = heroAspectRatio,
+                    onStagePhoto = onStageCurrentPhoto,
+                    onSkipPhoto = onSkipCurrentPhoto,
+                )
+            }
             BottomActionRow()
             PremiumBannerRow()
             ProceedAffordance()
         }
+    }
+}
+
+@Composable
+private fun SessionCompleteCard(heroAspectRatio: Float) {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .heightIn(min = 280.dp)
+            .aspectRatio(heroAspectRatio)
+            .clip(RoundedCornerShape(MainScreenTokens.heroCornerRadius))
+            .background(MainScreenTokens.chromeSurface)
+            .testTag(MainScreenTags.HeroPhoto),
+        contentAlignment = Alignment.Center,
+    ) {
+        Text(
+            text = "All photos reviewed",
+            color = MainScreenTokens.primaryText,
+            fontWeight = FontWeight.SemiBold,
+        )
     }
 }
 

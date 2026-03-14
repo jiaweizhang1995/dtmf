@@ -20,6 +20,8 @@ fun MainRoute(
 
     MainScreen(
         uiState = uiState.value,
+        onStageCurrentPhoto = viewModel::stageCurrentPhoto,
+        onSkipCurrentPhoto = viewModel::skipCurrentPhoto,
         onAdvance = onAdvance,
         modifier = modifier,
     )
