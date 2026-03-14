@@ -1,7 +1,6 @@
 package com.jimmymacmini.wishdtmf.feature.main
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
@@ -55,9 +54,9 @@ fun MainScreen(
             verticalArrangement = Arrangement.spacedBy(MainScreenTokens.sectionSpacing),
         ) {
             MainTopBar(title = uiState.title)
-            MainThumbnailStrip(uiState = uiState)
+            ThumbnailStrip(photos = uiState.visibleThumbnails)
             MainMetadataRow(uiState = uiState)
-            HeroPhotoCard(
+            CurrentPhotoCard(
                 photo = uiState.currentPhoto,
                 heroAspectRatio = heroAspectRatio,
             )
@@ -97,44 +96,6 @@ private fun MainTopBar(title: String) {
 }
 
 @Composable
-private fun MainThumbnailStrip(uiState: MainUiState) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .testTag(MainScreenTags.ThumbnailRail),
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
-    ) {
-        uiState.visibleThumbnails.forEachIndexed { index, photo ->
-            Box(
-                modifier = Modifier
-                    .size(
-                        width = MainScreenTokens.thumbnailWidth,
-                        height = MainScreenTokens.thumbnailHeight,
-                    )
-                    .clip(RoundedCornerShape(10.dp))
-                    .background(MainScreenTokens.mutedSurface)
-                    .border(
-                        width = if (photo.isCurrent) 2.dp else 1.dp,
-                        color = if (photo.isCurrent) {
-                            MainScreenTokens.thumbnailBorder
-                        } else {
-                            MainScreenTokens.thumbnailInactiveBorder
-                        },
-                        shape = RoundedCornerShape(10.dp),
-                    ),
-                contentAlignment = Alignment.Center,
-            ) {
-                Text(
-                    text = "${index + 1}",
-                    color = MainScreenTokens.secondaryText,
-                    fontWeight = if (photo.isCurrent) FontWeight.SemiBold else FontWeight.Normal,
-                )
-            }
-        }
-    }
-}
-
-@Composable
 private fun MainMetadataRow(uiState: MainUiState) {
     Row(
         modifier = Modifier
@@ -161,54 +122,6 @@ private fun MetadataChip(label: String) {
     ) {
         Text(
             text = label,
-            color = MainScreenTokens.secondaryText,
-        )
-    }
-}
-
-@Composable
-private fun HeroPhotoCard(
-    photo: MainPhotoUiModel,
-    heroAspectRatio: Float,
-) {
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .heightIn(min = 280.dp)
-            .aspectRatio(heroAspectRatio)
-            .clip(RoundedCornerShape(MainScreenTokens.heroCornerRadius))
-            .background(Color(0xFF2A261F))
-            .testTag(MainScreenTags.HeroPhoto),
-    ) {
-        Box(
-            modifier = Modifier.matchParentSize(),
-        ) {
-            Box(
-                modifier = Modifier
-                    .matchParentSize()
-                    .background(MainScreenTokens.heroGradient),
-            )
-        }
-        Box(
-            modifier = Modifier
-                .align(Alignment.TopEnd)
-                .padding(12.dp)
-                .size(MainScreenTokens.heroOverlaySize)
-                .clip(RoundedCornerShape(14.dp))
-                .background(MainScreenTokens.chromeSurface.copy(alpha = 0.88f)),
-            contentAlignment = Alignment.Center,
-        ) {
-            Text(
-                text = "◪",
-                color = MainScreenTokens.primaryText,
-                fontWeight = FontWeight.Medium,
-            )
-        }
-        Text(
-            modifier = Modifier
-                .align(Alignment.BottomStart)
-                .padding(16.dp),
-            text = photo.heroContentDescription,
             color = MainScreenTokens.secondaryText,
         )
     }
