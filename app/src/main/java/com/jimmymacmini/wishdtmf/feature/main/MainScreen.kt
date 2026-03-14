@@ -22,11 +22,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 
 object MainScreenTags {
+    const val Root = "main_root"
     const val TopBar = "main_top_bar"
     const val ThumbnailRail = "main_thumbnail_rail"
     const val MetadataRow = "main_metadata_row"
@@ -49,6 +52,14 @@ fun MainScreen(
     BoxWithConstraints(
         modifier = modifier
             .background(MainScreenTokens.appBackground)
+            .testTag(MainScreenTags.Root)
+            .semantics {
+                stateDescription = buildString {
+                    append("current:${uiState.currentPhoto.id};")
+                    append("staged:${uiState.stagedPhotoIds.sorted().joinToString(",")};")
+                    append("complete:${uiState.isSessionComplete}")
+                }
+            }
             .padding(horizontal = MainScreenTokens.screenPadding, vertical = 14.dp),
     ) {
         val heroAspectRatio = if (maxHeight > 720.dp) 0.74f else 0.8f

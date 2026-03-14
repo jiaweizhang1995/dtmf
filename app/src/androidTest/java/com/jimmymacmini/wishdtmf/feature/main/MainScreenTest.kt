@@ -25,6 +25,8 @@ class MainScreenTest {
             MaterialTheme {
                 MainScreen(
                     uiState = MainUiState.fromSession(sampleSession()),
+                    onStageCurrentPhoto = {},
+                    onSkipCurrentPhoto = {},
                     onAdvance = {},
                 )
             }
@@ -50,6 +52,8 @@ class MainScreenTest {
             MaterialTheme {
                 MainScreen(
                     uiState = MainUiState.fromSession(sampleSession()),
+                    onStageCurrentPhoto = {},
+                    onSkipCurrentPhoto = {},
                     onAdvance = {},
                 )
             }
