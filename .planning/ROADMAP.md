@@ -7,7 +7,7 @@ This roadmap takes the project from Android/media foundations to a screenshot-fa
 ## Phases
 
 - [x] **Phase 1: Foundation & Media Access** - Create the Android scaffold, lifecycle-safe state model, permissions flow, and random 30-photo launch session (completed 2026-03-14)
-- [ ] **Phase 2: Main Swipe Experience** - Recreate the primary `main.jpg` screen with smooth photo viewing and left/right swipe behavior
+- [x] **Phase 2: Main Swipe Experience** - Recreate the primary `main.jpg` screen with smooth photo viewing and left/right swipe behavior (completed 2026-03-14)
 - [ ] **Phase 3: Session Controls & Navigation** - Add undo, proceed behavior, and the bridge from the swipe loop into review
 - [ ] **Phase 4: Review & Permanent Delete** - Build the `Delete-staging-area..jpg` flow and complete safe destructive deletion
 - [ ] **Phase 5: Hardening & Launch Validation** - Cover empty states, cancellation paths, device quirks, and final UI/UX validation
@@ -43,7 +43,7 @@ Plans:
 - [x] 02-01: Implement screenshot-faithful main layout, theme, and shared UI components
 - [x] 02-02: Add image rendering, thumbnail strip, and current-card presentation
 - [x] 02-03: Implement left/right swipe gestures and stage/skip state updates
-- [ ] 02-04: Close UAT gaps in hero-photo binding and bottom-right proceed treatment
+- [x] 02-04: Close UAT gaps in hero-photo binding and bottom-right proceed treatment
 
 ### Phase 3: Session Controls & Navigation
 **Goal**: Complete the main session loop with undo and a reliable handoff into review.
@@ -97,7 +97,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Foundation & Media Access | 3/3 | Complete | 2026-03-14 |
-| 2. Main Swipe Experience | 3/4 | In progress | - |
+| 2. Main Swipe Experience | 4/4 | Complete | 2026-03-14 |
 | 3. Session Controls & Navigation | 0/2 | Not started | - |
 | 4. Review & Permanent Delete | 0/3 | Not started | - |
 | 5. Hardening & Launch Validation | 0/3 | Not started | - |

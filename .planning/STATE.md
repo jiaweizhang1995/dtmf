@@ -2,16 +2,16 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: ready_for_gap_closure
-stopped_at: Planned gap closure 02-04 for reopened Phase 2 UAT issues
-last_updated: "2026-03-14T15:55:00.000Z"
-last_activity: 2026-03-14 — Reopened Phase 2 for hero-photo and proceed-treatment gap closure
+status: ready_for_phase_3_context
+stopped_at: Completed Phase 2 gap closure 02-04; Phase 3 context/planning is next
+last_updated: "2026-03-14T16:13:28.000Z"
+last_activity: 2026-03-14 — Completed 02-04 and reclosed Phase 2 after hero-photo/proceed gap fixes
 progress:
   total_phases: 5
-  completed_phases: 1
+  completed_phases: 2
   total_plans: 15
-  completed_plans: 6
-  percent: 40
+  completed_plans: 7
+  percent: 47
 ---
 
 # Project State
@@ -21,35 +21,35 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-14)
 
 **Core value:** Make bulk photo cleanup fast and low-friction without losing the safety of a final review step before permanent deletion.
-**Current focus:** Phase 2 gap closure: Main Swipe Experience
+**Current focus:** Transition into Phase 3: Session Controls & Navigation
 
 ## Current Position
 
-Phase: 2 of 5 (Main Swipe Experience)
-Plan: 3 of 4 complete in current phase
-Status: Phase 2 reopened for gap closure
-Last activity: 2026-03-14 — Planned 02-04 to fix hero-photo binding and bottom-right proceed treatment
+Phase: 3 of 5 (Session Controls & Navigation)
+Plan: 0 of 2 complete in current phase
+Status: Phase 2 complete; Phase 3 awaiting context discussion
+Last activity: 2026-03-14 — Executed 02-04 to fix hero-photo binding and bottom-right proceed treatment
 
-Progress: [████░░░░░░] 40%
+Progress: [█████░░░░░] 47%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 6
-- Average duration: 23 min
-- Total execution time: 2h 17m
+- Total plans completed: 7
+- Average duration: 24 min
+- Total execution time: 2h 50m
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
 | 1 | 3 | 1h 51m | 37 min |
-| 2 | 3 | interrupted/resumed + 20 min | interrupted/resumed |
+| 2 | 4 | interrupted/resumed + 53 min | interrupted/resumed |
 
 **Recent Trend:**
-- Last 5 plans: 01-02 (32 min), 01-03 (41 min), 02-01 (interrupted/resumed), 02-02 (10 min), 02-03 (10 min)
+- Last 5 plans: 01-03 (41 min), 02-01 (interrupted/resumed), 02-02 (10 min), 02-03 (10 min), 02-04 (33 min)
 - Trend: Stable
-| Phase 02-main-swipe-experience P03 | 10 min | 3 tasks | 9 files |
+| Phase 02-main-swipe-experience P04 | 33 min | 3 tasks | 10 files |
 
 ## Accumulated Context
 
@@ -81,6 +81,8 @@ Recent decisions affecting current work:
 - [Phase 02-main-swipe-experience]: The reducer marks the terminal photo as complete without overflowing the session index so Phase 3 can own undo and proceed behavior cleanly.
 - [Phase 02-main-swipe-experience]: MainScreen exposes test-only state semantics instead of visible debug UI so gesture tests can assert staged IDs without changing screenshot fidelity.
 - [Phase 02-main-swipe-experience]: UAT reopened Phase 2 because the hero card is not showing the actual active image and the bottom-right affordance still needs the approved blue `Proceed` treatment.
+- [Phase 02-main-swipe-experience]: Rebuilt Phase 2 around one canonical active-photo projection so hero content, metadata, and thumbnail highlighting stay synchronized through swipe progression.
+- [Phase 02-main-swipe-experience]: Replaced the stale `PREMIUM` badge with a blue `Proceed` affordance while keeping proceed behavior presentational until Phase 3.
 
 ### Pending Todos
 
@@ -89,10 +91,10 @@ None yet.
 ### Blockers/Concerns
 
 - Validate delete-flow behavior on at least one real Android device, not only emulator
-- Execute gap plan 02-04 to restore correct hero-photo binding and bottom-right proceed styling before Phase 2 can close again
+- Phase 3 still needs context capture before planning because no `03-CONTEXT.md` exists yet
 
 ## Session Continuity
 
 Last session: 2026-03-14T06:59:31.536Z
-Stopped at: Planned gap closure 02-04 for reopened Phase 2 UAT issues
+Stopped at: Completed Phase 2 gap closure 02-04 and reclosed the phase
 Resume file: None
