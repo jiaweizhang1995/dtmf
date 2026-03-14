@@ -12,8 +12,9 @@ fun MainRoute(
     onAdvance: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val sessionKey = session.photos.joinToString(separator = "-") { it.id.toString() }
     val viewModel: MainViewModel = viewModel(
-        key = session.photos.joinToString(separator = "-") { it.id.toString() },
+        key = "main-route-$sessionKey",
         factory = MainViewModel.factory(session),
     )
     val uiState = viewModel.uiState.collectAsStateWithLifecycle()
