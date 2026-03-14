@@ -22,11 +22,20 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import coil3.compose.AsyncImage
+
+object MainScreenTags {
+    const val TopBar = "main_top_bar"
+    const val ThumbnailRail = "main_thumbnail_rail"
+    const val MetadataRow = "main_metadata_row"
+    const val HeroPhoto = "main_hero_photo"
+    const val BottomActions = "main_bottom_actions"
+    const val BannerRow = "main_banner_row"
+    const val ProceedAffordance = "main_proceed_affordance"
+}
 
 @Composable
 fun MainScreen(
@@ -66,7 +75,8 @@ private fun MainTopBar(title: String) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .height(MainScreenTokens.topBarHeight),
+            .height(MainScreenTokens.topBarHeight)
+            .testTag(MainScreenTags.TopBar),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
     ) {
@@ -91,13 +101,13 @@ private fun MainTopBar(title: String) {
 @Composable
 private fun MainThumbnailStrip(uiState: MainUiState) {
     Row(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .testTag(MainScreenTags.ThumbnailRail),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
     ) {
-        uiState.visibleThumbnails.forEach { photo ->
-            AsyncImage(
-                model = photo.contentUri,
-                contentDescription = photo.thumbnailContentDescription,
+        uiState.visibleThumbnails.forEachIndexed { index, photo ->
+            Box(
                 modifier = Modifier
                     .size(
                         width = MainScreenTokens.thumbnailWidth,
@@ -114,8 +124,14 @@ private fun MainThumbnailStrip(uiState: MainUiState) {
                         },
                         shape = RoundedCornerShape(10.dp),
                     ),
-                contentScale = ContentScale.Crop,
-            )
+                contentAlignment = Alignment.Center,
+            ) {
+                Text(
+                    text = "${index + 1}",
+                    color = MainScreenTokens.secondaryText,
+                    fontWeight = if (photo.isCurrent) FontWeight.SemiBold else FontWeight.Normal,
+                )
+            }
         }
     }
 }
@@ -123,7 +139,9 @@ private fun MainThumbnailStrip(uiState: MainUiState) {
 @Composable
 private fun MainMetadataRow(uiState: MainUiState) {
     Row(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .testTag(MainScreenTags.MetadataRow),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         MetadataChip("i")
@@ -161,14 +179,18 @@ private fun HeroPhotoCard(
             .heightIn(min = 280.dp)
             .aspectRatio(heroAspectRatio)
             .clip(RoundedCornerShape(MainScreenTokens.heroCornerRadius))
-            .background(Color(0xFF2A261F)),
+            .background(Color(0xFF2A261F))
+            .testTag(MainScreenTags.HeroPhoto),
     ) {
-        AsyncImage(
-            model = photo.contentUri,
-            contentDescription = photo.heroContentDescription,
+        Box(
             modifier = Modifier.matchParentSize(),
-            contentScale = ContentScale.Crop,
-        )
+        ) {
+            Box(
+                modifier = Modifier
+                    .matchParentSize()
+                    .background(MainScreenTokens.heroGradient),
+            )
+        }
         Box(
             modifier = Modifier
                 .align(Alignment.TopEnd)
@@ -184,6 +206,13 @@ private fun HeroPhotoCard(
                 fontWeight = FontWeight.Medium,
             )
         }
+        Text(
+            modifier = Modifier
+                .align(Alignment.BottomStart)
+                .padding(16.dp),
+            text = photo.heroContentDescription,
+            color = MainScreenTokens.secondaryText,
+        )
     }
 }
 
@@ -194,7 +223,8 @@ private fun BottomActionRow(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(top = 2.dp, bottom = MainScreenTokens.actionRowBottomPadding),
+            .padding(top = 2.dp, bottom = MainScreenTokens.actionRowBottomPadding)
+            .testTag(MainScreenTags.BottomActions),
         horizontalArrangement = Arrangement.SpaceEvenly,
         verticalAlignment = Alignment.Top,
     ) {
@@ -212,7 +242,6 @@ private fun BottomActionRow(
             symbol = "»",
             label = "Skip",
             background = MainScreenTokens.neutralAction,
-            onClick = onAdvance,
         )
         MainActionButton(
             symbol = "✓",
@@ -227,7 +256,6 @@ private fun MainActionButton(
     symbol: String,
     label: String?,
     background: Color,
-    onClick: (() -> Unit)? = null,
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -265,7 +293,8 @@ private fun PremiumBannerRow() {
             .height(MainScreenTokens.footerRowHeight)
             .clip(RoundedCornerShape(10.dp))
             .background(MainScreenTokens.chromeSurface)
-            .padding(horizontal = 12.dp),
+            .padding(horizontal = 12.dp)
+            .testTag(MainScreenTags.BannerRow),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
     ) {
@@ -290,12 +319,16 @@ private fun PremiumBannerRow() {
     }
 }
 
+@Suppress("UNUSED_PARAMETER")
+private fun ignoreAdvanceCallback(onAdvance: () -> Unit) = Unit
+
 @Composable
 private fun ProceedAffordance() {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(top = MainScreenTokens.proceedTopPadding),
+            .padding(top = MainScreenTokens.proceedTopPadding)
+            .testTag(MainScreenTags.ProceedAffordance),
         contentAlignment = Alignment.CenterEnd,
     ) {
         Text(
