@@ -1,5 +1,6 @@
 package com.jimmymacmini.wishdtmf.feature.main
 
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
@@ -31,4 +32,11 @@ object MainScreenTokens {
     val neutralAction = Color(0xFF232323)
     val proceedText = Color(0xFF3D8791)
     val premiumAccent = Color(0xFFD1AE5E)
+    val heroGradient = Brush.verticalGradient(
+        colors = listOf(
+            Color(0xFF5A4A35),
+            Color(0xFF352C22),
+            Color(0xFF181512),
+        ),
+    )
 }
