@@ -12,10 +12,14 @@ data class MainPresentationState(
     val currentPositionLabel: String,
     val fileSizeLabel: String,
     val mimeTypeLabel: String,
+    val activePhotoIndex: Int,
     val photos: List<MainPhotoPresentation>,
-    val currentPhoto: MainPhotoPresentation,
+    val activePhoto: MainPhotoPresentation,
     val visibleThumbnails: List<MainPhotoPresentation>,
-)
+) {
+    val currentPhoto: MainPhotoPresentation
+        get() = activePhoto
+}
 
 data class MainPhotoPresentation(
     val id: Long,
@@ -27,29 +31,31 @@ data class MainPhotoPresentation(
 
 object PhotoPresentationMapper {
     fun map(session: LaunchSession): MainPresentationState {
+        val activePhotoIndex = session.currentIndex
         val photoItems = session.photos.mapIndexed { index, photo ->
             MainPhotoPresentation(
                 id = photo.id,
                 contentUri = photo.contentUri,
                 thumbnailContentDescription = "Thumbnail ${index + 1}",
                 heroContentDescription = "Photo ${index + 1}",
-                isCurrent = index == session.currentIndex,
+                isCurrent = index == activePhotoIndex,
             )
         }
-        val currentPhoto = photoItems[session.currentIndex]
-        val sourcePhoto = session.photos[session.currentIndex]
+        val activePhoto = photoItems[activePhotoIndex]
+        val sourcePhoto = session.photos[activePhotoIndex]
 
         return MainPresentationState(
             title = buildTitle(sourcePhoto),
-            currentPositionLabel = "${session.currentIndex + 1}/${session.photoCount}",
+            currentPositionLabel = "${activePhotoIndex + 1}/${session.photoCount}",
             fileSizeLabel = sourcePhoto.sizeBytes.toReadableFileSize(),
             mimeTypeLabel = sourcePhoto.mimeType
                 ?.substringAfterLast('/')
                 ?.uppercase(Locale.US)
                 ?: "JPG",
+            activePhotoIndex = activePhotoIndex,
             photos = photoItems,
-            currentPhoto = currentPhoto,
-            visibleThumbnails = deriveThumbnailWindow(photoItems, session.currentIndex),
+            activePhoto = activePhoto,
+            visibleThumbnails = deriveThumbnailWindow(photoItems, activePhotoIndex),
         )
     }
 

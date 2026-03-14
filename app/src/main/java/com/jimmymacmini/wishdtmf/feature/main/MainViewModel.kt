@@ -24,11 +24,19 @@ class MainViewModel(
 
     private val swipeState = MutableStateFlow(savedStateHandle.restoreSwipeState(session))
     val uiState: StateFlow<MainUiState> = swipeState
-        .map { MainUiState.fromSession(session, it) }
+        .map { swipeSessionState ->
+            MainUiState.fromSession(
+                session = session.withCurrentIndex(swipeSessionState.currentIndex),
+                swipeState = swipeSessionState,
+            )
+        }
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(stopTimeoutMillis = 5_000),
-            initialValue = MainUiState.fromSession(session, swipeState.value),
+            initialValue = MainUiState.fromSession(
+                session = session.withCurrentIndex(swipeState.value.currentIndex),
+                swipeState = swipeState.value,
+            ),
         )
 
     fun stageCurrentPhoto() {

@@ -9,13 +9,17 @@ data class MainUiState(
     val currentPositionLabel: String,
     val fileSizeLabel: String,
     val mimeTypeLabel: String,
+    val activePhotoIndex: Int,
     val photos: List<MainPhotoUiModel>,
-    val currentPhoto: MainPhotoUiModel,
+    val activePhoto: MainPhotoUiModel,
     val visibleThumbnails: List<MainPhotoUiModel>,
     val stagedPhotoIds: Set<Long>,
     val lastDecision: SwipeDecision?,
     val isSessionComplete: Boolean,
 ) {
+    val currentPhoto: MainPhotoUiModel
+        get() = activePhoto
+
     companion object {
         fun fromSession(
             session: LaunchSession,
@@ -31,14 +35,18 @@ data class MainUiState(
             presentation: MainPresentationState,
             swipeState: SwipeSessionState = SwipeSessionState(),
         ): MainUiState {
+            val photos = presentation.photos.map { it.toUiModel() }
             return MainUiState(
                 title = presentation.title,
                 currentPositionLabel = presentation.currentPositionLabel,
                 fileSizeLabel = presentation.fileSizeLabel,
                 mimeTypeLabel = presentation.mimeTypeLabel,
-                photos = presentation.photos.map { it.toUiModel() },
-                currentPhoto = presentation.currentPhoto.toUiModel(),
-                visibleThumbnails = presentation.visibleThumbnails.map { it.toUiModel() },
+                activePhotoIndex = presentation.activePhotoIndex,
+                photos = photos,
+                activePhoto = photos[presentation.activePhotoIndex],
+                visibleThumbnails = presentation.visibleThumbnails.map { visiblePhoto ->
+                    photos.first { it.id == visiblePhoto.id }
+                },
                 stagedPhotoIds = swipeState.stagedPhotoIds,
                 lastDecision = swipeState.lastDecision,
                 isSessionComplete = swipeState.isSessionComplete,
