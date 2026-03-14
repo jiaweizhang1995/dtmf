@@ -47,7 +47,8 @@ fun MainScreen(
     uiState: MainUiState,
     onStageCurrentPhoto: () -> Unit,
     onSkipCurrentPhoto: () -> Unit,
-    onAdvance: () -> Unit,
+    onUndoLastDecision: () -> Unit,
+    onProceed: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     BoxWithConstraints(
@@ -264,7 +265,10 @@ private fun PremiumBannerRow() {
 }
 
 @Suppress("UNUSED_PARAMETER")
-private fun ignoreAdvanceCallback(onAdvance: () -> Unit) = Unit
+private fun ignoreMainControlCallbacks(
+    onUndoLastDecision: () -> Unit,
+    onProceed: () -> Unit,
+) = Unit
 
 @Composable
 private fun ProceedAffordance() {
