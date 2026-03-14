@@ -131,25 +131,6 @@ class LaunchStateTest {
     }
 
     @Test
-    fun `advance to next photo preserves the active session and increments index`() = runTest(dispatcher) {
-        val viewModel = buildViewModel(
-            photoRepository = FakePhotoRepository(
-                photos = List(3) { index ->
-                    LocalPhoto(id = index.toLong(), contentUri = "content://photo/$index")
-                },
-            ),
-        )
-
-        viewModel.onPermissionResult(granted = true)
-        dispatcher.scheduler.advanceUntilIdle()
-        viewModel.advanceToNextPhoto()
-
-        val state = viewModel.uiState.value as LaunchUiState.Ready
-        assertEquals(1, state.session.currentIndex)
-        assertEquals(3, state.session.photoCount)
-    }
-
-    @Test
     fun `saved state ignores unknown kinds and falls back to permission state`() {
         val savedState = SavedStateHandle(
             mapOf(

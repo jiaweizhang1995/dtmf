@@ -55,7 +55,6 @@ fun WishDtmfApp(
                     uiState = uiState,
                     onGrantAccess = permissionController.requestPermission,
                     onRetry = launchViewModel::retry,
-                    onProceedToReview = {},
                 )
             }
         }
