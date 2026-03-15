@@ -129,6 +129,7 @@ None yet.
 | 4 | remove organise into albums section and black proceed button keep only blue proceed button | 2026-03-15 | 7d4d8d8 | [4-remove-organise-into-albums-section-and-](./quick/4-remove-organise-into-albums-section-and-/) |
 | 5 | remove swipe-left hint text and make Proceed button centered/larger | 2026-03-15 | 6d97a5a | [5-remove-swipe-left-hint-text-and-make-pro](./quick/5-remove-swipe-left-hint-text-and-make-pro/) |
 | 6 | fix white blank space at bottom of screen (dark navigation bar) | 2026-03-15 | 4226bfe | [6-fix-white-blank-space-at-bottom-of-scree](./quick/6-fix-white-blank-space-at-bottom-of-scree/) |
+| 7 | white bottom bar still showing — set Scaffold containerColor transparent | 2026-03-15 | a8e5f3a | [7-white-bottom-bar-still-showing-investiga](./quick/7-white-bottom-bar-still-showing-investiga/) |
 
 ## Session Continuity
 
