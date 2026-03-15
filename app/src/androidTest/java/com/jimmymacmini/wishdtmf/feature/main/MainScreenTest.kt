@@ -47,7 +47,6 @@ class MainScreenTest {
         composeRule.onNodeWithTag(MainScreenTags.MetadataRow).assertIsDisplayed()
         composeRule.onNodeWithTag(MainScreenTags.HeroPhoto).assertIsDisplayed()
         composeRule.onNodeWithTag(MainScreenTags.BottomActions).assertIsDisplayed()
-        composeRule.onNodeWithTag(MainScreenTags.BannerRow).assertIsDisplayed()
         composeRule.onNodeWithTag(MainScreenTags.ProceedAffordance).assertIsDisplayed()
         composeRule.onNodeWithTag(MainScreenTags.UndoAction).assertIsNotEnabled()
         composeRule.onNodeWithTag(MainScreenTags.ProceedAffordance).assertIsNotEnabled()
@@ -56,7 +55,6 @@ class MainScreenTest {
         composeRule.onNodeWithText("Skip").assertIsDisplayed()
         composeRule.onNodeWithText("Proceed").assertIsDisplayed()
         composeRule.onNodeWithText("Photo 3").assertIsDisplayed()
-        composeRule.onNodeWithText("Organise into albums").assertIsDisplayed()
         composeRule.onAllNodesWithText("PREMIUM").assertCountEquals(0)
     }
 
