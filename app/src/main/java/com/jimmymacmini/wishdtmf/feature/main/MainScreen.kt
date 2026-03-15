@@ -16,8 +16,19 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -67,15 +78,22 @@ fun MainScreen(
             .padding(horizontal = MainScreenTokens.screenPadding, vertical = 14.dp),
     ) {
         val heroAspectRatio = if (maxHeight > 720.dp) 0.74f else 0.8f
+        var showThumbnails by remember { mutableStateOf(true) }
 
         Column(
             modifier = Modifier.fillMaxWidth(),
             verticalArrangement = Arrangement.spacedBy(MainScreenTokens.sectionSpacing),
         ) {
-            ThumbnailStrip(
-                photos = uiState.photos,
-                activeIndex = uiState.activePhotoIndex,
+            MainTopBar(
+                showThumbnails = showThumbnails,
+                onToggleThumbnails = { showThumbnails = !showThumbnails },
             )
+            if (showThumbnails) {
+                ThumbnailStrip(
+                    photos = uiState.photos,
+                    activeIndex = uiState.activePhotoIndex,
+                )
+            }
             MainMetadataRow(uiState = uiState)
             if (uiState.isSessionComplete) {
                 SessionCompleteCard(
@@ -132,6 +150,53 @@ private fun SessionCompleteCard(
                     text = message,
                     modifier = Modifier.testTag(MainScreenTags.SessionCompleteMessage),
                     color = MainScreenTokens.secondaryText,
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun MainTopBar(
+    showThumbnails: Boolean,
+    onToggleThumbnails: () -> Unit,
+) {
+    var menuExpanded by remember { mutableStateOf(false) }
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(MainScreenTokens.topBarHeight)
+            .background(Color.Black),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Text(
+            text = "DtMF",
+            color = Color(0xFFFFD600),
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier.padding(start = 4.dp),
+        )
+        Box {
+            IconButton(onClick = { menuExpanded = true }) {
+                Icon(
+                    imageVector = Icons.Default.MoreVert,
+                    contentDescription = "More options",
+                    tint = MainScreenTokens.primaryText,
+                )
+            }
+            DropdownMenu(
+                expanded = menuExpanded,
+                onDismissRequest = { menuExpanded = false },
+            ) {
+                DropdownMenuItem(
+                    text = { Text("Enable thumbnails") },
+                    onClick = {
+                        onToggleThumbnails()
+                        menuExpanded = false
+                    },
+                    trailingIcon = if (showThumbnails) {
+                        { Icon(Icons.Default.Check, contentDescription = null) }
+                    } else null,
                 )
             }
         }
