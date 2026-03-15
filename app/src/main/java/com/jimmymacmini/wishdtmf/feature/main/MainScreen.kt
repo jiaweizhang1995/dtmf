@@ -70,7 +70,6 @@ fun MainScreen(
         modifier = modifier
             .background(MainScreenTokens.appBackground)
             .statusBarsPadding()
-            .navigationBarsPadding()
             .testTag(MainScreenTags.Root)
             .semantics {
                 stateDescription = buildString {
@@ -328,6 +327,7 @@ private fun ProceedAffordance(
         modifier = Modifier
             .fillMaxWidth()
             .padding(top = MainScreenTokens.proceedTopPadding)
+            .navigationBarsPadding()
             .semantics { contentDescription = "Proceed" },
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
