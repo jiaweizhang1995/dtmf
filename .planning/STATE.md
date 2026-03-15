@@ -3,9 +3,9 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Completed quick task 15 (auto tasks); awaiting human verify checkpoint
-last_updated: "2026-03-16T05:00:00Z"
-last_activity: "2026-03-16 — Completed quick task 15: move Proceed button to top bar, remove bottom ProceedAffordance"
+stopped_at: Completed quick task 16 (auto tasks); awaiting human verify checkpoint
+last_updated: "2026-03-15T16:29:11.648Z"
+last_activity: "2026-03-16 — Completed quick tasks 12-15: status bar insets app-wide, moved Proceed button to top bar"
 progress:
   total_phases: 5
   completed_phases: 5
@@ -115,6 +115,7 @@ Recent decisions affecting current work:
 - [Phase quick-13]: navigationBarsPadding() placed immediately after statusBarsPadding() in MainScreen BoxWithConstraints modifier chain — mirrors the top-edge pattern from quick-12; no separate bottom padding needed
 - [Phase quick-14]: navigationBarsPadding() must be consumed at ProceedAffordance Column level, not root BoxWithConstraints — inset on root reduces available layout height and pushes Proceed button off-screen
 - [Phase quick-15]: Proceed button moved into MainTopBar as Material3 Button (pill shape, blue bg, white text); testTag preserved so all existing test assertions remain valid without changes
+- [Phase quick-16]: quick-16: MainTopBar Row background uses MainScreenTokens.appBackground (#111111) instead of Color.Black (#000000) to match screen root background
 
 ### Pending Todos
 
@@ -145,6 +146,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-16T05:00:00.000Z
-Stopped at: Completed quick task 15 (auto tasks); awaiting human verify checkpoint
+Last session: 2026-03-15T16:29:11.645Z
+Stopped at: Completed quick task 16 (auto tasks); awaiting human verify checkpoint
 Resume file: None
