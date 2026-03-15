@@ -28,7 +28,7 @@ See: .planning/PROJECT.md (updated 2026-03-14)
 Phase: 4 of 5 (Review & Permanent Delete)
 Plan: 2 of 3 complete in current phase
 Status: Phase 4 in progress; 04-03 is next
-Last activity: 2026-03-15 — Completed quick task 8: remove icon in top-right corner and fix image cropping
+Last activity: 2026-03-15 — Completed quick task 11: in the review page. Remove "No, i want to move to trash" and "Decide Later" Button
 
 Progress: [█████████░] 92%
 
