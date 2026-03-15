@@ -173,4 +173,7 @@ private class FakePhotoRepository(
 
     override suspend fun loadReviewPhotos(orderedIds: List<Long>): List<com.jimmymacmini.wishdtmf.data.media.ReviewPhoto> =
         emptyList()
+
+    override suspend fun resolveUrisForDelete(photoIds: Set<Long>): List<android.net.Uri> =
+        emptyList()
 }
