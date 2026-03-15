@@ -3,9 +3,9 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Completed quick task 16 (auto tasks); awaiting human verify checkpoint
-last_updated: "2026-03-15T16:29:11.648Z"
-last_activity: "2026-03-16 — Completed quick tasks 12-15: status bar insets app-wide, moved Proceed button to top bar"
+stopped_at: Completed quick task 18 (auto tasks); awaiting human verify checkpoint
+last_updated: "2026-03-16T00:00:00Z"
+last_activity: "2026-03-16 — Completed quick task 18: welcome screen with auto-permission trigger and first-launch SharedPreferences routing"
 progress:
   total_phases: 5
   completed_phases: 5
@@ -145,9 +145,10 @@ None yet.
 | 15 | Move Proceed button to top bar (left of three-dot), remove bottom ProceedAffordance | 2026-03-16 | 86afb95 | [15-move-proceed-button-to-top-bar-left-of-t](./quick/15-move-proceed-button-to-top-bar-left-of-t/) |
 | 16 | Fix top bar background color mismatch (Color.Black -> appBackground) | 2026-03-16 | a0a2649 | [16-fix-top-bar-background-color-mismatch-a](./quick/16-fix-top-bar-background-color-mismatch-a/) |
 | 17 | Fix thumbnail yellow border not showing — move border before clip in ThumbnailBox | 2026-03-16 | 09b9ed6 | ✓ approved | [17-fix-thumbnail-yellow-border-not-showing-](./quick/17-fix-thumbnail-yellow-border-not-showing-/) |
+| 18 | Create welcome screen with auto-permission trigger and first-launch SharedPreferences routing | 2026-03-16 | 292c44c | awaiting verify | [18-create-welcome-screen-with-photo-library](./quick/18-create-welcome-screen-with-photo-library/) |
 
 ## Session Continuity
 
 Last session: 2026-03-16T00:00:00Z
-Stopped at: Completed quick task 17 (fix thumbnail yellow border — border before clip)
+Stopped at: Completed quick task 18 auto tasks; awaiting human verify for welcome screen
 Resume file: None
