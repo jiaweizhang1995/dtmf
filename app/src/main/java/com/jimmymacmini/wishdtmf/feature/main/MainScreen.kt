@@ -99,7 +99,6 @@ fun MainScreen(
             )
             ProceedAffordance(
                 canProceed = uiState.canProceed,
-                proceedMessage = uiState.proceedMessage,
                 onProceed = onProceed,
             )
         }
@@ -274,7 +273,6 @@ private fun MainActionButton(
 @Composable
 private fun ProceedAffordance(
     canProceed: Boolean,
-    proceedMessage: String,
     onProceed: () -> Unit,
 ) {
     Column(
@@ -282,7 +280,7 @@ private fun ProceedAffordance(
             .fillMaxWidth()
             .padding(top = MainScreenTokens.proceedTopPadding)
             .semantics { contentDescription = "Proceed" },
-        horizontalAlignment = Alignment.End,
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Box(
             modifier = Modifier
@@ -296,7 +294,7 @@ private fun ProceedAffordance(
                     enabled = canProceed,
                     onClick = onProceed,
                 )
-                .padding(horizontal = 14.dp, vertical = 8.dp),
+                .padding(horizontal = 28.dp, vertical = 14.dp),
         ) {
             Text(
                 text = "Proceed",
@@ -304,11 +302,5 @@ private fun ProceedAffordance(
                 fontWeight = FontWeight.SemiBold,
             )
         }
-        Spacer(modifier = Modifier.height(6.dp))
-        Text(
-            text = proceedMessage,
-            modifier = Modifier.testTag(MainScreenTags.ProceedMessage),
-            color = MainScreenTokens.secondaryText,
-        )
     }
 }
