@@ -28,7 +28,7 @@ See: .planning/PROJECT.md (updated 2026-03-14)
 Phase: 4 of 5 (Review & Permanent Delete)
 Plan: 2 of 3 complete in current phase
 Status: Phase 4 in progress; 04-03 is next
-Last activity: 2026-03-15 — Completed 04-02 review selection state and SavedStateHandle-backed ReviewViewModel
+Last activity: 2026-03-15 — Completed quick task 4: remove organise into albums section and black proceed button keep only blue proceed button
 
 Progress: [█████████░] 92%
 
@@ -126,6 +126,7 @@ None yet.
 | # | Description | Date | Commit | Directory |
 |---|-------------|------|--------|-----------|
 | 1 | The thumbnail section needs to be adjusted. Right now it shows up to 4 images as thumbnails. I want to change it so that all images are listed in a horizontally scrollable window. It should be possible to scroll from the first image all the way to the last from the start. When processing reaches the second image, it should immediately scroll to and focus on the thumbnail of the current image. | 2026-03-15 | 0b04025 | [1-the-thumbnail-section-needs-to-be-adjust](./quick/1-the-thumbnail-section-needs-to-be-adjust/) |
+| 4 | remove organise into albums section and black proceed button keep only blue proceed button | 2026-03-15 | 7d4d8d8 | [4-remove-organise-into-albums-section-and-](./quick/4-remove-organise-into-albums-section-and-/) |
 
 ## Session Continuity
 
