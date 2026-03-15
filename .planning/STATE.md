@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Completed 04-02-PLAN.md
-last_updated: "2026-03-15T06:54:48.516Z"
+stopped_at: Completed 04-03-PLAN.md
+last_updated: "2026-03-15T07:07:26.764Z"
 last_activity: 2026-03-15 — Completed 04-02 review selection state and SavedStateHandle-backed ReviewViewModel
 progress:
   total_phases: 5
-  completed_phases: 3
+  completed_phases: 4
   total_plans: 12
-  completed_plans: 11
+  completed_plans: 12
   percent: 92
 ---
 
@@ -55,6 +55,7 @@ Progress: [█████████░] 92%
 | Phase 03-session-controls-navigation P02 | 9 min | 3 tasks | 10 files |
 | Phase 04-review-permanent-delete P01 | 5 min | 3 tasks | 6 files |
 | Phase 04-review-permanent-delete P02 | 3 min | 3 tasks | 7 files |
+| Phase 04-review-permanent-delete P03 | 9 | 3 tasks | 11 files |
 
 ## Accumulated Context
 
@@ -98,6 +99,9 @@ Recent decisions affecting current work:
 - [Phase 04-review-permanent-delete]: All visual constants live in ReviewScreenTokens; selection affordances (check badges, teal borders) are present before toggle logic lands in plan 04-02
 - [Phase 04-review-permanent-delete]: ReviewViewModel persists selectedPhotoIds as LongArray in SavedStateHandle, intersected with resolved IDs on restoration so stale MediaStore entries are pruned automatically
 - [Phase 04-review-permanent-delete]: Review selection state is fully isolated: togglePhotoSelection mutates review-local selectedPhotoIds only; MainViewModel stagedPhotoIds remain unchanged until plan 04-03
+- [Phase 04-review-permanent-delete]: DeleteRequestCoordinator is a stateless object wrapping MediaStore.createDeleteRequest; ReviewRoute owns ActivityResultLauncher so ViewModel stays platform-free
+- [Phase 04-review-permanent-delete]: Post-delete nav relay uses SavedStateHandle.remove() on DELETED_PHOTO_IDS_KEY in main back-stack entry so stale session is cleared once on resume without repeated clearing on recompositions
+- [Phase 04-review-permanent-delete]: minSdk 30 means MediaStore.createDeleteRequest is unconditionally available — no legacy ContentResolver.delete() fallback needed
 
 ### Pending Todos
 
@@ -110,6 +114,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-15T06:54:48.514Z
-Stopped at: Completed 04-02-PLAN.md
+Last session: 2026-03-15T07:07:26.762Z
+Stopped at: Completed 04-03-PLAN.md
 Resume file: None
