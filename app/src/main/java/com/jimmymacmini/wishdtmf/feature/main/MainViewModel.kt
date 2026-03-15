@@ -63,6 +63,18 @@ class MainViewModel(
         }
     }
 
+    /**
+     * Called after the platform confirms deletion of [deletedIds].
+     *
+     * Clears the now-stale swipe session so the app cannot continue with references to
+     * deleted media. The caller is responsible for triggering a post-delete launch-session
+     * refresh (via [LaunchViewModel]) after invoking this.
+     */
+    fun onDeleteConfirmed(deletedIds: Set<Long>) {
+        val clearedState = SwipeSessionState(currentIndex = 0)
+        updateState(clearedState)
+    }
+
     private fun updateState(nextState: SwipeSessionState) {
         savedStateHandle.persistSwipeState(session, nextState)
         swipeState.value = nextState

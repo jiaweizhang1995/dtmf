@@ -6,8 +6,11 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.createSavedStateHandle
 import androidx.lifecycle.viewmodel.CreationExtras
 import com.jimmymacmini.wishdtmf.data.media.ReviewPhoto
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 
@@ -29,6 +32,9 @@ class ReviewViewModel(
 
     private val _uiState = MutableStateFlow(ReviewUiState())
     val uiState: StateFlow<ReviewUiState> = _uiState.asStateFlow()
+
+    private val _events = MutableSharedFlow<ReviewEvent>(extraBufferCapacity = 1)
+    val events: SharedFlow<ReviewEvent> = _events.asSharedFlow()
 
     /**
      * Called by [ReviewRoute] once MediaStore resolution completes.
@@ -84,6 +90,33 @@ class ReviewViewModel(
         }
     }
 
+    /**
+     * Called when the user taps "Delete forever". Emits a [ReviewEvent.RequestDelete] event
+     * carrying the currently selected photo IDs so the route/nav layer can launch the platform
+     * delete confirmation flow.
+     *
+     * Does nothing when the selection is empty.
+     */
+    fun onDeleteForever() {
+        val selectedIds = _uiState.value.selectedPhotoIds
+        if (selectedIds.isNotEmpty()) {
+            _events.tryEmit(ReviewEvent.RequestDelete(selectedIds))
+        }
+    }
+
+    /**
+     * Called by the route layer after the platform delete confirmation returns success.
+     *
+     * Marks the current state as delete-complete so the route can navigate away from review
+     * into a fresh post-delete launch session.
+     *
+     * Does NOT mutate [MainViewModel] directly — that cleanup is coordinated by the caller
+     * (the route/nav layer passing the confirmed IDs back up to [MainViewModel]).
+     */
+    fun onDeleteConfirmed(deletedIds: Set<Long>) {
+        _events.tryEmit(ReviewEvent.DeleteConfirmed(deletedIds))
+    }
+
     companion object {
         fun factory(): ViewModelProvider.Factory {
             return object : ViewModelProvider.Factory {
@@ -102,3 +135,22 @@ class ReviewViewModel(
 }
 
 private const val KEY_SELECTED_IDS = "review_selected_ids"
+
+/**
+ * One-shot events emitted by [ReviewViewModel] for the route/nav layer to consume.
+ */
+sealed interface ReviewEvent {
+    /**
+     * Emitted when the user confirms "Delete forever" with a non-empty selection.
+     * The route layer should resolve these IDs to URIs via the repository and launch
+     * the platform delete confirmation flow.
+     */
+    data class RequestDelete(val selectedPhotoIds: Set<Long>) : ReviewEvent
+
+    /**
+     * Emitted after the platform delete confirmation returns success.
+     * The route/nav layer should use this to clear the stale swipe session and
+     * navigate into a fresh post-delete launch session.
+     */
+    data class DeleteConfirmed(val deletedPhotoIds: Set<Long>) : ReviewEvent
+}

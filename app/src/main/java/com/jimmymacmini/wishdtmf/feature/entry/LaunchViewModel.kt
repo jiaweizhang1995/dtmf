@@ -48,6 +48,17 @@ class LaunchViewModel(
         }
     }
 
+    /**
+     * Rebuild a fresh launch session from the remaining media library after successful deletion.
+     *
+     * Called by [AppShell] (via a callback seam passed into [AppNavGraph]) when the review flow
+     * reports confirmed deletion. Treats the post-delete rebuild exactly like an initial batch
+     * load so the app exits the stale swipe session and starts fresh.
+     */
+    fun refreshAfterDelete() {
+        loadBatch()
+    }
+
     private fun loadBatch() {
         updateState(LaunchUiState.LoadingBatch)
         viewModelScope.launch {
