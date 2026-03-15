@@ -14,13 +14,15 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
@@ -37,7 +39,6 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.text.font.FontWeight
@@ -90,6 +91,8 @@ fun MainScreen(
             MainTopBar(
                 showThumbnails = showThumbnails,
                 onToggleThumbnails = { showThumbnails = !showThumbnails },
+                canProceed = uiState.canProceed,
+                onProceed = onProceed,
             )
             if (showThumbnails) {
                 ThumbnailStrip(
@@ -115,10 +118,6 @@ fun MainScreen(
                 canUndo = uiState.canUndo,
                 onUndoLastDecision = onUndoLastDecision,
                 onSkipCurrentPhoto = onSkipCurrentPhoto,
-            )
-            ProceedAffordance(
-                canProceed = uiState.canProceed,
-                onProceed = onProceed,
             )
         }
     }
@@ -163,6 +162,8 @@ private fun SessionCompleteCard(
 private fun MainTopBar(
     showThumbnails: Boolean,
     onToggleThumbnails: () -> Unit,
+    canProceed: Boolean,
+    onProceed: () -> Unit,
 ) {
     var menuExpanded by remember { mutableStateOf(false) }
     Row(
@@ -179,28 +180,43 @@ private fun MainTopBar(
             fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(start = 4.dp),
         )
-        Box {
-            IconButton(onClick = { menuExpanded = true }) {
-                Icon(
-                    imageVector = Icons.Default.MoreVert,
-                    contentDescription = "More options",
-                    tint = MainScreenTokens.primaryText,
-                )
-            }
-            DropdownMenu(
-                expanded = menuExpanded,
-                onDismissRequest = { menuExpanded = false },
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Button(
+                onClick = onProceed,
+                enabled = canProceed,
+                shape = RoundedCornerShape(999.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = MainScreenTokens.proceedSurface,
+                    contentColor = Color.White,
+                ),
+                contentPadding = PaddingValues(horizontal = 16.dp, vertical = 6.dp),
+                modifier = Modifier.testTag(MainScreenTags.ProceedAffordance),
             ) {
-                DropdownMenuItem(
-                    text = { Text("Enable thumbnails") },
-                    onClick = {
-                        onToggleThumbnails()
-                        menuExpanded = false
-                    },
-                    trailingIcon = if (showThumbnails) {
-                        { Icon(Icons.Default.Check, contentDescription = null) }
-                    } else null,
-                )
+                Text(text = "Proceed", fontWeight = FontWeight.SemiBold)
+            }
+            Box {
+                IconButton(onClick = { menuExpanded = true }) {
+                    Icon(
+                        imageVector = Icons.Default.MoreVert,
+                        contentDescription = "More options",
+                        tint = MainScreenTokens.primaryText,
+                    )
+                }
+                DropdownMenu(
+                    expanded = menuExpanded,
+                    onDismissRequest = { menuExpanded = false },
+                ) {
+                    DropdownMenuItem(
+                        text = { Text("Enable thumbnails") },
+                        onClick = {
+                            onToggleThumbnails()
+                            menuExpanded = false
+                        },
+                        trailingIcon = if (showThumbnails) {
+                            { Icon(Icons.Default.Check, contentDescription = null) }
+                        } else null,
+                    )
+                }
             }
         }
     }
@@ -318,38 +334,3 @@ private fun MainActionButton(
     }
 }
 
-@Composable
-private fun ProceedAffordance(
-    canProceed: Boolean,
-    onProceed: () -> Unit,
-) {
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = MainScreenTokens.proceedTopPadding)
-            .navigationBarsPadding()
-            .semantics { contentDescription = "Proceed" },
-        horizontalAlignment = Alignment.CenterHorizontally,
-    ) {
-        Box(
-            modifier = Modifier
-                .testTag(MainScreenTags.ProceedAffordance)
-                .clip(RoundedCornerShape(999.dp))
-                .background(
-                    if (canProceed) MainScreenTokens.proceedSurface
-                    else MainScreenTokens.proceedSurface.copy(alpha = 0.55f),
-                )
-                .clickable(
-                    enabled = canProceed,
-                    onClick = onProceed,
-                )
-                .padding(horizontal = 28.dp, vertical = 14.dp),
-        ) {
-            Text(
-                text = "Proceed",
-                color = MainScreenTokens.proceedText,
-                fontWeight = FontWeight.SemiBold,
-            )
-        }
-    }
-}
