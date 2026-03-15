@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Completed 04-03-PLAN.md
-last_updated: "2026-03-15T07:11:40.783Z"
+stopped_at: Completed 05-01-PLAN.md
+last_updated: "2026-03-15T08:08:36.764Z"
 last_activity: 2026-03-15 — Completed 04-02 review selection state and SavedStateHandle-backed ReviewViewModel
 progress:
   total_phases: 5
   completed_phases: 4
-  total_plans: 12
-  completed_plans: 12
+  total_plans: 15
+  completed_plans: 13
   percent: 92
 ---
 
@@ -56,6 +56,7 @@ Progress: [█████████░] 92%
 | Phase 04-review-permanent-delete P01 | 5 min | 3 tasks | 6 files |
 | Phase 04-review-permanent-delete P02 | 3 min | 3 tasks | 7 files |
 | Phase 04-review-permanent-delete P03 | 9 | 3 tasks | 11 files |
+| Phase 05 P01 | 12 | 3 tasks | 7 files |
 
 ## Accumulated Context
 
@@ -102,6 +103,9 @@ Recent decisions affecting current work:
 - [Phase 04-review-permanent-delete]: DeleteRequestCoordinator is a stateless object wrapping MediaStore.createDeleteRequest; ReviewRoute owns ActivityResultLauncher so ViewModel stays platform-free
 - [Phase 04-review-permanent-delete]: Post-delete nav relay uses SavedStateHandle.remove() on DELETED_PHOTO_IDS_KEY in main back-stack entry so stale session is cleared once on resume without repeated clearing on recompositions
 - [Phase 04-review-permanent-delete]: minSdk 30 means MediaStore.createDeleteRequest is unconditionally available — no legacy ContentResolver.delete() fallback needed
+- [Phase 05-01]: Post-delete re-query runs in rememberCoroutineScope.launch; loadReviewPhotos handles IO dispatcher switching internally — no explicit Dispatchers.IO needed at call site
+- [Phase 05-01]: material-icons-extended added as BOM-versioned dependency to provide Icons.Outlined.PhotoLibrary for EntryScreen Empty branch
+- [Phase 05-01]: onDeleteConfirmed guard (isNotEmpty check) lives in ReviewRoute, not ReviewViewModel — ViewModel emits DeleteConfirmed unconditionally, Route filters
 
 ### Pending Todos
 
@@ -114,6 +118,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-15T07:07:26.762Z
-Stopped at: Completed 04-03-PLAN.md
+Last session: 2026-03-15T08:08:36.761Z
+Stopped at: Completed 05-01-PLAN.md
 Resume file: None
