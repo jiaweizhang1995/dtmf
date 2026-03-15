@@ -125,17 +125,17 @@ object ReviewScreenTokens {
     // --- Copy ---
 
     /** App bar title text. */
-    const val AppBarTitle: String = "REVIEW"
+    const val AppBarTitle: String = "审核"
 
     /** Tappable helper link below the destructive prompt. */
-    const val HelperLinkText: String = "No, I want to move to trash"
+    const val HelperLinkText: String = "不，我想移到垃圾桶"
 
     /** Helper copy above the bottom action buttons. */
-    const val BottomHelperText: String = "You can unselect the one's you wish to keep"
+    const val BottomHelperText: String = "您可以取消选择想要保留的照片"
 
     /** "Decide Later" CTA label. */
-    const val DecideLaterLabel: String = "Decide Later"
+    const val DecideLaterLabel: String = "稍后决定"
 
     /** "Delete forever" CTA label. */
-    const val DeleteForeverLabel: String = "Delete forever"
+    const val DeleteForeverLabel: String = "永久删除"
 }
