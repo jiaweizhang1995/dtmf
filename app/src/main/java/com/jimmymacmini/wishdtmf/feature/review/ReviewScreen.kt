@@ -50,7 +50,6 @@ object ReviewScreenTags {
     const val HelperLink = "review_helper_link"
     const val PhotoGrid = "review_photo_grid"
     const val BottomHelper = "review_bottom_helper"
-    const val DecideLaterButton = "review_decide_later_button"
     const val DeleteForeverButton = "review_delete_forever_button"
 
     /** Prefix: append the photo ID to get the per-tile tag. */
@@ -75,7 +74,6 @@ fun ReviewScreen(
     uiState: ReviewUiState,
     onBack: () -> Unit,
     onTogglePhotoSelection: (Long) -> Unit = {},
-    onDecideLater: () -> Unit = {},
     onDeleteForever: () -> Unit = {},
 ) {
     val T = ReviewScreenTokens
@@ -162,7 +160,6 @@ fun ReviewScreen(
         // ---- Bottom area ----
         BottomActionArea(
             isDeleteEnabled = uiState.isDeleteEnabled,
-            onDecideLater = onDecideLater,
             onDeleteForever = onDeleteForever,
             modifier = Modifier
                 .fillMaxWidth()
@@ -356,7 +353,6 @@ private fun CheckBadge(
 @Composable
 private fun BottomActionArea(
     isDeleteEnabled: Boolean,
-    onDecideLater: () -> Unit,
     onDeleteForever: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -372,53 +368,28 @@ private fun BottomActionArea(
                 .testTag(ReviewScreenTags.BottomHelper),
         )
 
-        // CTA row
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
+        // "Delete forever" — full width, centered; disabled (dimmed, non-interactive) when nothing is selected
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .clip(RoundedCornerShape(T.CtaCornerRadius))
+                .background(if (isDeleteEnabled) T.AccentTeal else T.DecideLaterColor)
+                .let { m ->
+                    if (isDeleteEnabled) m.clickable(onClick = onDeleteForever) else m
+                }
+                .padding(vertical = T.CtaButtonVerticalPadding)
+                .testTag(ReviewScreenTags.DeleteForeverButton)
+                .semantics {
+                    stateDescription = if (isDeleteEnabled) "enabled" else "disabled"
+                },
+            contentAlignment = Alignment.Center,
         ) {
-            // "Decide Later"
-            Box(
-                modifier = Modifier
-                    .weight(1f)
-                    .clip(RoundedCornerShape(T.CtaCornerRadius))
-                    .background(T.DecideLaterColor)
-                    .clickable(onClick = onDecideLater)
-                    .padding(vertical = T.CtaButtonVerticalPadding)
-                    .testTag(ReviewScreenTags.DecideLaterButton),
-                contentAlignment = Alignment.Center,
-            ) {
-                Text(
-                    text = T.DecideLaterLabel,
-                    color = T.DecideLaterTextColor,
-                    fontSize = T.CtaLabelSize,
-                    fontWeight = FontWeight.Medium,
-                )
-            }
-
-            // "Delete forever" — disabled (dimmed, non-interactive) when nothing is selected
-            Box(
-                modifier = Modifier
-                    .weight(1f)
-                    .clip(RoundedCornerShape(T.CtaCornerRadius))
-                    .background(if (isDeleteEnabled) T.AccentTeal else T.DecideLaterColor)
-                    .let { m ->
-                        if (isDeleteEnabled) m.clickable(onClick = onDeleteForever) else m
-                    }
-                    .padding(vertical = T.CtaButtonVerticalPadding)
-                    .testTag(ReviewScreenTags.DeleteForeverButton)
-                    .semantics {
-                        stateDescription = if (isDeleteEnabled) "enabled" else "disabled"
-                    },
-                contentAlignment = Alignment.Center,
-            ) {
-                Text(
-                    text = T.DeleteForeverLabel,
-                    color = if (isDeleteEnabled) T.OnSurfaceColor else T.SubtleTextColor,
-                    fontSize = T.CtaLabelSize,
-                    fontWeight = FontWeight.Medium,
-                )
-            }
+            Text(
+                text = T.DeleteForeverLabel,
+                color = if (isDeleteEnabled) T.OnSurfaceColor else T.SubtleTextColor,
+                fontSize = T.CtaLabelSize,
+                fontWeight = FontWeight.Medium,
+            )
         }
     }
 }
