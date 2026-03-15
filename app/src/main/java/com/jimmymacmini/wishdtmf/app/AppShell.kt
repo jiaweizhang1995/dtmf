@@ -1,5 +1,8 @@
 package com.jimmymacmini.wishdtmf.app
 
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
@@ -8,9 +11,8 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.jimmymacmini.wishdtmf.app.navigation.AppNavGraph
@@ -48,8 +50,11 @@ fun WishDtmfApp(
     }
 
     MaterialTheme {
-        Surface(modifier = Modifier.fillMaxSize()) {
-            Scaffold { innerPadding ->
+        Surface(
+            modifier = Modifier.fillMaxSize(),
+            color = Color(0xFF111111),
+        ) {
+            Scaffold(contentWindowInsets = WindowInsets(0)) { innerPadding ->
                 AppNavGraph(
                     modifier = Modifier.padding(innerPadding),
                     uiState = uiState,
