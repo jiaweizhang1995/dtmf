@@ -55,7 +55,7 @@ object PhotoPresentationMapper {
             activePhotoIndex = activePhotoIndex,
             photos = photoItems,
             activePhoto = activePhoto,
-            visibleThumbnails = deriveThumbnailWindow(photoItems, activePhotoIndex),
+            visibleThumbnails = photoItems,
         )
     }
 
