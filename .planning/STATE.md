@@ -3,9 +3,9 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Completed quick task 14 (auto tasks); awaiting human verify checkpoint
-last_updated: "2026-03-16T00:03:00Z"
-last_activity: "2026-03-16 — Completed quick task 14: move navigationBarsPadding from BoxWithConstraints root to ProceedAffordance Column"
+stopped_at: Completed quick task 15 (auto tasks); awaiting human verify checkpoint
+last_updated: "2026-03-16T05:00:00Z"
+last_activity: "2026-03-16 — Completed quick task 15: move Proceed button to top bar, remove bottom ProceedAffordance"
 progress:
   total_phases: 5
   completed_phases: 5
@@ -114,6 +114,7 @@ Recent decisions affecting current work:
 - [Phase quick-12]: statusBarsPadding() placed after background() on ReviewScreen/MainScreen and before static padding on EntryScreen — each screen self-consumes status bar insets because AppShell zeroes Scaffold insets
 - [Phase quick-13]: navigationBarsPadding() placed immediately after statusBarsPadding() in MainScreen BoxWithConstraints modifier chain — mirrors the top-edge pattern from quick-12; no separate bottom padding needed
 - [Phase quick-14]: navigationBarsPadding() must be consumed at ProceedAffordance Column level, not root BoxWithConstraints — inset on root reduces available layout height and pushes Proceed button off-screen
+- [Phase quick-15]: Proceed button moved into MainTopBar as Material3 Button (pill shape, blue bg, white text); testTag preserved so all existing test assertions remain valid without changes
 
 ### Pending Todos
 
@@ -139,9 +140,10 @@ None yet.
 | 11 | Remove Decide Later button from review page and center Delete Forever button | 2026-03-15 | 6a7e7ab | [11-in-the-review-page-remove-no-i-want-to-m](./quick/11-in-the-review-page-remove-no-i-want-to-m/) |
 | 13 | Move Proceed button above home indicator (navigationBarsPadding on MainScreen) | 2026-03-15 | 4254b0d | [13-move-proceed-button-above-home-indicator](./quick/13-move-proceed-button-above-home-indicator/) |
 | 14 | Fix Proceed button hidden — move navigationBarsPadding from root to ProceedAffordance Column | 2026-03-16 | 36d9deb | [14-fix-proceed-button-hidden-revert-root-na](./quick/14-fix-proceed-button-hidden-revert-root-na/) |
+| 15 | Move Proceed button to top bar (left of three-dot), remove bottom ProceedAffordance | 2026-03-16 | 86afb95 | [15-move-proceed-button-to-top-bar-left-of-t](./quick/15-move-proceed-button-to-top-bar-left-of-t/) |
 
 ## Session Continuity
 
-Last session: 2026-03-16T00:03:00.000Z
-Stopped at: Completed quick task 14 (auto tasks); awaiting human verify checkpoint
+Last session: 2026-03-16T05:00:00.000Z
+Stopped at: Completed quick task 15 (auto tasks); awaiting human verify checkpoint
 Resume file: None
