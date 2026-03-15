@@ -10,6 +10,24 @@ data class LocalPhoto(
     val sizeBytes: Long = 0L,
 )
 
+/**
+ * Lightweight display model for review cards. Contains only the data needed to
+ * render a grid tile; heavier metadata is not needed at review time.
+ */
+data class ReviewPhoto(
+    val id: Long,
+    val contentUri: String,
+)
+
 interface PhotoRepository {
     suspend fun loadEligiblePhotos(limitHint: Int? = null): List<LocalPhoto>
+
+    /**
+     * Resolve a deterministic ordered list of staged photo IDs into [ReviewPhoto] cards at the
+     * review boundary. IDs that no longer exist in MediaStore are silently omitted so the review
+     * grid stays consistent with what is actually available.
+     *
+     * The returned list preserves the original order of [orderedIds].
+     */
+    suspend fun loadReviewPhotos(orderedIds: List<Long>): List<ReviewPhoto>
 }
