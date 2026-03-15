@@ -28,7 +28,6 @@ import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 
 object MainScreenTags {
@@ -38,7 +37,6 @@ object MainScreenTags {
     const val MetadataRow = "main_metadata_row"
     const val HeroPhoto = "main_hero_photo"
     const val BottomActions = "main_bottom_actions"
-    const val BannerRow = "main_banner_row"
     const val UndoAction = "main_undo_action"
     const val ProceedAffordance = "main_proceed_affordance"
     const val ProceedMessage = "main_proceed_message"
@@ -99,7 +97,6 @@ fun MainScreen(
                 onUndoLastDecision = onUndoLastDecision,
                 onSkipCurrentPhoto = onSkipCurrentPhoto,
             )
-            PremiumBannerRow()
             ProceedAffordance(
                 canProceed = uiState.canProceed,
                 proceedMessage = uiState.proceedMessage,
@@ -271,33 +268,6 @@ private fun MainActionButton(
         } else {
             Spacer(modifier = Modifier.height(20.dp))
         }
-    }
-}
-
-@Composable
-private fun PremiumBannerRow() {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(MainScreenTokens.footerRowHeight)
-            .clip(RoundedCornerShape(10.dp))
-            .background(MainScreenTokens.chromeSurface)
-            .padding(horizontal = 12.dp)
-            .testTag(MainScreenTags.BannerRow),
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        Text(
-            text = "Organise into albums",
-            color = MainScreenTokens.secondaryText,
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis,
-        )
-        Text(
-            text = "Proceed",
-            color = MainScreenTokens.secondaryText,
-            fontWeight = FontWeight.Medium,
-        )
     }
 }
 
