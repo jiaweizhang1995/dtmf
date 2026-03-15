@@ -4,3 +4,9 @@
 build/
 local.properties
 app/build/
+.idea/
+*.jpg
+*.jpeg
+*.webp
+*.png
+test_screenshot/
