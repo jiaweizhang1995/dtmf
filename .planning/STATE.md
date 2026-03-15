@@ -143,9 +143,11 @@ None yet.
 | 13 | Move Proceed button above home indicator (navigationBarsPadding on MainScreen) | 2026-03-15 | 4254b0d | [13-move-proceed-button-above-home-indicator](./quick/13-move-proceed-button-above-home-indicator/) |
 | 14 | Fix Proceed button hidden — move navigationBarsPadding from root to ProceedAffordance Column | 2026-03-16 | 36d9deb | [14-fix-proceed-button-hidden-revert-root-na](./quick/14-fix-proceed-button-hidden-revert-root-na/) |
 | 15 | Move Proceed button to top bar (left of three-dot), remove bottom ProceedAffordance | 2026-03-16 | 86afb95 | [15-move-proceed-button-to-top-bar-left-of-t](./quick/15-move-proceed-button-to-top-bar-left-of-t/) |
+| 16 | Fix top bar background color mismatch (Color.Black -> appBackground) | 2026-03-16 | a0a2649 | [16-fix-top-bar-background-color-mismatch-a](./quick/16-fix-top-bar-background-color-mismatch-a/) |
+| 17 | Fix thumbnail yellow border not showing — move border before clip in ThumbnailBox | 2026-03-16 | 09b9ed6 | [17-fix-thumbnail-yellow-border-not-showing-](./quick/17-fix-thumbnail-yellow-border-not-showing-/) |
 
 ## Session Continuity
 
-Last session: 2026-03-15T16:29:11.645Z
-Stopped at: Completed quick task 16 (auto tasks); awaiting human verify checkpoint
+Last session: 2026-03-16T00:00:00Z
+Stopped at: Completed quick task 17 (fix thumbnail yellow border — border before clip)
 Resume file: None
