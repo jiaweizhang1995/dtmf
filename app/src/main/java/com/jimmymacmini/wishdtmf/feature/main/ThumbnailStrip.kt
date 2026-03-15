@@ -37,11 +37,27 @@ fun ThumbnailStrip(
             .fillMaxWidth()
             .testTag(MainScreenTags.ThumbnailRail),
     ) {
-        // Number of items that fit: N*(w+gap)-gap <= maxWidth → N <= (maxWidth+gap)/(w+gap)
+        // Number of items (thumbnails + ellipsis) that fit in the available width.
+        // N items: N*thumbnailWidth + (N-1)*spacing <= maxWidth
+        // → N <= (maxWidth + spacing) / (thumbnailWidth + spacing)
         val maxCount = ((maxWidth + spacing) / (thumbnailWidth + spacing)).toInt()
+        val slotsForPhotos = (maxCount - 1).coerceAtLeast(1) // one slot reserved for ellipsis
 
         val showEllipsis = photos.size > maxCount
-        val visiblePhotos = if (showEllipsis) photos.take(maxCount - 1) else photos
+        val activeIndex = photos.indexOfFirst { it.isCurrent }.coerceAtLeast(0)
+
+        val visiblePhotos: List<MainPhotoUiModel> = when {
+            !showEllipsis -> photos
+            activeIndex < slotsForPhotos -> {
+                // Active photo is within the natural visible range — show first N slots + ellipsis.
+                photos.take(slotsForPhotos)
+            }
+            else -> {
+                // Active photo is in the overflow region — pin it as the last visible slot
+                // so the yellow border is always visible.
+                photos.take(slotsForPhotos - 1) + photos[activeIndex]
+            }
+        }
 
         Row(
             horizontalArrangement = Arrangement.spacedBy(spacing),
