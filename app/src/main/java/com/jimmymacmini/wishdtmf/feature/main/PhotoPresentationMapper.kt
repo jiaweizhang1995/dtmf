@@ -33,8 +33,8 @@ object PhotoPresentationMapper {
             MainPhotoPresentation(
                 id = photo.id,
                 contentUri = photo.contentUri,
-                thumbnailContentDescription = "Thumbnail ${index + 1}",
-                heroContentDescription = "Photo ${index + 1}",
+                thumbnailContentDescription = "缩略图 ${index + 1}",
+                heroContentDescription = "照片 ${index + 1}",
                 isCurrent = index == activePhotoIndex,
             )
         }
@@ -69,7 +69,7 @@ internal fun deriveThumbnailWindow(
 
 private fun Long.toReadableFileSize(): String {
     if (this <= 0L) {
-        return "Unknown size"
+        return "未知大小"
     }
 
     val megabytes = this / (1024f * 1024f)

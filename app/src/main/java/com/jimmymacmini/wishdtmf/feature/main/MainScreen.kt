@@ -143,7 +143,7 @@ private fun SessionCompleteCard(
             verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             Text(
-                text = "All photos reviewed",
+                text = "全部照片已审阅",
                 color = MainScreenTokens.primaryText,
                 fontWeight = FontWeight.SemiBold,
             )
@@ -192,7 +192,7 @@ private fun MainTopBar(
                 contentPadding = PaddingValues(horizontal = 16.dp, vertical = 6.dp),
                 modifier = Modifier.testTag(MainScreenTags.ProceedAffordance),
             ) {
-                Text(text = "Proceed", fontWeight = FontWeight.SemiBold)
+                Text(text = "继续", fontWeight = FontWeight.SemiBold)
             }
             Box {
                 IconButton(onClick = { menuExpanded = true }) {
@@ -207,7 +207,7 @@ private fun MainTopBar(
                     onDismissRequest = { menuExpanded = false },
                 ) {
                     DropdownMenuItem(
-                        text = { Text("Enable thumbnails") },
+                        text = { Text("显示缩略图") },
                         onClick = {
                             onToggleThumbnails()
                             menuExpanded = false
@@ -270,7 +270,7 @@ private fun BottomActionRow(
     ) {
         MainActionButton(
             symbol = "↶",
-            label = "Undo",
+            label = "撤销",
             background = MainScreenTokens.neutralAction,
             onClick = onUndoLastDecision,
             enabled = canUndo,
@@ -278,7 +278,7 @@ private fun BottomActionRow(
         )
         MainActionButton(
             symbol = "»",
-            label = "Skip",
+            label = "跳过",
             background = MainScreenTokens.neutralAction,
             onClick = onSkipCurrentPhoto,
         )

@@ -58,19 +58,19 @@ data class MainUiState(
                 canProceed = swipeState.stagedPhotoIds.isNotEmpty(),
                 proceedMessage = when {
                     swipeState.stagedPhotoIds.isNotEmpty() -> {
-                        "Review ${swipeState.stagedPhotoIds.size} selected"
+                        "审核已选 ${swipeState.stagedPhotoIds.size} 张"
                     }
 
-                    swipeState.isSessionComplete -> "No photos selected for review"
-                    else -> "Swipe left on a photo to enable review"
+                    swipeState.isSessionComplete -> "未选择照片进行审核"
+                    else -> "向左滑动照片以加入审核"
                 },
                 completedMessage = when {
                     !swipeState.isSessionComplete -> null
                     swipeState.stagedPhotoIds.isNotEmpty() -> {
-                        "All photos reviewed. Proceed to review ${swipeState.stagedPhotoIds.size} selected."
+                        "全部已审阅。可审核已选 ${swipeState.stagedPhotoIds.size} 张。"
                     }
 
-                    else -> "All photos reviewed. No photos selected for review."
+                    else -> "全部已审阅。未选择照片进行审核。"
                 },
             )
         }
