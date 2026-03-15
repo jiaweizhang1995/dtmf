@@ -60,8 +60,6 @@ private fun ThumbnailBox(photo: MainPhotoUiModel) {
                 width = MainScreenTokens.thumbnailWidth,
                 height = MainScreenTokens.thumbnailHeight,
             )
-            .clip(RoundedCornerShape(10.dp))
-            .background(MainScreenTokens.mutedSurface)
             .border(
                 width = if (photo.isCurrent) 2.dp else 1.dp,
                 color = if (photo.isCurrent) {
@@ -71,6 +69,8 @@ private fun ThumbnailBox(photo: MainPhotoUiModel) {
                 },
                 shape = RoundedCornerShape(10.dp),
             )
+            .clip(RoundedCornerShape(10.dp))
+            .background(MainScreenTokens.mutedSurface)
             .semantics { contentDescription = photo.thumbnailContentDescription }
             .alpha(if (photo.isCurrent) 1f else 0.7f)
             .testTag(thumbnailTag(photo.id)),
