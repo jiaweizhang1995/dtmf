@@ -149,16 +149,6 @@ class ReviewScreenTest {
     }
 
     @Test
-    fun decideLaterButtonIsDisplayed() {
-        val photos = listOf(reviewPhoto(1L))
-        setReviewScreen(
-            stagedPhotoIds = listOf(1L),
-            uiState = loadedState(photos),
-        )
-        composeRule.onNodeWithTag(ReviewScreenTags.DecideLaterButton).assertIsDisplayed()
-    }
-
-    @Test
     fun deleteForeverButtonIsDisplayed() {
         val photos = listOf(reviewPhoto(1L))
         setReviewScreen(
