@@ -19,16 +19,15 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.role
 import androidx.compose.ui.semantics.semantics
@@ -68,9 +67,10 @@ object ReviewScreenTags {
 fun ReviewScreen(
     /** Raw staged photo IDs used for semantics so existing nav-graph tests keep passing. */
     stagedPhotoIds: List<Long>,
-    /** Resolved review cards; may be empty while loading or if MediaStore lookup fails. */
-    stagedPhotos: List<ReviewPhoto>,
+    /** Full review-local UI state; drives selection affordances, copy, and CTA enablement. */
+    uiState: ReviewUiState,
     onBack: () -> Unit,
+    onTogglePhotoSelection: (Long) -> Unit = {},
     onDecideLater: () -> Unit = {},
     onDeleteForever: () -> Unit = {},
 ) {
@@ -101,8 +101,15 @@ fun ReviewScreen(
         )
 
         // ---- Destructive prompt section ----
+        // Count and copy are driven by selected subset, not total staged set.
         DestructivePromptSection(
-            count = if (stagedPhotos.isNotEmpty()) stagedPhotos.size else stagedPhotoIds.size,
+            promptText = if (uiState.isLoading) {
+                // While loading, fall back to the total count from staged IDs.
+                val count = stagedPhotoIds.size
+                if (count == 1) "Permanently delete 1 item?" else "Permanently delete $count items?"
+            } else {
+                uiState.destructivePromptText
+            },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = T.HorizontalPadding),
@@ -121,14 +128,15 @@ fun ReviewScreen(
             horizontalArrangement = Arrangement.spacedBy(T.GridSpacing),
             verticalArrangement = Arrangement.spacedBy(T.GridSpacing),
         ) {
-            if (stagedPhotos.isNotEmpty()) {
-                items(stagedPhotos, key = { it.id }) { photo ->
+            if (uiState.stagedPhotos.isNotEmpty()) {
+                items(uiState.stagedPhotos, key = { it.id }) { photo ->
                     ReviewPhotoTile(
                         photo = photo,
-                        isSelected = true,  // All selected by default; toggling lands in plan 04-02.
+                        isSelected = uiState.isSelected(photo.id),
+                        onToggle = { onTogglePhotoSelection(photo.id) },
                     )
                 }
-            } else if (!stagedPhotoIds.isEmpty()) {
+            } else if (stagedPhotoIds.isNotEmpty()) {
                 // Still loading or MediaStore lookup pending — render placeholder tiles so the
                 // grid shape is visible while resolution completes.
                 items(stagedPhotoIds, key = { it }) { id ->
@@ -139,6 +147,7 @@ fun ReviewScreen(
 
         // ---- Bottom area ----
         BottomActionArea(
+            isDeleteEnabled = uiState.isDeleteEnabled,
             onDecideLater = onDecideLater,
             onDeleteForever = onDeleteForever,
             modifier = Modifier
@@ -195,7 +204,7 @@ private fun ReviewAppBar(
 
 @Composable
 private fun DestructivePromptSection(
-    count: Int,
+    promptText: String,
     modifier: Modifier = Modifier,
 ) {
     val T = ReviewScreenTokens
@@ -209,9 +218,8 @@ private fun DestructivePromptSection(
                     .background(T.PromptBorderColor),
             )
             Spacer(modifier = Modifier.width(T.PromptBorderTextGap))
-            val label = if (count == 1) "1 item" else "$count items"
             Text(
-                text = "Permanently delete $label?",
+                text = promptText,
                 color = T.OnSurfaceColor,
                 fontSize = T.PromptHeadingSize,
                 fontWeight = FontWeight.Bold,
@@ -241,6 +249,7 @@ private fun DestructivePromptSection(
 private fun ReviewPhotoTile(
     photo: ReviewPhoto,
     isSelected: Boolean,
+    onToggle: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val T = ReviewScreenTokens
@@ -257,16 +266,24 @@ private fun ReviewPhotoTile(
                     )
                 } else m
             }
-            .testTag("${ReviewScreenTags.PhotoTilePrefix}${photo.id}"),
+            .clickable(onClick = onToggle)
+            .testTag("${ReviewScreenTags.PhotoTilePrefix}${photo.id}")
+            .semantics {
+                stateDescription = if (isSelected) "selected" else "deselected"
+                role = Role.Checkbox
+            },
     ) {
         AsyncImage(
             model = photo.contentUri,
             contentDescription = null,
             contentScale = ContentScale.Crop,
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier
+                .fillMaxSize()
+                // Dim tiles that are deselected (kept) so selected-for-delete items stand out.
+                .alpha(if (isSelected) 1f else 0.4f),
         )
 
-        // Checkmark badge — top-left, visible when selected
+        // Checkmark badge — top-left, visible only when selected
         if (isSelected) {
             CheckBadge(
                 photoId = photo.id,
@@ -310,7 +327,9 @@ private fun CheckBadge(
         Text(
             text = "\u2713", // checkmark character
             color = T.CheckBadgeTint,
-            fontSize = T.CheckIconSize.value.let { androidx.compose.ui.unit.TextUnit(it, androidx.compose.ui.unit.TextUnitType.Sp) },
+            fontSize = T.CheckIconSize.value.let {
+                androidx.compose.ui.unit.TextUnit(it, androidx.compose.ui.unit.TextUnitType.Sp)
+            },
             fontWeight = FontWeight.Bold,
         )
     }
@@ -322,6 +341,7 @@ private fun CheckBadge(
 
 @Composable
 private fun BottomActionArea(
+    isDeleteEnabled: Boolean,
     onDecideLater: () -> Unit,
     onDeleteForever: () -> Unit,
     modifier: Modifier = Modifier,
@@ -362,20 +382,25 @@ private fun BottomActionArea(
                 )
             }
 
-            // "Delete forever"
+            // "Delete forever" — disabled (dimmed, non-interactive) when nothing is selected
             Box(
                 modifier = Modifier
                     .weight(1f)
                     .clip(RoundedCornerShape(T.CtaCornerRadius))
-                    .background(T.AccentTeal)
-                    .clickable(onClick = onDeleteForever)
+                    .background(if (isDeleteEnabled) T.AccentTeal else T.DecideLaterColor)
+                    .let { m ->
+                        if (isDeleteEnabled) m.clickable(onClick = onDeleteForever) else m
+                    }
                     .padding(vertical = T.CtaButtonVerticalPadding)
-                    .testTag(ReviewScreenTags.DeleteForeverButton),
+                    .testTag(ReviewScreenTags.DeleteForeverButton)
+                    .semantics {
+                        stateDescription = if (isDeleteEnabled) "enabled" else "disabled"
+                    },
                 contentAlignment = Alignment.Center,
             ) {
                 Text(
                     text = T.DeleteForeverLabel,
-                    color = T.OnSurfaceColor,
+                    color = if (isDeleteEnabled) T.OnSurfaceColor else T.SubtleTextColor,
                     fontSize = T.CtaLabelSize,
                     fontWeight = FontWeight.Medium,
                 )
