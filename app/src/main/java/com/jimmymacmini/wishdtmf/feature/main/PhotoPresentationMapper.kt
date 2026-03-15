@@ -3,12 +3,9 @@ package com.jimmymacmini.wishdtmf.feature.main
 import com.jimmymacmini.wishdtmf.data.media.LocalPhoto
 import com.jimmymacmini.wishdtmf.domain.LaunchSession
 import java.text.DecimalFormat
-import java.text.SimpleDateFormat
-import java.util.Date
 import java.util.Locale
 
 data class MainPresentationState(
-    val title: String,
     val currentPositionLabel: String,
     val fileSizeLabel: String,
     val mimeTypeLabel: String,
@@ -45,7 +42,6 @@ object PhotoPresentationMapper {
         val sourcePhoto = session.photos[activePhotoIndex]
 
         return MainPresentationState(
-            title = buildTitle(sourcePhoto),
             currentPositionLabel = "${activePhotoIndex + 1}/${session.photoCount}",
             fileSizeLabel = sourcePhoto.sizeBytes.toReadableFileSize(),
             mimeTypeLabel = sourcePhoto.mimeType
@@ -59,16 +55,6 @@ object PhotoPresentationMapper {
         )
     }
 
-    private fun buildTitle(photo: LocalPhoto): String {
-        val timestamp = photo.dateTakenMillis ?: (photo.dateAddedSeconds.takeIf { it > 0 }?.times(1000))
-        if (timestamp == null) {
-            return "Recent photos"
-        }
-
-        return SimpleDateFormat("MMMM yyyy", Locale.US)
-            .format(Date(timestamp))
-            .replaceFirstChar { char -> char.titlecase(Locale.US) }
-    }
 }
 
 internal fun deriveThumbnailWindow(
