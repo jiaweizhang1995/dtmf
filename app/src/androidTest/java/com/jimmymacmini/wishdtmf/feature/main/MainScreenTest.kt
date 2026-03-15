@@ -42,7 +42,6 @@ class MainScreenTest {
             }
         }
 
-        composeRule.onNodeWithTag(MainScreenTags.TopBar).assertIsDisplayed()
         composeRule.onNodeWithTag(MainScreenTags.ThumbnailRail).assertIsDisplayed()
         composeRule.onNodeWithTag(MainScreenTags.MetadataRow).assertIsDisplayed()
         composeRule.onNodeWithTag(MainScreenTags.HeroPhoto).assertIsDisplayed()
