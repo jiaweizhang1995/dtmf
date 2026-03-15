@@ -2,7 +2,6 @@ package com.jimmymacmini.wishdtmf.data.media
 
 import android.content.ContentResolver
 import android.content.ContentUris
-import android.database.Cursor
 import android.net.Uri
 import android.provider.MediaStore
 
@@ -38,6 +37,18 @@ class MediaStorePhotoRepository private constructor(
         val resolved = reviewQuerySource.queryByIds(orderedIds)
         // Preserve the caller's ordering; omit IDs that could not be resolved.
         return orderedIds.mapNotNull { id -> resolved[id] }
+    }
+
+    /**
+     * Resolve [photoIds] into content [Uri]s suitable for a MediaStore delete request.
+     * IDs that no longer exist in MediaStore are silently omitted.
+     */
+    override suspend fun resolveUrisForDelete(photoIds: Set<Long>): List<Uri> {
+        if (photoIds.isEmpty()) return emptyList()
+        val resolved = reviewQuerySource.queryByIds(photoIds.toList())
+        return photoIds.mapNotNull { id ->
+            resolved[id]?.contentUri?.let { Uri.parse(it) }
+        }
     }
 
     internal companion object {
