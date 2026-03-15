@@ -112,6 +112,7 @@ Recent decisions affecting current work:
 - [Phase 05-02]: Media stale-check deferred by design: session is intentionally frozen until next explicit refresh — acceptable for v1
 - [Phase 05-03]: Visual acceptance is deliberately manual — automated screenshot tests would be brittle for a one-time gate; all 29 checklist rows confirmed PASS by device owner
 - [Phase quick-12]: statusBarsPadding() placed after background() on ReviewScreen/MainScreen and before static padding on EntryScreen — each screen self-consumes status bar insets because AppShell zeroes Scaffold insets
+- [Phase quick-13]: navigationBarsPadding() placed immediately after statusBarsPadding() in MainScreen BoxWithConstraints modifier chain — mirrors the top-edge pattern from quick-12; no separate bottom padding needed
 
 ### Pending Todos
 
@@ -135,9 +136,10 @@ None yet.
 | 9 | remove the date displayed at the top of the main screen | 2026-03-15 | b78a5fb | [9-remove-the-date-displayed-at-the-top-of-](./quick/9-remove-the-date-displayed-at-the-top-of-/) |
 | 10 | Add top bar with three-dots More options menu containing Enable thumbnails toggle | 2026-03-15 | 3ff50da | [10-add-top-bar-with-three-dots-more-options](./quick/10-add-top-bar-with-three-dots-more-options/) |
 | 11 | Remove Decide Later button from review page and center Delete Forever button | 2026-03-15 | 6a7e7ab | [11-in-the-review-page-remove-no-i-want-to-m](./quick/11-in-the-review-page-remove-no-i-want-to-m/) |
+| 13 | Move Proceed button above home indicator (navigationBarsPadding on MainScreen) | 2026-03-15 | 4254b0d | [13-move-proceed-button-above-home-indicator](./quick/13-move-proceed-button-above-home-indicator/) |
 
 ## Session Continuity
 
-Last session: 2026-03-15T15:43:26.675Z
-Stopped at: Completed quick task 12 (auto tasks); awaiting human verify checkpoint
+Last session: 2026-03-15T15:48:00.000Z
+Stopped at: Completed quick task 13 (auto tasks); awaiting human verify checkpoint
 Resume file: None
