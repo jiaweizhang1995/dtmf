@@ -121,8 +121,14 @@ None yet.
 - Validate delete-flow behavior on at least one real Android device, not only emulator
 - Review is still a Phase 3 placeholder; Phase 4 must build the actual staging layout and destructive actions on top of this handoff
 
+### Quick Tasks Completed
+
+| # | Description | Date | Commit | Directory |
+|---|-------------|------|--------|-----------|
+| 1 | The thumbnail section needs to be adjusted. Right now it shows up to 4 images as thumbnails. I want to change it so that all images are listed in a horizontally scrollable window. It should be possible to scroll from the first image all the way to the last from the start. When processing reaches the second image, it should immediately scroll to and focus on the thumbnail of the current image. | 2026-03-15 | 0b04025 | [1-the-thumbnail-section-needs-to-be-adjust](./quick/1-the-thumbnail-section-needs-to-be-adjust/) |
+
 ## Session Continuity
 
 Last session: 2026-03-15T08:47:00.000Z
-Stopped at: Completed quick-1 (scrollable ThumbnailStrip)
+Stopped at: 2026-03-15 - Completed quick task 1: thumbnail horizontal scrollable strip
 Resume file: None
