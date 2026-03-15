@@ -3,9 +3,9 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: "Completed quick task 9: remove date label from top of main screen"
-last_updated: "2026-03-15T14:54:21Z"
-last_activity: "2026-03-15 — Completed quick task 9: remove date label from top of main screen"
+stopped_at: "Completed quick task 10: add top bar with DtMF title and Enable thumbnails menu"
+last_updated: "2026-03-15T15:00:11.568Z"
+last_activity: "2026-03-15 — Completed quick task 10: add top bar with DtMF title and Enable thumbnails menu"
 progress:
   total_phases: 5
   completed_phases: 5
@@ -132,6 +132,7 @@ None yet.
 | 7 | white bottom bar still showing — set Scaffold containerColor transparent | 2026-03-15 | a8e5f3a | [7-white-bottom-bar-still-showing-investiga](./quick/7-white-bottom-bar-still-showing-investiga/) |
 | 8 | remove the icon in the top-right corner of the hero image and show full uncropped photo | 2026-03-15 | 5377367 | [8-remove-the-icon-in-the-top-right-corner-](./quick/8-remove-the-icon-in-the-top-right-corner-/) |
 | 9 | remove the date displayed at the top of the main screen | 2026-03-15 | b78a5fb | [9-remove-the-date-displayed-at-the-top-of-](./quick/9-remove-the-date-displayed-at-the-top-of-/) |
+| 10 | Add top bar with three-dots More options menu containing Enable thumbnails toggle | 2026-03-15 | 3ff50da | [10-add-top-bar-with-three-dots-more-options](./quick/10-add-top-bar-with-three-dots-more-options/) |
 
 ## Session Continuity
 
