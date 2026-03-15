@@ -5,12 +5,14 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.compose.ui.platform.LocalContext
 import com.jimmymacmini.wishdtmf.data.media.DeleteRequestCoordinator
 import com.jimmymacmini.wishdtmf.data.media.MediaStorePhotoRepository
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 /**
  * Review route entry point.
@@ -21,8 +23,9 @@ import kotlinx.coroutines.flow.collectLatest
  * is initialised with all photos selected for deletion.
  *
  * The route owns the activity-result launcher for the Android system delete confirmation flow.
- * On success, [onDeleteConfirmed] is called with the IDs that were deleted so the nav layer
- * can clear the stale swipe session and trigger a post-delete refresh.
+ * On success, a re-query against MediaStore determines which IDs were actually removed before
+ * [onDeleteConfirmed] is invoked. If all deletions fail the re-query, [onDeleteConfirmed] is NOT
+ * called and review state is preserved intact so the user can retry or cancel.
  * On cancel, review state is left unchanged.
  */
 @Composable
@@ -42,15 +45,33 @@ fun ReviewRoute(
     )
     val uiState = viewModel.uiState.collectAsStateWithLifecycle()
 
+    val coroutineScope = rememberCoroutineScope()
+
     // Activity-result launcher for the platform delete confirmation dialog.
     val deleteLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.StartIntentSenderForResult(),
     ) { result ->
         if (DeleteRequestCoordinator.isDeleteConfirmed(result.resultCode)) {
-            // Platform confirmed deletion — relay to ViewModel so it emits DeleteConfirmed.
-            viewModel.onDeleteConfirmed(viewModel.uiState.value.selectedPhotoIds)
+            val submittedIds = viewModel.uiState.value.selectedPhotoIds
+            coroutineScope.launch {
+                // Re-query to find which IDs are actually gone from MediaStore.
+                // loadReviewPhotos returns only IDs still present; absent ones were deleted.
+                val stillPresentIds = repository
+                    .loadReviewPhotos(submittedIds.toList())
+                    .map { it.id }
+                    .toSet()
+                val actuallyDeleted = submittedIds - stillPresentIds
+
+                if (actuallyDeleted.isNotEmpty()) {
+                    // Normal path: at least some deletions succeeded.
+                    viewModel.onDeleteConfirmed(actuallyDeleted)
+                }
+                // If actuallyDeleted is empty: all submitted IDs still present in MediaStore
+                // (complete failure). Do not navigate away — review state is preserved intact.
+                // The user sees no change and can retry or cancel.
+            }
         }
-        // Cancel: do nothing — review state is unchanged.
+        // Cancel (RESULT_CANCELED): do nothing — review state unchanged.
     }
 
     // Consume one-shot events from the ViewModel.
