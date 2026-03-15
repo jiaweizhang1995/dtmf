@@ -85,9 +85,9 @@ Plans:
 **Plans**: 3 plans
 
 Plans:
-- [ ] 05-01: Add empty, denied, cancelled, and partial-failure states
-- [ ] 05-02: Validate lifecycle, device-variance, and performance edge cases
-- [ ] 05-03: Finalize polish, UI acceptance checks, and launch-readiness verification
+- [ ] 05-01-PLAN.md — Polish entry/review empty states (MEDIA-03) and add partial-delete re-query accuracy (REVW-04)
+- [ ] 05-02-PLAN.md — Real-device lifecycle, configuration-change, and performance validation
+- [ ] 05-03-PLAN.md — Visual acceptance sign-off against reference screenshots and v1 launch-readiness checklist
 
 ## Progress
 
