@@ -5,7 +5,6 @@ import com.jimmymacmini.wishdtmf.domain.SwipeDecision
 import com.jimmymacmini.wishdtmf.domain.SwipeSessionState
 
 data class MainUiState(
-    val title: String,
     val currentPositionLabel: String,
     val fileSizeLabel: String,
     val mimeTypeLabel: String,
@@ -42,7 +41,6 @@ data class MainUiState(
         ): MainUiState {
             val photos = presentation.photos.map { it.toUiModel() }
             return MainUiState(
-                title = presentation.title,
                 currentPositionLabel = presentation.currentPositionLabel,
                 fileSizeLabel = presentation.fileSizeLabel,
                 mimeTypeLabel = presentation.mimeTypeLabel,
