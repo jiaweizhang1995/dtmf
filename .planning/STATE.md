@@ -130,9 +130,10 @@ None yet.
 | 5 | remove swipe-left hint text and make Proceed button centered/larger | 2026-03-15 | 6d97a5a | [5-remove-swipe-left-hint-text-and-make-pro](./quick/5-remove-swipe-left-hint-text-and-make-pro/) |
 | 6 | fix white blank space at bottom of screen (dark navigation bar) | 2026-03-15 | 4226bfe | [6-fix-white-blank-space-at-bottom-of-scree](./quick/6-fix-white-blank-space-at-bottom-of-scree/) |
 | 7 | white bottom bar still showing — set Scaffold containerColor transparent | 2026-03-15 | a8e5f3a | [7-white-bottom-bar-still-showing-investiga](./quick/7-white-bottom-bar-still-showing-investiga/) |
+| 8 | remove the icon in the top-right corner of the hero image and show full uncropped photo | 2026-03-15 | 5377367 | [8-remove-the-icon-in-the-top-right-corner-](./quick/8-remove-the-icon-in-the-top-right-corner-/) |
 
 ## Session Continuity
 
 Last session: 2026-03-15T14:31:28Z
-Stopped at: Completed quick task 6: fix white blank space at bottom of screen (dark navigation bar)
+Stopped at: Completed quick task 8: remove icon badge and switch hero image to ContentScale.Fit
 Resume file: None
