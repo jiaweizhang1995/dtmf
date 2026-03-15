@@ -2,30 +2,21 @@ package com.jimmymacmini.wishdtmf.feature.review
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.compose.ui.platform.LocalContext
 import com.jimmymacmini.wishdtmf.data.media.MediaStorePhotoRepository
-import com.jimmymacmini.wishdtmf.data.media.ReviewPhoto
-
-/**
- * Display model for the review screen. Holds the ordered list of resolved review cards.
- * Selection toggles and delete-progress state will be attached here in later plans.
- */
-data class ReviewUiState(
-    val stagedPhotos: List<ReviewPhoto> = emptyList(),
-    val isLoading: Boolean = true,
-)
 
 /**
  * Review route entry point.
  *
  * Receives a deterministic ordered list of staged photo IDs from the navigation back-stack and
- * resolves them into [ReviewPhoto] display models at the review boundary through
- * [MediaStorePhotoRepository]. This keeps the navigation handoff minimal (IDs only) while
- * ensuring the review grid shows real images rather than placeholder data.
+ * resolves them into [ReviewPhoto][com.jimmymacmini.wishdtmf.data.media.ReviewPhoto] display models
+ * at the review boundary through [MediaStorePhotoRepository]. Once resolved, [ReviewViewModel]
+ * is initialised with all photos selected for deletion.
+ *
+ * Selection toggles stay review-local; [com.jimmymacmini.wishdtmf.feature.main.MainViewModel]
+ * staged state is not mutated until plan 04-03 wires destructive deletion.
  */
 @Composable
 fun ReviewRoute(
@@ -33,22 +24,24 @@ fun ReviewRoute(
     onBack: () -> Unit,
 ) {
     val context = LocalContext.current
-    var uiState by remember { mutableStateOf(ReviewUiState()) }
+
+    val viewModel: ReviewViewModel = viewModel(
+        factory = ReviewViewModel.factory(),
+    )
+    val uiState = viewModel.uiState.collectAsStateWithLifecycle()
 
     LaunchedEffect(stagedPhotoIds) {
         val repository = MediaStorePhotoRepository(
             contentResolver = context.contentResolver,
         )
         val photos = repository.loadReviewPhotos(stagedPhotoIds)
-        uiState = ReviewUiState(
-            stagedPhotos = photos,
-            isLoading = false,
-        )
+        viewModel.onPhotosResolved(photos)
     }
 
     ReviewScreen(
         stagedPhotoIds = stagedPhotoIds,
-        stagedPhotos = uiState.stagedPhotos,
+        uiState = uiState.value,
         onBack = onBack,
+        onTogglePhotoSelection = viewModel::togglePhotoSelection,
     )
 }

@@ -170,4 +170,7 @@ private class FakePhotoRepository(
         error?.let { throw it }
         return photos
     }
+
+    override suspend fun loadReviewPhotos(orderedIds: List<Long>): List<com.jimmymacmini.wishdtmf.data.media.ReviewPhoto> =
+        emptyList()
 }
