@@ -32,7 +32,6 @@ import androidx.compose.ui.unit.dp
 
 object MainScreenTags {
     const val Root = "main_root"
-    const val TopBar = "main_top_bar"
     const val ThumbnailRail = "main_thumbnail_rail"
     const val MetadataRow = "main_metadata_row"
     const val HeroPhoto = "main_hero_photo"
@@ -73,7 +72,6 @@ fun MainScreen(
             modifier = Modifier.fillMaxWidth(),
             verticalArrangement = Arrangement.spacedBy(MainScreenTokens.sectionSpacing),
         ) {
-            MainTopBar(title = uiState.title)
             ThumbnailStrip(
                 photos = uiState.photos,
                 activeIndex = uiState.activePhotoIndex,
@@ -137,24 +135,6 @@ private fun SessionCompleteCard(
                 )
             }
         }
-    }
-}
-
-@Composable
-private fun MainTopBar(title: String) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(MainScreenTokens.topBarHeight)
-            .testTag(MainScreenTags.TopBar),
-        horizontalArrangement = Arrangement.Center,
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        Text(
-            text = title,
-            color = MainScreenTokens.primaryText,
-            fontWeight = FontWeight.SemiBold,
-        )
     }
 }
 
