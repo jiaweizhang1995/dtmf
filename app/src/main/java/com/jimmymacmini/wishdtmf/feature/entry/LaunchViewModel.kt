@@ -105,7 +105,7 @@ class LaunchViewModel(
 }
 
 private const val BATCH_SIZE = 30
-private const val DEFAULT_ERROR_MESSAGE = "Could not prepare a photo batch."
+private const val DEFAULT_ERROR_MESSAGE = "无法准备照片批次。"
 private const val STATE_KIND_KEY = "launch_state_kind"
 private const val STATE_HINT_KEY = "launch_state_hint"
 private const val STATE_MESSAGE_KEY = "launch_state_message"

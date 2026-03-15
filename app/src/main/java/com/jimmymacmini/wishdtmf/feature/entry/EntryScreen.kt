@@ -39,16 +39,16 @@ fun EntryScreen(
         verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
         Text(
-            text = "Local cleanup utility",
+            text = "本地清理工具",
             style = MaterialTheme.typography.headlineSmall,
         )
         when (uiState) {
             is LaunchUiState.NeedsPermission -> {
                 Text(
                     text = if (uiState.showSettingsHint) {
-                        "Gallery access is still required to build a fresh batch."
+                        "仍需相册访问权限以生成新批次。"
                     } else {
-                        "Allow gallery access to build a new random review batch."
+                        "请允许访问相册以生成随机审核批次。"
                     },
                     style = MaterialTheme.typography.bodyLarge,
                 )
@@ -58,9 +58,9 @@ fun EntryScreen(
                 ) {
                     Text(
                         if (uiState.showSettingsHint) {
-                            "Try permission again"
+                            "重试权限"
                         } else {
-                            "Allow gallery access"
+                            "允许访问相册"
                         },
                     )
                 }
@@ -78,7 +78,7 @@ fun EntryScreen(
                             }
                         },
                     ) {
-                        Text("Open app settings")
+                        Text("打开应用设置")
                     }
                 }
             }
@@ -86,14 +86,14 @@ fun EntryScreen(
             LaunchUiState.LoadingBatch -> {
                 CircularProgressIndicator(modifier = Modifier.padding(top = 8.dp))
                 Text(
-                    text = "Preparing a fresh photo batch...",
+                    text = "正在准备新照片批次...",
                     style = MaterialTheme.typography.bodyLarge,
                 )
             }
 
             is LaunchUiState.Ready -> {
                 Text(
-                    text = "Session ready with ${uiState.session.photoCount} photos.",
+                    text = "已加载 ${uiState.session.photoCount} 张照片。",
                     style = MaterialTheme.typography.bodyLarge,
                 )
             }
@@ -106,11 +106,11 @@ fun EntryScreen(
                     tint = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
                 Text(
-                    text = "No photos to clean up",
+                    text = "没有需要清理的照片",
                     style = MaterialTheme.typography.titleMedium,
                 )
                 Text(
-                    text = "Only visible, non-trashed photos that are not currently uploading appear here.",
+                    text = "此处仅显示可见、未删除且未正在上传的照片。",
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
@@ -118,7 +118,7 @@ fun EntryScreen(
                     modifier = Modifier.fillMaxWidth(),
                     onClick = onRetry,
                 ) {
-                    Text("Scan again")
+                    Text("重新扫描")
                 }
             }
 
@@ -131,7 +131,7 @@ fun EntryScreen(
                     modifier = Modifier.fillMaxWidth(),
                     onClick = onRetry,
                 ) {
-                    Text("Retry")
+                    Text("重试")
                 }
             }
         }
