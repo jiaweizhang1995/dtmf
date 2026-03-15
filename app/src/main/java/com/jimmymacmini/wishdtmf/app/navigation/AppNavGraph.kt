@@ -8,10 +8,13 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.jimmymacmini.wishdtmf.feature.entry.EntryRoute
+import com.jimmymacmini.wishdtmf.feature.entry.FirstLaunchPreferences
 import com.jimmymacmini.wishdtmf.feature.entry.LaunchUiState
+import com.jimmymacmini.wishdtmf.feature.entry.WelcomeScreen
 import com.jimmymacmini.wishdtmf.feature.main.MainRoute
 import com.jimmymacmini.wishdtmf.feature.review.ReviewRoute
 
+const val WELCOME_ROUTE = "welcome"
 const val ENTRY_ROUTE = "entry"
 const val MAIN_ROUTE = "main"
 const val REVIEW_ROUTE = "review"
@@ -23,12 +26,20 @@ fun AppNavGraph(
     onGrantAccess: () -> Unit,
     onRetry: () -> Unit,
     onRefreshAfterDelete: () -> Unit = {},
+    onRequestPermission: () -> Unit = {},
+    firstLaunchPreferences: FirstLaunchPreferences? = null,
     navController: NavHostController = rememberNavController(),
 ) {
+    val startDestination = if (firstLaunchPreferences?.isFirstLaunch == true) {
+        WELCOME_ROUTE
+    } else {
+        ENTRY_ROUTE
+    }
+
     LaunchedEffect(uiState, navController) {
         if (uiState is LaunchUiState.Ready) {
             navController.navigate(MAIN_ROUTE) {
-                popUpTo(ENTRY_ROUTE) {
+                popUpTo(startDestination) {
                     inclusive = false
                 }
                 launchSingleTop = true
@@ -41,8 +52,23 @@ fun AppNavGraph(
     NavHost(
         modifier = modifier,
         navController = navController,
-        startDestination = ENTRY_ROUTE,
+        startDestination = startDestination,
     ) {
+        composable(WELCOME_ROUTE) {
+            WelcomeScreen(
+                uiState = uiState,
+                onRequestPermission = {
+                    firstLaunchPreferences?.markFirstLaunchDone()
+                    onRequestPermission()
+                },
+                onNavigateToEntry = {
+                    navController.navigate(ENTRY_ROUTE) {
+                        popUpTo(WELCOME_ROUTE) { inclusive = true }
+                        launchSingleTop = true
+                    }
+                },
+            )
+        }
         composable(ENTRY_ROUTE) {
             EntryRoute(
                 uiState = uiState,
