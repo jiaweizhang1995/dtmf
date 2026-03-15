@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Completed 05-01-PLAN.md
-last_updated: "2026-03-15T08:08:36.764Z"
+stopped_at: Completed 05-02-PLAN.md
+last_updated: "2026-03-15T08:18:13.677Z"
 last_activity: 2026-03-15 — Completed 04-02 review selection state and SavedStateHandle-backed ReviewViewModel
 progress:
   total_phases: 5
   completed_phases: 4
   total_plans: 15
-  completed_plans: 13
+  completed_plans: 14
   percent: 92
 ---
 
@@ -57,6 +57,7 @@ Progress: [█████████░] 92%
 | Phase 04-review-permanent-delete P02 | 3 min | 3 tasks | 7 files |
 | Phase 04-review-permanent-delete P03 | 9 | 3 tasks | 11 files |
 | Phase 05 P01 | 12 | 3 tasks | 7 files |
+| Phase 05 P02 | 8 | 2 tasks | 1 files |
 
 ## Accumulated Context
 
@@ -106,6 +107,8 @@ Recent decisions affecting current work:
 - [Phase 05-01]: Post-delete re-query runs in rememberCoroutineScope.launch; loadReviewPhotos handles IO dispatcher switching internally — no explicit Dispatchers.IO needed at call site
 - [Phase 05-01]: material-icons-extended added as BOM-versioned dependency to provide Icons.Outlined.PhotoLibrary for EntryScreen Empty branch
 - [Phase 05-01]: onDeleteConfirmed guard (isNotEmpty check) lives in ReviewRoute, not ReviewViewModel — ViewModel emits DeleteConfirmed unconditionally, Route filters
+- [Phase 05-02]: All 19 lifecycle scenarios confirmed PASS on device — no code changes required; Phase 05-01 SavedStateHandle implementation was correct
+- [Phase 05-02]: Media stale-check deferred by design: session is intentionally frozen until next explicit refresh — acceptable for v1
 
 ### Pending Todos
 
@@ -118,6 +121,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-15T08:08:36.761Z
-Stopped at: Completed 05-01-PLAN.md
+Last session: 2026-03-15T08:18:13.674Z
+Stopped at: Completed 05-02-PLAN.md
 Resume file: None
