@@ -9,7 +9,7 @@
 
 - [x] **MEDIA-01**: User can grant image-library access needed for the app to read local photos, and can retry if permission was denied
 - [x] **MEDIA-02**: App can query local-device images and start a new launch session with 30 randomly selected photos
-- [ ] **MEDIA-03**: User sees a clear empty or unavailable state when the device has no eligible photos or the app cannot build a valid session
+- [x] **MEDIA-03**: User sees a clear empty or unavailable state when the device has no eligible photos or the app cannot build a valid session
 
 ### Swipe Flow
 
@@ -24,7 +24,7 @@
 - [x] **REVW-01**: User can view all currently staged photos in the delete staging area
 - [x] **REVW-02**: User can deselect staged photos they want to keep before deletion
 - [x] **REVW-03**: User can permanently delete the currently selected staged photos only after explicit confirmation
-- [ ] **REVW-04**: If deletion is cancelled or partially fails, the app preserves non-deleted items and reflects the final result accurately
+- [x] **REVW-04**: If deletion is cancelled or partially fails, the app preserves non-deleted items and reflects the final result accurately
 
 ### Experience & Fidelity
 
@@ -61,7 +61,7 @@
 |-------------|-------|--------|
 | MEDIA-01 | Phase 1 | Complete |
 | MEDIA-02 | Phase 1 | Complete |
-| MEDIA-03 | Phase 5 | Pending |
+| MEDIA-03 | Phase 5 | Complete |
 | SWIPE-01 | Phase 2 | Complete |
 | SWIPE-02 | Phase 2 | Complete |
 | SWIPE-03 | Phase 2 | Complete |
@@ -70,7 +70,7 @@
 | REVW-01 | Phase 4 | Complete |
 | REVW-02 | Phase 4 | Complete |
 | REVW-03 | Phase 4 | Complete |
-| REVW-04 | Phase 5 | Pending |
+| REVW-04 | Phase 5 | Complete |
 | UX-01 | Phase 2 | Complete |
 | UX-02 | Phase 4 | Complete |
 | UX-03 | Phase 1 | Complete |
