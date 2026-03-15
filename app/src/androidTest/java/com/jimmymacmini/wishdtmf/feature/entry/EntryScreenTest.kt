@@ -78,4 +78,21 @@ class EntryScreenTest {
 
         composeRule.onNodeWithText("Session ready with 3 photos.").assertIsDisplayed()
     }
+
+    // -----------------------------------------------------------------------
+    // Settings-hint button (Wave 0)
+    // -----------------------------------------------------------------------
+
+    @Test
+    fun needsPermission_showsSettingsButton_whenShowSettingsHintTrue() {
+        composeRule.setContent {
+            EntryScreen(
+                uiState = LaunchUiState.NeedsPermission(showSettingsHint = true),
+                onGrantAccess = {},
+                onRetry = {},
+            )
+        }
+
+        composeRule.onNodeWithText("Open app settings").assertIsDisplayed()
+    }
 }

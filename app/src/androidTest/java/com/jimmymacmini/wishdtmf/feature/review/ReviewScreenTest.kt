@@ -377,4 +377,19 @@ class ReviewScreenTest {
             .onNodeWithTag(ReviewScreenTags.DeleteForeverButton)
             .assert(hasStateDescription("enabled"))
     }
+
+    // -----------------------------------------------------------------------
+    // Empty-grid state (Wave 0)
+    // -----------------------------------------------------------------------
+
+    @Test
+    fun emptyGrid_showsEmptyMessage_whenBothStagedListsEmpty() {
+        setReviewScreen(
+            stagedPhotoIds = emptyList(),
+            uiState = ReviewUiState(isLoading = false, stagedPhotos = emptyList()),
+        )
+        composeRule
+            .onNodeWithTag(ReviewScreenTags.EmptyGridMessage)
+            .assertIsDisplayed()
+    }
 }
