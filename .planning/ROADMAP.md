@@ -9,7 +9,7 @@ This roadmap takes the project from Android/media foundations to a screenshot-fa
 - [x] **Phase 1: Foundation & Media Access** - Create the Android scaffold, lifecycle-safe state model, permissions flow, and random 30-photo launch session (completed 2026-03-14)
 - [x] **Phase 2: Main Swipe Experience** - Recreate the primary `main.jpg` screen with smooth photo viewing and left/right swipe behavior (completed 2026-03-14)
 - [x] **Phase 3: Session Controls & Navigation** - Add undo, proceed behavior, and the bridge from the swipe loop into review (completed 2026-03-15)
-- [ ] **Phase 4: Review & Permanent Delete** - Build the `Delete-staging-area..jpg` flow and complete safe destructive deletion
+- [x] **Phase 4: Review & Permanent Delete** - Build the `Delete-staging-area..jpg` flow and complete safe destructive deletion (completed 2026-03-15)
 - [ ] **Phase 5: Hardening & Launch Validation** - Cover empty states, cancellation paths, device quirks, and final UI/UX validation
 
 ## Phase Details
@@ -99,5 +99,5 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | 1. Foundation & Media Access | 3/3 | Complete | 2026-03-14 |
 | 2. Main Swipe Experience | 4/4 | Complete | 2026-03-14 |
 | 3. Session Controls & Navigation | 2/2 | Complete | 2026-03-15 |
-| 4. Review & Permanent Delete | 2/3 | In Progress|  |
+| 4. Review & Permanent Delete | 3/3 | Complete   | 2026-03-15 |
 | 5. Hardening & Launch Validation | 0/3 | Not started | - |
