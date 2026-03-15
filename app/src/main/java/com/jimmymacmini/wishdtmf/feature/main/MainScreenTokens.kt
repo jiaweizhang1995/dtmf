@@ -17,7 +17,6 @@ object MainScreenTokens {
     val heroOverlaySize = 40.dp
     val actionButtonSize = 64.dp
     val actionRowBottomPadding = 8.dp
-    val footerRowHeight = 42.dp
     val proceedTopPadding = 8.dp
 
     val appBackground = Color(0xFF111111)
