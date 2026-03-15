@@ -94,6 +94,7 @@ fun MainScreen(
             BottomActionRow(
                 canUndo = uiState.canUndo,
                 onUndoLastDecision = onUndoLastDecision,
+                onSkipCurrentPhoto = onSkipCurrentPhoto,
             )
             PremiumBannerRow()
             ProceedAffordance(
@@ -204,6 +205,7 @@ private fun MetadataChip(label: String) {
 private fun BottomActionRow(
     canUndo: Boolean,
     onUndoLastDecision: () -> Unit,
+    onSkipCurrentPhoto: () -> Unit,
 ) {
     Row(
         modifier = Modifier
@@ -213,11 +215,6 @@ private fun BottomActionRow(
         horizontalArrangement = Arrangement.SpaceEvenly,
         verticalAlignment = Alignment.Top,
     ) {
-        MainActionButton(
-            symbol = "⌫",
-            label = null,
-            background = MainScreenTokens.destructiveAction,
-        )
         MainActionButton(
             symbol = "↶",
             label = "Undo",
@@ -230,11 +227,7 @@ private fun BottomActionRow(
             symbol = "»",
             label = "Skip",
             background = MainScreenTokens.neutralAction,
-        )
-        MainActionButton(
-            symbol = "✓",
-            label = null,
-            background = MainScreenTokens.confirmationAction,
+            onClick = onSkipCurrentPhoto,
         )
     }
 }
