@@ -110,7 +110,7 @@ fun ReviewScreen(
             promptText = if (uiState.isLoading) {
                 // While loading, fall back to the total count from staged IDs.
                 val count = stagedPhotoIds.size
-                if (count == 1) "Permanently delete 1 item?" else "Permanently delete $count items?"
+                if (count == 1) "永久删除 1 项？" else "永久删除 ${count} 项？"
             } else {
                 uiState.destructivePromptText
             },
@@ -149,7 +149,7 @@ fun ReviewScreen(
             } else if (!uiState.isLoading && stagedPhotoIds.isEmpty()) {
                 item(span = { GridItemSpan(maxLineSpan) }) {
                     Text(
-                        text = "No photos staged for deletion.",
+                        text = "没有等待删除的照片。",
                         color = T.SubtleTextColor,
                         modifier = Modifier
                             .padding(T.HorizontalPadding)
@@ -242,15 +242,6 @@ private fun DestructivePromptSection(
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        // Helper link below the prompt
-        Text(
-            text = T.HelperLinkText,
-            color = T.AccentTeal,
-            fontSize = T.HelperLinkSize,
-            modifier = Modifier
-                .testTag(ReviewScreenTags.HelperLink)
-                .clickable { /* Move-to-trash flow — Phase 5 deferred */ },
-        )
     }
 }
 

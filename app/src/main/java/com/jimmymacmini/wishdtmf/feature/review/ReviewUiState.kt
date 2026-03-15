@@ -23,7 +23,7 @@ data class ReviewUiState(
 
     /** Copy-driven destructive question reflecting the current selected subset. */
     val destructivePromptText: String
-        get() = if (selectedCount == 1) "Permanently delete 1 item?" else "Permanently delete $selectedCount items?"
+        get() = if (selectedCount == 1) "永久删除 1 项？" else "永久删除 ${selectedCount} 项？"
 
     /** Whether the given photo ID is currently selected for deletion. */
     fun isSelected(photoId: Long): Boolean = photoId in selectedPhotoIds
