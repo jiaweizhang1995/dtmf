@@ -147,9 +147,10 @@ None yet.
 | 17 | Fix thumbnail yellow border not showing — move border before clip in ThumbnailBox | 2026-03-16 | 09b9ed6 | ✓ approved | [17-fix-thumbnail-yellow-border-not-showing-](./quick/17-fix-thumbnail-yellow-border-not-showing-/) |
 | 18 | Create welcome screen with auto-permission trigger and first-launch SharedPreferences routing | 2026-03-16 | 292c44c | awaiting verify | [18-create-welcome-screen-with-photo-library](./quick/18-create-welcome-screen-with-photo-library/) |
 | 19 | Change all English text in the app to Simplified Chinese | 2026-03-16 | 6e39970 | [19-change-all-english-text-in-the-app-to-ch](./quick/19-change-all-english-text-in-the-app-to-ch/) |
+| 20 | Replace back navigation on MainScreen with double-back-press-to-exit pattern and Chinese overlay hint | 2026-03-16 | 175a90a | [20-when-performing-the-back-action-in-the-a](./quick/20-when-performing-the-back-action-in-the-a/) |
 
 ## Session Continuity
 
 Last session: 2026-03-16T17:07:00Z
-Stopped at: Completed quick task 19 (translate all UI text to Simplified Chinese)
+Stopped at: Completed quick task 20 (double-back-press-to-exit on MainScreen)
 Resume file: None
