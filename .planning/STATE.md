@@ -3,9 +3,9 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: "Completed quick task 10: add top bar with DtMF title and Enable thumbnails menu"
-last_updated: "2026-03-15T15:00:11.568Z"
-last_activity: "2026-03-15 — Completed quick task 10: add top bar with DtMF title and Enable thumbnails menu"
+stopped_at: Completed quick task 12 (auto tasks); awaiting human verify checkpoint
+last_updated: "2026-03-15T15:43:36.800Z"
+last_activity: "2026-03-15 — Completed quick task 11: in the review page. Remove "No, i want to move to trash" and "Decide Later" Button"
 progress:
   total_phases: 5
   completed_phases: 5
@@ -111,6 +111,7 @@ Recent decisions affecting current work:
 - [Phase 05-02]: All 19 lifecycle scenarios confirmed PASS on device — no code changes required; Phase 05-01 SavedStateHandle implementation was correct
 - [Phase 05-02]: Media stale-check deferred by design: session is intentionally frozen until next explicit refresh — acceptable for v1
 - [Phase 05-03]: Visual acceptance is deliberately manual — automated screenshot tests would be brittle for a one-time gate; all 29 checklist rows confirmed PASS by device owner
+- [Phase quick-12]: statusBarsPadding() placed after background() on ReviewScreen/MainScreen and before static padding on EntryScreen — each screen self-consumes status bar insets because AppShell zeroes Scaffold insets
 
 ### Pending Todos
 
@@ -137,6 +138,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-15T15:20:49Z
-Stopped at: Completed quick task 11: remove Decide Later button from review page
+Last session: 2026-03-15T15:43:26.675Z
+Stopped at: Completed quick task 12 (auto tasks); awaiting human verify checkpoint
 Resume file: None
