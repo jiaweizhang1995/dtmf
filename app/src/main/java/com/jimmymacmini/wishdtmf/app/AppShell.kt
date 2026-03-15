@@ -54,7 +54,10 @@ fun WishDtmfApp(
             modifier = Modifier.fillMaxSize(),
             color = Color(0xFF111111),
         ) {
-            Scaffold(contentWindowInsets = WindowInsets(0)) { innerPadding ->
+            Scaffold(
+                contentWindowInsets = WindowInsets(0),
+                containerColor = Color.Transparent,
+            ) { innerPadding ->
                 AppNavGraph(
                     modifier = Modifier.padding(innerPadding),
                     uiState = uiState,
