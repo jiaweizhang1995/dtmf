@@ -4,8 +4,10 @@ import androidx.lifecycle.SavedStateHandle
 import com.jimmymacmini.wishdtmf.data.media.ReviewPhoto
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.resetMain
+import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -239,5 +241,56 @@ class ReviewViewModelTest {
 
         vm.togglePhotoSelection(1L)
         assertFalse(vm.uiState.value.isDeleteEnabled)
+    }
+
+    // -----------------------------------------------------------------------
+    // onDeleteConfirmed — partial delete propagation (Wave 0)
+    // -----------------------------------------------------------------------
+
+    @Test
+    fun onDeleteConfirmed_partialDelete_onlyPassesActuallyDeletedIds() = runTest {
+        val vm = viewModel()
+        vm.onPhotosResolved(photos(1L, 2L, 3L))
+
+        val emittedEvents = mutableListOf<ReviewEvent>()
+        val collectJob = launch(testDispatcher) {
+            vm.events.collect { emittedEvents.add(it) }
+        }
+
+        // Simulate: 3 photos were selected but only 1 and 3 were actually deleted by MediaStore.
+        vm.onDeleteConfirmed(setOf(1L, 3L))
+
+        // Allow the SharedFlow emission to be collected.
+        testScheduler.advanceUntilIdle()
+
+        val deleteConfirmed = emittedEvents.filterIsInstance<ReviewEvent.DeleteConfirmed>()
+        assertEquals("Expected exactly one DeleteConfirmed event", 1, deleteConfirmed.size)
+        assertEquals(setOf(1L, 3L), deleteConfirmed.first().deletedPhotoIds)
+        assertFalse("Deleted IDs must not contain 2L", deleteConfirmed.first().deletedPhotoIds.contains(2L))
+
+        collectJob.cancel()
+    }
+
+    @Test
+    fun onDeleteConfirmed_emptyDeletedSet_emitsDeleteConfirmedWithEmptySet() = runTest {
+        val vm = viewModel()
+        vm.onPhotosResolved(photos(1L, 2L))
+
+        val emittedEvents = mutableListOf<ReviewEvent>()
+        val collectJob = launch(testDispatcher) {
+            vm.events.collect { emittedEvents.add(it) }
+        }
+
+        // Guard against empty propagation lives in ReviewRoute, not ViewModel.
+        // ViewModel should still emit DeleteConfirmed(emptySet()) when asked.
+        vm.onDeleteConfirmed(emptySet())
+
+        testScheduler.advanceUntilIdle()
+
+        val deleteConfirmed = emittedEvents.filterIsInstance<ReviewEvent.DeleteConfirmed>()
+        assertEquals("Expected exactly one DeleteConfirmed event", 1, deleteConfirmed.size)
+        assertEquals(emptySet<Long>(), deleteConfirmed.first().deletedPhotoIds)
+
+        collectJob.cancel()
     }
 }
