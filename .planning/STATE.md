@@ -133,9 +133,10 @@ None yet.
 | 8 | remove the icon in the top-right corner of the hero image and show full uncropped photo | 2026-03-15 | 5377367 | [8-remove-the-icon-in-the-top-right-corner-](./quick/8-remove-the-icon-in-the-top-right-corner-/) |
 | 9 | remove the date displayed at the top of the main screen | 2026-03-15 | b78a5fb | [9-remove-the-date-displayed-at-the-top-of-](./quick/9-remove-the-date-displayed-at-the-top-of-/) |
 | 10 | Add top bar with three-dots More options menu containing Enable thumbnails toggle | 2026-03-15 | 3ff50da | [10-add-top-bar-with-three-dots-more-options](./quick/10-add-top-bar-with-three-dots-more-options/) |
+| 11 | Remove Decide Later button from review page and center Delete Forever button | 2026-03-15 | 6a7e7ab | [11-in-the-review-page-remove-no-i-want-to-m](./quick/11-in-the-review-page-remove-no-i-want-to-m/) |
 
 ## Session Continuity
 
-Last session: 2026-03-15T14:54:21Z
-Stopped at: Completed quick task 9: remove date label from top of main screen
+Last session: 2026-03-15T15:20:49Z
+Stopped at: Completed quick task 11: remove Decide Later button from review page
 Resume file: None
