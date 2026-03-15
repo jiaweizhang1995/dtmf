@@ -17,6 +17,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.jimmymacmini.wishdtmf.app.navigation.AppNavGraph
 import com.jimmymacmini.wishdtmf.data.media.PhotoRepository
+import com.jimmymacmini.wishdtmf.feature.entry.FirstLaunchPreferences
 import com.jimmymacmini.wishdtmf.feature.entry.LaunchViewModel
 import com.jimmymacmini.wishdtmf.feature.entry.PermissionCoordinator
 import com.jimmymacmini.wishdtmf.feature.entry.PermissionEvent
@@ -26,6 +27,7 @@ import com.jimmymacmini.wishdtmf.feature.entry.rememberPermissionRequestControll
 fun WishDtmfApp(
     photoRepository: PhotoRepository = (LocalContext.current.applicationContext as App).photoRepository,
 ) {
+    val context = LocalContext.current
     val launchViewModel: LaunchViewModel = viewModel(
         factory = LaunchViewModel.factory(photoRepository = photoRepository),
     )
@@ -35,6 +37,7 @@ fun WishDtmfApp(
         permissionCoordinator = permissionCoordinator,
         onPermissionResolved = launchViewModel::onPermissionResult,
     )
+    val firstLaunchPreferences = remember { FirstLaunchPreferences(context) }
 
     LaunchedEffect(permissionController.hasPermission, uiState, permissionCoordinator) {
         when (
@@ -64,6 +67,8 @@ fun WishDtmfApp(
                     onGrantAccess = permissionController.requestPermission,
                     onRetry = launchViewModel::retry,
                     onRefreshAfterDelete = launchViewModel::refreshAfterDelete,
+                    onRequestPermission = permissionController.requestPermission,
+                    firstLaunchPreferences = firstLaunchPreferences,
                 )
             }
         }
