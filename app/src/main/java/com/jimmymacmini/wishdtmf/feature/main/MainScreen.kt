@@ -308,7 +308,7 @@ private fun PremiumBannerRow() {
             overflow = TextOverflow.Ellipsis,
         )
         Text(
-            text = "Albums",
+            text = "Proceed",
             color = MainScreenTokens.secondaryText,
             fontWeight = FontWeight.Medium,
         )
