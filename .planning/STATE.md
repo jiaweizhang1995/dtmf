@@ -138,6 +138,7 @@ None yet.
 | 9 | remove the date displayed at the top of the main screen | 2026-03-15 | b78a5fb | [9-remove-the-date-displayed-at-the-top-of-](./quick/9-remove-the-date-displayed-at-the-top-of-/) |
 | 10 | Add top bar with three-dots More options menu containing Enable thumbnails toggle | 2026-03-15 | 3ff50da | [10-add-top-bar-with-three-dots-more-options](./quick/10-add-top-bar-with-three-dots-more-options/) |
 | 11 | Remove Decide Later button from review page and center Delete Forever button | 2026-03-15 | 6a7e7ab | [11-in-the-review-page-remove-no-i-want-to-m](./quick/11-in-the-review-page-remove-no-i-want-to-m/) |
+| 12 | Fix top bar system insets — statusBarsPadding on ReviewScreen, MainScreen, EntryScreen | 2026-03-16 | bd62cba | [12-fix-top-bar-system-insets-back-button-ob](./quick/12-fix-top-bar-system-insets-back-button-ob/) |
 | 13 | Move Proceed button above home indicator (navigationBarsPadding on MainScreen) | 2026-03-15 | 4254b0d | [13-move-proceed-button-above-home-indicator](./quick/13-move-proceed-button-above-home-indicator/) |
 | 14 | Fix Proceed button hidden — move navigationBarsPadding from root to ProceedAffordance Column | 2026-03-16 | 36d9deb | [14-fix-proceed-button-hidden-revert-root-na](./quick/14-fix-proceed-button-hidden-revert-root-na/) |
 | 15 | Move Proceed button to top bar (left of three-dot), remove bottom ProceedAffordance | 2026-03-16 | 86afb95 | [15-move-proceed-button-to-top-bar-left-of-t](./quick/15-move-proceed-button-to-top-bar-left-of-t/) |
