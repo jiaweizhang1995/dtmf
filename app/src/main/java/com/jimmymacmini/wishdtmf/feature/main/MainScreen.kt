@@ -151,23 +151,13 @@ private fun MainTopBar(title: String) {
             .fillMaxWidth()
             .height(MainScreenTokens.topBarHeight)
             .testTag(MainScreenTags.TopBar),
-        horizontalArrangement = Arrangement.SpaceBetween,
+        horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        Text(
-            text = "‹",
-            color = MainScreenTokens.primaryText,
-            fontWeight = FontWeight.Medium,
-        )
         Text(
             text = title,
             color = MainScreenTokens.primaryText,
             fontWeight = FontWeight.SemiBold,
-        )
-        Text(
-            text = "⋮",
-            color = MainScreenTokens.primaryText,
-            fontWeight = FontWeight.Bold,
         )
     }
 }
