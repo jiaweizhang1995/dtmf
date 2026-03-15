@@ -22,7 +22,7 @@
 ### Review & Delete
 
 - [x] **REVW-01**: User can view all currently staged photos in the delete staging area
-- [ ] **REVW-02**: User can deselect staged photos they want to keep before deletion
+- [x] **REVW-02**: User can deselect staged photos they want to keep before deletion
 - [ ] **REVW-03**: User can permanently delete the currently selected staged photos only after explicit confirmation
 - [ ] **REVW-04**: If deletion is cancelled or partially fails, the app preserves non-deleted items and reflects the final result accurately
 
@@ -68,7 +68,7 @@
 | SWIPE-04 | Phase 3 | Complete |
 | SWIPE-05 | Phase 3 | Complete |
 | REVW-01 | Phase 4 | Complete |
-| REVW-02 | Phase 4 | Pending |
+| REVW-02 | Phase 4 | Complete |
 | REVW-03 | Phase 4 | Pending |
 | REVW-04 | Phase 5 | Pending |
 | UX-01 | Phase 2 | Complete |
