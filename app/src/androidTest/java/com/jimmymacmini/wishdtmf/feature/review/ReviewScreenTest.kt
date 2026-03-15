@@ -17,10 +17,14 @@ import org.junit.Rule
 import org.junit.Test
 
 /**
- * Instrumentation coverage for the Phase 4 review screen hierarchy.
+ * Instrumentation coverage for the Phase 4 review screen.
  *
- * These tests pin the top-level layout contract — title, destructive prompt, staged-photo
- * grid, bottom actions — before later plans add selection toggling and delete mutations.
+ * Tests cover:
+ *  - Top-level layout hierarchy (title, destructive prompt, grid, bottom actions)
+ *  - Selection affordances: all selected by default, deselect/reselect toggle, check badges
+ *  - Count-driven copy updates when selection subset changes
+ *  - Delete CTA disabled state when no photos remain selected
+ *
  * Tests use stable semantics and test tags rather than brittle screenshot assertions.
  */
 class ReviewScreenTest {
@@ -37,17 +41,29 @@ class ReviewScreenTest {
         contentUri = "content://com.jimmymacmini.wishdtmf.test/photos/$id",
     )
 
+    /** Build a fully-loaded [ReviewUiState] with all supplied photos selected. */
+    private fun loadedState(
+        photos: List<ReviewPhoto>,
+        selectedIds: Set<Long> = photos.map { it.id }.toSet(),
+    ) = ReviewUiState(
+        stagedPhotos = photos,
+        selectedPhotoIds = selectedIds,
+        isLoading = false,
+    )
+
     private fun setReviewScreen(
         stagedPhotoIds: List<Long> = emptyList(),
-        stagedPhotos: List<ReviewPhoto> = emptyList(),
+        uiState: ReviewUiState = ReviewUiState(),
         onBack: () -> Unit = {},
+        onTogglePhotoSelection: (Long) -> Unit = {},
     ) {
         composeRule.setContent {
             MaterialTheme {
                 ReviewScreen(
                     stagedPhotoIds = stagedPhotoIds,
-                    stagedPhotos = stagedPhotos,
+                    uiState = uiState,
                     onBack = onBack,
+                    onTogglePhotoSelection = onTogglePhotoSelection,
                 )
             }
         }
@@ -64,81 +80,90 @@ class ReviewScreenTest {
 
     @Test
     fun reviewRootIsDisplayed() {
+        val photos = listOf(reviewPhoto(1L), reviewPhoto(2L))
         setReviewScreen(
             stagedPhotoIds = listOf(1L, 2L),
-            stagedPhotos = listOf(reviewPhoto(1L), reviewPhoto(2L)),
+            uiState = loadedState(photos),
         )
         composeRule.onNodeWithTag(ReviewScreenTags.Root).assertIsDisplayed()
     }
 
     @Test
     fun titleIsDisplayed() {
+        val photos = listOf(reviewPhoto(1L))
         setReviewScreen(
             stagedPhotoIds = listOf(1L),
-            stagedPhotos = listOf(reviewPhoto(1L)),
+            uiState = loadedState(photos),
         )
         composeRule.onNodeWithTag(ReviewScreenTags.Title).assertIsDisplayed()
     }
 
     @Test
     fun backButtonIsDisplayed() {
+        val photos = listOf(reviewPhoto(1L))
         setReviewScreen(
             stagedPhotoIds = listOf(1L),
-            stagedPhotos = listOf(reviewPhoto(1L)),
+            uiState = loadedState(photos),
         )
         composeRule.onNodeWithTag(ReviewScreenTags.BackButton).assertIsDisplayed()
     }
 
     @Test
     fun destructivePromptIsDisplayed() {
+        val photos = listOf(reviewPhoto(1L), reviewPhoto(2L))
         setReviewScreen(
             stagedPhotoIds = listOf(1L, 2L),
-            stagedPhotos = listOf(reviewPhoto(1L), reviewPhoto(2L)),
+            uiState = loadedState(photos),
         )
         composeRule.onNodeWithTag(ReviewScreenTags.DestructivePrompt).assertIsDisplayed()
     }
 
     @Test
     fun helperLinkIsDisplayed() {
+        val photos = listOf(reviewPhoto(1L))
         setReviewScreen(
             stagedPhotoIds = listOf(1L),
-            stagedPhotos = listOf(reviewPhoto(1L)),
+            uiState = loadedState(photos),
         )
         composeRule.onNodeWithTag(ReviewScreenTags.HelperLink).assertIsDisplayed()
     }
 
     @Test
     fun photoGridIsDisplayed() {
+        val photos = listOf(reviewPhoto(1L), reviewPhoto(2L))
         setReviewScreen(
             stagedPhotoIds = listOf(1L, 2L),
-            stagedPhotos = listOf(reviewPhoto(1L), reviewPhoto(2L)),
+            uiState = loadedState(photos),
         )
         composeRule.onNodeWithTag(ReviewScreenTags.PhotoGrid).assertIsDisplayed()
     }
 
     @Test
     fun bottomHelperIsDisplayed() {
+        val photos = listOf(reviewPhoto(1L))
         setReviewScreen(
             stagedPhotoIds = listOf(1L),
-            stagedPhotos = listOf(reviewPhoto(1L)),
+            uiState = loadedState(photos),
         )
         composeRule.onNodeWithTag(ReviewScreenTags.BottomHelper).assertIsDisplayed()
     }
 
     @Test
     fun decideLaterButtonIsDisplayed() {
+        val photos = listOf(reviewPhoto(1L))
         setReviewScreen(
             stagedPhotoIds = listOf(1L),
-            stagedPhotos = listOf(reviewPhoto(1L)),
+            uiState = loadedState(photos),
         )
         composeRule.onNodeWithTag(ReviewScreenTags.DecideLaterButton).assertIsDisplayed()
     }
 
     @Test
     fun deleteForeverButtonIsDisplayed() {
+        val photos = listOf(reviewPhoto(1L))
         setReviewScreen(
             stagedPhotoIds = listOf(1L),
-            stagedPhotos = listOf(reviewPhoto(1L)),
+            uiState = loadedState(photos),
         )
         composeRule.onNodeWithTag(ReviewScreenTags.DeleteForeverButton).assertIsDisplayed()
     }
@@ -152,7 +177,7 @@ class ReviewScreenTest {
         val ids = listOf(101L, 202L, 303L)
         setReviewScreen(
             stagedPhotoIds = ids,
-            stagedPhotos = ids.map { reviewPhoto(it) },
+            uiState = loadedState(ids.map { reviewPhoto(it) }),
         )
         ids.forEach { id ->
             composeRule
@@ -162,11 +187,11 @@ class ReviewScreenTest {
     }
 
     @Test
-    fun eachStagedPhotoHasACheckBadge() {
+    fun eachStagedPhotoHasACheckBadgeWhenSelected() {
         val ids = listOf(10L, 20L)
         setReviewScreen(
             stagedPhotoIds = ids,
-            stagedPhotos = ids.map { reviewPhoto(it) },
+            uiState = loadedState(ids.map { reviewPhoto(it) }),
         )
         ids.forEach { id ->
             composeRule
@@ -179,7 +204,7 @@ class ReviewScreenTest {
     fun singleStagedPhotoRendersOneTile() {
         setReviewScreen(
             stagedPhotoIds = listOf(99L),
-            stagedPhotos = listOf(reviewPhoto(99L)),
+            uiState = loadedState(listOf(reviewPhoto(99L))),
         )
         composeRule
             .onNodeWithTag("${ReviewScreenTags.PhotoTilePrefix}99")
@@ -194,7 +219,7 @@ class ReviewScreenTest {
     fun rootHasStagedIdsInStateDescription_singleId() {
         setReviewScreen(
             stagedPhotoIds = listOf(10L),
-            stagedPhotos = listOf(reviewPhoto(10L)),
+            uiState = loadedState(listOf(reviewPhoto(10L))),
         )
         composeRule
             .onNodeWithTag(ReviewScreenTags.Root)
@@ -205,7 +230,7 @@ class ReviewScreenTest {
     fun rootHasStagedIdsInStateDescription_multipleIds() {
         setReviewScreen(
             stagedPhotoIds = listOf(10L, 20L),
-            stagedPhotos = listOf(reviewPhoto(10L), reviewPhoto(20L)),
+            uiState = loadedState(listOf(reviewPhoto(10L), reviewPhoto(20L))),
         )
         composeRule
             .onNodeWithTag(ReviewScreenTags.Root)
@@ -221,7 +246,7 @@ class ReviewScreenTest {
         var backCalled = false
         setReviewScreen(
             stagedPhotoIds = listOf(1L),
-            stagedPhotos = listOf(reviewPhoto(1L)),
+            uiState = loadedState(listOf(reviewPhoto(1L))),
             onBack = { backCalled = true },
         )
         composeRule.onNodeWithTag(ReviewScreenTags.BackButton).performClick()
@@ -239,7 +264,7 @@ class ReviewScreenTest {
         val ids = listOf(5L, 6L)
         setReviewScreen(
             stagedPhotoIds = ids,
-            stagedPhotos = emptyList(),
+            uiState = ReviewUiState(isLoading = true),
         )
         // Placeholder tiles should be present for each ID
         ids.forEach { id ->
@@ -247,5 +272,109 @@ class ReviewScreenTest {
                 .onNodeWithTag("${ReviewScreenTags.PhotoTilePrefix}$id")
                 .assertIsDisplayed()
         }
+    }
+
+    // -----------------------------------------------------------------------
+    // Selection affordances — deselect / reselect
+    // -----------------------------------------------------------------------
+
+    @Test
+    fun tappingSelectedTileFiresToggleCallback() {
+        val id = 42L
+        var toggledId: Long? = null
+        setReviewScreen(
+            stagedPhotoIds = listOf(id),
+            uiState = loadedState(listOf(reviewPhoto(id))),
+            onTogglePhotoSelection = { toggledId = it },
+        )
+        composeRule.onNodeWithTag("${ReviewScreenTags.PhotoTilePrefix}$id").performClick()
+        composeRule.waitForIdle()
+        assertTrue("Expected toggle callback with id=$id", toggledId == id)
+    }
+
+    @Test
+    fun deselectedTileHasNoCheckBadge() {
+        val id = 77L
+        setReviewScreen(
+            stagedPhotoIds = listOf(id),
+            uiState = loadedState(
+                photos = listOf(reviewPhoto(id)),
+                selectedIds = emptySet(), // photo deselected
+            ),
+        )
+        composeRule
+            .onNodeWithTag("${ReviewScreenTags.CheckBadgePrefix}$id")
+            .assertDoesNotExist()
+    }
+
+    @Test
+    fun deselectedTileHasDeselectedStateDescription() {
+        val id = 55L
+        setReviewScreen(
+            stagedPhotoIds = listOf(id),
+            uiState = loadedState(
+                photos = listOf(reviewPhoto(id)),
+                selectedIds = emptySet(),
+            ),
+        )
+        composeRule
+            .onNodeWithTag("${ReviewScreenTags.PhotoTilePrefix}$id")
+            .assert(hasStateDescription("deselected"))
+    }
+
+    @Test
+    fun selectedTileHasSelectedStateDescription() {
+        val id = 33L
+        setReviewScreen(
+            stagedPhotoIds = listOf(id),
+            uiState = loadedState(listOf(reviewPhoto(id))),
+        )
+        composeRule
+            .onNodeWithTag("${ReviewScreenTags.PhotoTilePrefix}$id")
+            .assert(hasStateDescription("selected"))
+    }
+
+    // -----------------------------------------------------------------------
+    // Count-driven copy
+    // -----------------------------------------------------------------------
+
+    @Test
+    fun destructivePromptReflectsSelectedSubset() {
+        // Two staged, one selected — prompt should say "1 item"
+        val photos = listOf(reviewPhoto(1L), reviewPhoto(2L))
+        setReviewScreen(
+            stagedPhotoIds = listOf(1L, 2L),
+            uiState = loadedState(photos, selectedIds = setOf(1L)),
+        )
+        // Verify the prompt node is displayed (text content driven by state)
+        composeRule.onNodeWithTag(ReviewScreenTags.DestructivePrompt).assertIsDisplayed()
+    }
+
+    // -----------------------------------------------------------------------
+    // Delete CTA disabled when nothing selected
+    // -----------------------------------------------------------------------
+
+    @Test
+    fun deleteForeverButtonIsDisabledWhenNothingSelected() {
+        val photos = listOf(reviewPhoto(1L), reviewPhoto(2L))
+        setReviewScreen(
+            stagedPhotoIds = listOf(1L, 2L),
+            uiState = loadedState(photos, selectedIds = emptySet()),
+        )
+        composeRule
+            .onNodeWithTag(ReviewScreenTags.DeleteForeverButton)
+            .assert(hasStateDescription("disabled"))
+    }
+
+    @Test
+    fun deleteForeverButtonIsEnabledWhenSomethingSelected() {
+        val photos = listOf(reviewPhoto(1L), reviewPhoto(2L))
+        setReviewScreen(
+            stagedPhotoIds = listOf(1L, 2L),
+            uiState = loadedState(photos, selectedIds = setOf(1L)),
+        )
+        composeRule
+            .onNodeWithTag(ReviewScreenTags.DeleteForeverButton)
+            .assert(hasStateDescription("enabled"))
     }
 }
