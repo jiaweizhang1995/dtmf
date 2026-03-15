@@ -170,7 +170,7 @@ private fun MainTopBar(
         modifier = Modifier
             .fillMaxWidth()
             .height(MainScreenTokens.topBarHeight)
-            .background(Color.Black),
+            .background(MainScreenTokens.appBackground),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
     ) {
