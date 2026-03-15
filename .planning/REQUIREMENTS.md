@@ -13,7 +13,7 @@
 
 ### Swipe Flow
 
-- [ ] **SWIPE-01**: User can view one current photo at a time on the main screen with supporting thumbnails and primary action controls
+- [x] **SWIPE-01**: User can view one current photo at a time on the main screen with supporting thumbnails and primary action controls
 - [x] **SWIPE-02**: User can swipe left on the current photo to add it to delete staging
 - [x] **SWIPE-03**: User can swipe right on the current photo to skip it without modifying the photo
 - [x] **SWIPE-04**: User can undo the most recent swipe decision during the current session
@@ -21,15 +21,15 @@
 
 ### Review & Delete
 
-- [ ] **REVW-01**: User can view all currently staged photos in the delete staging area
+- [x] **REVW-01**: User can view all currently staged photos in the delete staging area
 - [ ] **REVW-02**: User can deselect staged photos they want to keep before deletion
 - [ ] **REVW-03**: User can permanently delete the currently selected staged photos only after explicit confirmation
 - [ ] **REVW-04**: If deletion is cancelled or partially fails, the app preserves non-deleted items and reflects the final result accurately
 
 ### Experience & Fidelity
 
-- [ ] **UX-01**: The main swipe screen closely matches the layout, hierarchy, and action placement shown in `main.jpg`
-- [ ] **UX-02**: The delete staging screen closely matches the layout, hierarchy, and action affordances shown in `Delete-staging-area..jpg`
+- [x] **UX-01**: The main swipe screen closely matches the layout, hierarchy, and action placement shown in `main.jpg`
+- [x] **UX-02**: The delete staging screen closely matches the layout, hierarchy, and action affordances shown in `Delete-staging-area..jpg`
 - [x] **UX-03**: The current swipe/review session survives configuration changes during the active app session
 
 ## v2 Requirements
@@ -62,17 +62,17 @@
 | MEDIA-01 | Phase 1 | Complete |
 | MEDIA-02 | Phase 1 | Complete |
 | MEDIA-03 | Phase 5 | Pending |
-| SWIPE-01 | Phase 2 | Pending |
+| SWIPE-01 | Phase 2 | Complete |
 | SWIPE-02 | Phase 2 | Complete |
 | SWIPE-03 | Phase 2 | Complete |
 | SWIPE-04 | Phase 3 | Complete |
 | SWIPE-05 | Phase 3 | Complete |
-| REVW-01 | Phase 4 | Pending |
+| REVW-01 | Phase 4 | Complete |
 | REVW-02 | Phase 4 | Pending |
 | REVW-03 | Phase 4 | Pending |
 | REVW-04 | Phase 5 | Pending |
-| UX-01 | Phase 2 | Pending |
-| UX-02 | Phase 4 | Pending |
+| UX-01 | Phase 2 | Complete |
+| UX-02 | Phase 4 | Complete |
 | UX-03 | Phase 1 | Complete |
 
 **Coverage:**
@@ -82,4 +82,4 @@
 
 ---
 *Requirements defined: 2026-03-14*
-*Last updated: 2026-03-14 after project initialization*
+*Last updated: 2026-03-15 after Phase 4 planning consistency fixes*

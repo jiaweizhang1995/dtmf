@@ -2,16 +2,16 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: executing
-stopped_at: Completed 03-02-PLAN.md
-last_updated: "2026-03-14T17:06:41.029Z"
+status: completed
+stopped_at: Completed 04-01-PLAN.md
+last_updated: "2026-03-15T06:46:59.128Z"
 last_activity: 2026-03-15 — Completed 03-02 review-route handoff and navigation continuity
 progress:
   total_phases: 5
   completed_phases: 3
-  total_plans: 15
-  completed_plans: 9
-  percent: 60
+  total_plans: 12
+  completed_plans: 10
+  percent: 83
 ---
 
 # Project State
@@ -21,16 +21,16 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-14)
 
 **Core value:** Make bulk photo cleanup fast and low-friction without losing the safety of a final review step before permanent deletion.
-**Current focus:** Begin Phase 4: Review & Permanent Delete on top of the completed review-route handoff
+**Current focus:** Phase 4 in progress; 04-02 selection state is next
 
 ## Current Position
 
-Phase: 3 of 5 (Session Controls & Navigation)
-Plan: 2 of 2 complete in current phase
-Status: Phase 3 complete; 04-01 is next
-Last activity: 2026-03-15 — Completed 03-02 review-route handoff and navigation continuity
+Phase: 4 of 5 (Review & Permanent Delete)
+Plan: 1 of 3 complete in current phase
+Status: Phase 4 in progress; 04-02 is next
+Last activity: 2026-03-15 — Completed 04-01 review screen shell and display model
 
-Progress: [██████░░░░] 60%
+Progress: [████████░░] 83%
 
 ## Performance Metrics
 
@@ -53,6 +53,7 @@ Progress: [██████░░░░] 60%
 | Phase 02-main-swipe-experience P04 | 33 min | 3 tasks | 10 files |
 | Phase 03-session-controls-navigation P01 | 37 min | 3 tasks | 9 files |
 | Phase 03-session-controls-navigation P02 | 9 min | 3 tasks | 10 files |
+| Phase 04-review-permanent-delete P01 | 5 min | 3 tasks | 6 files |
 
 ## Accumulated Context
 
@@ -91,6 +92,9 @@ Recent decisions affecting current work:
 - [Phase 03-session-controls-navigation]: Replaced the obsolete main-route advance callback with a proceed intent seam that later navigation work can consume directly.
 - [Phase 03-session-controls-navigation]: MainViewModel now emits explicit review-navigation events so review entry stays coupled to staged swipe state instead of LaunchViewModel index mutation.
 - [Phase 03-session-controls-navigation]: Review handoff uses back-stack SavedStateHandle staged ids, keeping the main destination alive so back returns to the same swipe session.
+- [Phase 04-review-permanent-delete]: ReviewRoute resolves staged IDs at the review boundary via LaunchedEffect + MediaStorePhotoRepository, keeping the handoff minimal and consistent with the no-Hilt single-module pattern
+- [Phase 04-review-permanent-delete]: ReviewPhoto is a lightweight display model (id + contentUri only) decoupled from the full LocalPhoto metadata contract
+- [Phase 04-review-permanent-delete]: All visual constants live in ReviewScreenTokens; selection affordances (check badges, teal borders) are present before toggle logic lands in plan 04-02
 
 ### Pending Todos
 
@@ -103,6 +107,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-14T17:04:57Z
-Stopped at: Completed 03-02-PLAN.md
+Last session: 2026-03-15T06:46:59.125Z
+Stopped at: Completed 04-01-PLAN.md
 Resume file: None

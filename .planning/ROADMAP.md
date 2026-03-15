@@ -70,7 +70,7 @@ Plans:
 **Plans**: 3 plans
 
 Plans:
-- [ ] 04-01: Build the review grid/list, selection UI, and screenshot-faithful action area
+- [ ] 04-01: Build the review grid/list, screenshot-faithful action area, and non-mutating selection affordance shell
 - [ ] 04-02: Implement review-state mutations and re-selection behavior
 - [ ] 04-03: Integrate system confirmation and permanent deletion through `MediaStore`
 
@@ -99,5 +99,5 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | 1. Foundation & Media Access | 3/3 | Complete | 2026-03-14 |
 | 2. Main Swipe Experience | 4/4 | Complete | 2026-03-14 |
 | 3. Session Controls & Navigation | 2/2 | Complete | 2026-03-15 |
-| 4. Review & Permanent Delete | 0/3 | Not started | - |
+| 4. Review & Permanent Delete | 1/3 | In Progress|  |
 | 5. Hardening & Launch Validation | 0/3 | Not started | - |
