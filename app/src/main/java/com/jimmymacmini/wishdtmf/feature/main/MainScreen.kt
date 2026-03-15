@@ -76,7 +76,10 @@ fun MainScreen(
             verticalArrangement = Arrangement.spacedBy(MainScreenTokens.sectionSpacing),
         ) {
             MainTopBar(title = uiState.title)
-            ThumbnailStrip(photos = uiState.visibleThumbnails)
+            ThumbnailStrip(
+                photos = uiState.photos,
+                activeIndex = uiState.activePhotoIndex,
+            )
             MainMetadataRow(uiState = uiState)
             if (uiState.isSessionComplete) {
                 SessionCompleteCard(
