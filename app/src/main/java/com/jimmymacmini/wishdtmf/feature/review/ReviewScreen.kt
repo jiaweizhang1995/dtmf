@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -57,6 +58,9 @@ object ReviewScreenTags {
 
     /** Prefix: append the photo ID to get the per-tile check badge tag. */
     const val CheckBadgePrefix = "review_check_badge_"
+
+    /** Tag for the empty-grid message shown when both staged lists are empty and not loading. */
+    const val EmptyGridMessage = "review_empty_grid_message"
 }
 
 // ---------------------------------------------------------------------------
@@ -141,6 +145,16 @@ fun ReviewScreen(
                 // grid shape is visible while resolution completes.
                 items(stagedPhotoIds, key = { it }) { id ->
                     PlaceholderTile(id = id)
+                }
+            } else if (!uiState.isLoading && stagedPhotoIds.isEmpty()) {
+                item(span = { GridItemSpan(maxLineSpan) }) {
+                    Text(
+                        text = "No photos staged for deletion.",
+                        color = T.SubtleTextColor,
+                        modifier = Modifier
+                            .padding(T.HorizontalPadding)
+                            .testTag(ReviewScreenTags.EmptyGridMessage),
+                    )
                 }
             }
         }

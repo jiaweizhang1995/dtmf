@@ -38,9 +38,8 @@ class EntryScreenTest {
             )
         }
 
-        composeRule.onNodeWithText("No eligible photos were found on this device.")
-            .assertIsDisplayed()
-        composeRule.onNodeWithText("Retry").assertIsDisplayed()
+        composeRule.onNodeWithText("No photos to clean up").assertIsDisplayed()
+        composeRule.onNodeWithText("Scan again").assertIsDisplayed()
     }
 
     @Test
