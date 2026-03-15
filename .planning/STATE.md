@@ -28,7 +28,7 @@ See: .planning/PROJECT.md (updated 2026-03-14)
 Phase: 4 of 5 (Review & Permanent Delete)
 Plan: 2 of 3 complete in current phase
 Status: Phase 4 in progress; 04-03 is next
-Last activity: 2026-03-16 — Completed quick tasks 12-15: status bar insets app-wide, moved Proceed button to top bar
+Last activity: 2026-03-16 — Completed quick task 16: fix top bar color mismatch (Color.Black → appBackground)
 
 Progress: [█████████░] 92%
 
